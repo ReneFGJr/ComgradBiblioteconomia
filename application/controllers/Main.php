@@ -53,6 +53,17 @@ class Main extends CI_controller
 			$data['title'] = '';
 			$data['content'] = $this->comgrads->about();
 			$this->load->view('content',$data);
-		}				
+		}	
+	public function pag()
+		{
+			$this->load->model('comgrads');
+			$this->load->model('pags');
+			$this->cab();
+			$data = array();
+			$data['title'] = 'Comgrad/PAG';
+			$file = '_documentation/estudantes_2017-10-05.txt';
+			$data['content'] = $this->pags->inport($file);
+			$this->load->view('content',$data);			
+		}			
 	}
 ?>
