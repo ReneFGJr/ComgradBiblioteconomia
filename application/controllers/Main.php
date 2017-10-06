@@ -54,6 +54,21 @@ class Main extends CI_controller
 			$data['content'] = $this->comgrads->about();
 			$this->load->view('content',$data);
 		}	
+    public function person($id=0)
+        {
+            $this->load->model('comgrads');
+            $this->load->model('pags');
+            $this->cab();
+            $data = array();
+            
+            $data = $this->pags->le($id);
+            
+            $data['title'] = $data['p_nome'];
+            $data['content'] = $this->load->view('person/show',$data,true);
+            $data['content'] .= $this->load->view('person/show_contato',$data,true);
+            $this->load->view('content',$data);         
+            
+        }
 	public function pag()
 		{
 			$this->load->model('comgrads');
