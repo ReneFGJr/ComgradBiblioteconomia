@@ -1,50 +1,57 @@
 <?php
 class pags extends CI_model {
-    function le($id)
-        {
-            $sql = "select * from person where id_p = $id";
-            $rlt = $this->db->query($sql);
-            $rlt = $rlt->result_array();
-            if (count($rlt) > 0)
-                {
-                    $line = $rlt[0];
-                    /* enderecos */
-                    $sql = "select * from person_endereco where ed_person = $id";
-                    $rlt = $this->db->query($sql);
-                    $rlt = $rlt->result_array();
-                    $line['endereco'] = $rlt;
-                    
-                    /* contatos */
-                    $sql = "select * from person_contato where ct_person = $id";
-                    $rlt = $this->db->query($sql);
-                    $rlt = $rlt->result_array();
-                    $line['contato'] = $rlt;                    
-                                        
-                    /* graduacao */
-                    $sql = "select * from person_graduacao where g_person = $id";
-                    $rlt = $this->db->query($sql);
-                    $rlt = $rlt->result_array();
-                    $line['graduacao'] = $rlt;   
-                    return($line);                 
-                }
-            return(array());
+    var $tabela = 'person';
+    
+    function row($obj) {
+        $obj -> fd = array('id_p', 'p_nome', 'p_cracha');
+        $obj -> lb = array('ID', 'Nome', 'Cracha');
+        $obj -> mk = array('', 'L', 'C', 'C', 'C', 'C');
+        return ($obj);
+    }
+
+    function le($id) {
+        $sql = "select * from person where id_p = $id";
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+        if (count($rlt) > 0) {
+            $line = $rlt[0];
+            /* enderecos */
+            $sql = "select * from person_endereco where ed_person = $id";
+            $rlt = $this -> db -> query($sql);
+            $rlt = $rlt -> result_array();
+            $line['endereco'] = $rlt;
+
+            /* contatos */
+            $sql = "select * from person_contato where ct_person = $id";
+            $rlt = $this -> db -> query($sql);
+            $rlt = $rlt -> result_array();
+            $line['contato'] = $rlt;
+
+            /* graduacao */
+            $sql = "select * from person_graduacao where g_person = $id";
+            $rlt = $this -> db -> query($sql);
+            $rlt = $rlt -> result_array();
+            $line['graduacao'] = $rlt;
+            return ($line);
         }
+        return ( array());
+    }
+
     function user_add($p_nome, $p_cracha, $p_nasc, $p_cpf, $p_rg) {
         $p_nasc = substr(sonumero($p_nasc), 0, 8);
         $p_nasc = substr($p_nasc, 4, 4) . substr($p_nasc, 2, 2) . substr($p_nasc, 0, 2);
         $p_cpf = strzero($p_cpf, 11);
         $p_cracha = strzero($p_cracha, 8);
         $p_nome = UpperCase($p_nome);
-        $p_rg = substr($p_rg,0,15);
-        
-        if (strlen($p_nome) <= 5)
-            {
-                return(0);
-            }
+        $p_rg = substr($p_rg, 0, 15);
+
+        if (strlen($p_nome) <= 5) {
+            return (0);
+        }
 
         if (round($p_cpf) == 0) {
-            echo 'ops CPF inválido de '.$p_nome.' CPF:'.$p_cpf;
-            exit;
+            echo 'ops CPF inválido de ' . $p_nome . ' CPF:' . $p_cpf;
+            exit ;
             return (0);
         }
 
@@ -129,24 +136,23 @@ class pags extends CI_model {
                 } else {
                     $cred_mod = '';
                 }
-                if (strlen($p_nome) > 5)
-                    {
-                        $id_us = $this -> user_add($p_nome, $p_cracha, $p_nasc, $p_cpf, $p_rg);
-                        $sx .= ' ' . $id_us . '. ';
-                        /* curso */
-                        $this -> curso($id_us, $curso, $curso2, $es_ano, $ingresso, $diplomacao, $afastado,$cred_mod);
-                        $sx .= $p_nome . '.' . $cred_mod . '</br>';
-                        
-                        /* endereco */
-                        $this->endereco($id_us, $endereco, $bairro, $cep, $cidade);
+                if (strlen($p_nome) > 5) {
+                    $id_us = $this -> user_add($p_nome, $p_cracha, $p_nasc, $p_cpf, $p_rg);
+                    $sx .= ' ' . $id_us . '. ';
+                    /* curso */
+                    $this -> curso($id_us, $curso, $curso2, $es_ano, $ingresso, $diplomacao, $afastado, $cred_mod);
+                    $sx .= $p_nome . '.' . $cred_mod . '</br>';
 
-                        /* contato */
-                        $this->contato($id_us, 'T', $telefone);
-                        $this->contato($id_us, 'E', $email);
-                    }
+                    /* endereco */
+                    $this -> endereco($id_us, $endereco, $bairro, $cep, $cidade);
+
+                    /* contato */
+                    $this -> contato($id_us, 'T', $telefone);
+                    $this -> contato($id_us, 'E', $email);
+                }
             }
         }
-        return($sx);
+        return ($sx);
     }
 
     function sim_nao($c) {
@@ -175,22 +181,22 @@ class pags extends CI_model {
         }
         return ($id);
     }
-    
+
     function ingresso_tipo($tp) {
         switch ($tp) {
             case 'Vestibular' :
                 $id = 1;
                 break;
-            case 'Ingresso de Diplomado':
+            case 'Ingresso de Diplomado' :
                 $id = 2;
                 break;
-            case 'Transferência Compulsória':
+            case 'Transferência Compulsória' :
                 $id = 3;
                 break;
-            case 'SISU - Ingresso Edição 1':
+            case 'SISU - Ingresso Edição 1' :
                 $id = 4;
                 break;
-            case 'Transferência Interna':
+            case 'Transferência Interna' :
                 $id = 5;
                 break;
             default :
@@ -200,54 +206,48 @@ class pags extends CI_model {
         }
         return ($id);
     }
-    
-    function contato($id_us,$tipo,$dado)
-        {
-            $dado = trim($dado);
-            if (strlen($dado) == 0)
-                {
-                    return(0);
-                }
-            $sql = "select * from person_contato 
+
+    function contato($id_us, $tipo, $dado) {
+        $dado = trim($dado);
+        if (strlen($dado) == 0) {
+            return (0);
+        }
+        $sql = "select * from person_contato 
                         where ct_person = $id_us
                         and ct_tipo = '$tipo' 
-                        and ct_contato = '$dado' "; 
+                        and ct_contato = '$dado' ";
 
-            $rlt = $this -> db -> query($sql);
-            $rlt = $rlt -> result_array();
-            if (count($rlt) == 0) {
-                $sql = "insert into person_contato
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+        if (count($rlt) == 0) {
+            $sql = "insert into person_contato
                         (ct_person, ct_tipo, ct_contato)
                         values
                         ($id_us,'$tipo','$dado')";
-                $rlt = $this->db->query($sql);
-            }                           
+            $rlt = $this -> db -> query($sql);
         }
-            
-    
-    function endereco($id_us, $endereco, $bairro, $cep, $cidade)
-        {
+    }
+
+    function endereco($id_us, $endereco, $bairro, $cep, $cidade) {
         $cidade = uppercase($cidade);
         $estado = '';
-        if (strpos($cidade,'-'))
-            {
-                $estado = trim(substr($cidade,strpos($cidade,'-')+1,5));
-                $cidade = substr($cidade,0,strpos($cidade,'-'));
-            }
+        if (strpos($cidade, '-')) {
+            $estado = trim(substr($cidade, strpos($cidade, '-') + 1, 5));
+            $cidade = substr($cidade, 0, strpos($cidade, '-'));
+        }
         $sql = "select * from person_endereco
                         where ed_person = $id_us ";
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
-        if (count($rlt) >0) {
+        if (count($rlt) > 0) {
             $line = $rlt[0];
-            if ($line['ed_endereco'] != $endereco)
-                {
-                    $sql = "update person_endereco
+            if ($line['ed_endereco'] != $endereco) {
+                $sql = "update person_endereco
                             set ed_status = 0
                             where ed_person = $id_us";
-                    $rlt = $rlt -> result_array();
-                    $rlt = array();
-                }
+                $rlt = $rlt -> result_array();
+                $rlt = array();
+            }
         }
         if (count($rlt) == 0) {
             $sql = "insert into person_endereco
@@ -255,8 +255,8 @@ class pags extends CI_model {
                             values
                             ($id_us, '$endereco', '$bairro','$cep','$cidade','$estado')";
             $rlt = $this -> db -> query($sql);
-        } 
-        }     
+        }
+    }
 
     function curso($id_us, $c1, $c2, $es_ano, $ingresso, $diplomacao, $afastado, $g_ingresso_modo) {
         $semestre = substr($ingresso, 5, 1);
@@ -267,7 +267,7 @@ class pags extends CI_model {
         $c1 = $this -> curso_id($c1);
         $c2 = $this -> curso_id($c2);
         $afastado = $this -> sim_nao($afastado);
-        $g_ingresso_modo = $this->ingresso_tipo($g_ingresso_modo);
+        $g_ingresso_modo = $this -> ingresso_tipo($g_ingresso_modo);
 
         $sql = "select * from person_graduacao
                         where g_person = $id_us
@@ -285,17 +285,17 @@ class pags extends CI_model {
             $rlt = $this -> db -> query($sql);
         }
     }
-function rel_cidade($tp=1)
-    {
-        switch($tp)
-            {
-            case '1':
+
+    function rel_cidade($tp = 1) {
+        switch($tp) {
+            case '1' :
                 $sql = "SELECT count(*) as total, ed_cidade FROM `person_endereco 
                             where ed_status = 1 
                             group by ed_cidade";
                 echo $sql;
                 break;
-            }
+        }
     }
+
 }
 ?>
