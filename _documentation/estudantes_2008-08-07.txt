@@ -1,22 +1,5 @@
-<style type="text/css">
-    body {
-        font-family: Verdana, Arial, Helvetica, sans-serif;
-        font-size: 12px;
-    }
-    table td {
-        border: 1px solid #000000;
-        font-family: Verdana, Arial, Helvetica, sans-serif;
-        font-size: 10px;
-    }
-    .centro {
-        text-align: center;	
-    }
-    .direita {
-        text-align: right;
-    }
-</style>
-
-Nome;Cartão;Data Nascimento;Habilitação;Currículo;CPF;Identidade;Endereço;Bairro;Cep/Cidade/UF;Telefone;Email;Ano de Conclusão do Ensino Médio;Ingresso;Diplomação;Creditos Obtidos;Creditos Obrigatórios;Creditos Eletivos;Creditos Complementares;TIM;I1;I2;I3;I4;I5;I6;Último Período Letivo;Nº Créditos Matriculados;Nº Créditos Integralizados;Nº Créditos FF;Modalidade<br/>ADRIANA APARECIDA DE AVILA;111698;18/10/1975;BIBLIOTECONOMIA;BIBLIOTECONOMIA;;2063257147;R. IRANI 311 CASA -  ;MARTINICA;94455270 - VIAMAO - RS;96888701;drihoff@yahoo.com.br;;2001/1;2007/1;Não;157;137;20;0;17,44;6;7;7,74;,00;517,08;2001;2005/1;8;0;0;\n      
+Nome;Cartão;Data Nascimento;Habilitação;Currículo;CPF;Identidade;Endereço;Bairro;Cep/Cidade/UF;Telefone;Email;Ano de Conclusão do Ensino Médio;Ingresso;Diplomação;Creditos Obtidos;Creditos Obrigatórios;Creditos Eletivos;Creditos Complementares;TIM;I1;I2;I3;I4;I5;I6;Último Período Letivo;Nº Créditos Matriculados;Nº Créditos Integralizados;Nº Créditos FF;Modalidade
+ADRIANA APARECIDA DE AVILA;111698;18/10/1975;BIBLIOTECONOMIA;BIBLIOTECONOMIA;;2063257147;R. IRANI 311 CASA -  ;MARTINICA;94455270 - VIAMAO - RS;96888701;drihoff@yahoo.com.br;;2001/1;2007/1;Não;157;137;20;0;17,44;6;7;7,74;,00;517,08;2001;2005/1;8;0;0;\n      
 ADRIANA CLÔ LOPES;130090;19/02/1976;BIBLIOTECONOMIA;BIBLIOTECONOMIA;74112988087;6056690214;Rua Bertolino José da Silva, 21 -  ;Florença;94475530 - Viamão - RS;51 4933651;adrianaclo76@yahoo.com.br;1993;2003/1;2008/2;Não;94;86;8;0;18,8;3;7;3,53;5,00;537,51;2003;2005/1;42;0;8;\n      
 ADRIANA GONCALVES XAVIER;88619;25/09/1968;BIBLIOTECONOMIA;BIBLIOTECONOMIA;55497993087;0311713432;SÃO LUIZ, 1228 - 208;SANTANA;90620070 - PORTO ALEGRE - RS;32191487;2655878@ufrgs.br;;2001/2;2005/2;Não;177;157;20;0;22,12;7;7;7,52;1,00;500,91;2001;2005/1;16;0;16;\n      
 ADRIANA MENEZES MACHADO;134585;15/08/1971;BIBLIOTECONOMIA;BIBLIOTECONOMIA;58320288053;5041503854;Pedro Rosa, 212 - Casa;Ramada;92500000 - GUAIBA - RS;51;adrimenezes37@hotmail.com;1991;2004/1;2008/2;Não;70;56;14;0;23,33;2;7;8,25;,00;512,73;2004;2005/1;78;0;0;Vestibular\n      

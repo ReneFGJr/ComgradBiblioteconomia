@@ -1,45 +1,40 @@
 <?php
-$ac = array('','','','','','','','','','','','','');
-if (!isset($pag)) { $pag = 0; }
+$ac = array('', '', '', '', '', '', '', '', '', '', '', '', '');
+if (!isset($pag)) { $pag = 0;
+}
 $ac[$pag] = 'active';
 ?>
-<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<!-- Brand and toggle get grouped for better mobile display -->
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="<?php echo base_url('index.php/main'); ?>"><span class="glyphicon glyphicon-education" style="color: red;" aria-hidden="true"></span> 
-				<font color="blue">Comgrad/BIB</font></a>
-		</div>
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<a class="navbar-brand" href="<?php echo base_url('index.php/main'); ?>"><font color="blue">Comgrad/BIB</font></a>
 
-		<!-- Collect the nav links, forms, and other content for toggling -->
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<li class="<?php echo $ac[0];?>">
-					<a href="<?php echo base_url('index.php/main'); ?>"><?php echo msg('Home'); ?>
-					<span class="sr-only">(current)</span></a>
-				</li>		
-				<li class="<?php echo $ac[1];?>">
-					<a href="<?php echo base_url('index.php/main/bolsas'); ?>"><?php echo msg('Divulgação de Estágios e Bolsas'); ?>
-					<span class="sr-only">(current)</span></a>
-				</li>
-				
-
-				<li class="<?php echo $ac[2];?>">
-					<a href="<?php echo base_url('index.php/main/about'); ?>"><?php echo msg('Sobre'); ?>
-					<span class="sr-only">(current)</span></a>
-				</li>	
-				
-				<li class="<?php echo $ac[3];?>">
-					<a href="<?php echo base_url('index.php/main/contact'); ?>"><?php echo msg('Contato'); ?>
-					<span class="sr-only">(current)</span></a>
-				</li>						
-			</ul>
-		</div><!-- /.navbar-collapse -->
-	</div><!-- /.container-fluid -->
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item active">
+				<a class="nav-link" href="<?php echo base_url('index.php/bolsas'); ?>">Divulgação de Estágios e Bolsas <span class="sr-only">(current)</span></a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="<?php echo base_url('index.php/about'); ?>">Sobre</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="<?php echo base_url('index.php/contact'); ?>">Contato</a>
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Acompanhamento discente </a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+				    <a class="dropdown-item" href="<?php echo base_url('index.php/main/persons'); ?>">Estudantes</a>
+					<a class="dropdown-item" href="<?php echo base_url('index.php/main/persons_list'); ?>">Lista de acompanhados</a>
+					<a class="dropdown-item" href="<?php echo base_url('index.php/main/import_ROD'); ?>">Lançar acompanhamento</a>
+				</div>
+			</li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Indicadores </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="<?php echo base_url('index.php/main/relatorio'); ?>">Total de estudantes</a>
+                </div>
+            </li>			
+		</ul>
+	</div>
 </nav>
