@@ -9,11 +9,17 @@ class Main extends CI_controller {
         $this -> load -> database();
         $this -> load -> helper('form');
         $this -> load -> helper('form_sisdoc');
+        $this -> load -> helper('email');
         $this -> load -> helper('url');
         $this -> load -> library('session');
         date_default_timezone_set('America/Sao_Paulo');
         /* Security */
         //		$this -> security();
+    }
+
+    function login() {
+        $_SESSION['user'] = 'COMGRADBIB';
+        redirect(base_url('index.php/main'));
     }
 
     private function cab($navbar = 1) {
@@ -22,7 +28,7 @@ class Main extends CI_controller {
         if ($navbar == 1) {
             $this -> load -> view('header/navbar', null);
         }
-        $_SESSION['id'] = 1;    
+        $_SESSION['id'] = 1;
     }
 
     private function foot() {
@@ -110,7 +116,7 @@ class Main extends CI_controller {
         $data['content'] = $sx;
         $this -> load -> view('content', $data);
 
-        $sx = '<hr>'.$this -> mensagens -> mostra_mensagens($id);
+        $sx = '<hr>' . $this -> mensagens -> mostra_mensagens($id);
         $sx .= $this -> mensagens -> nova_mensagem($id);
         $data['content'] = $sx;
         $this -> load -> view('content', $data);
@@ -184,13 +190,188 @@ class Main extends CI_controller {
         $this -> load -> view('content', $data);
     }
 
-    function relatorio() {
+    function campanha_email($arg) {
         $this -> load -> model('comgrads');
         $this -> load -> model('pags');
         $this -> cab();
 
-        $data['content'] = $this -> pags -> rel_alunos_matriculados();
+        $tela = '';
+
+        $data = $this -> pags -> le_campanha($arg);
+        $data = $this -> pags -> le_campanha($arg);
+        $tela .= '<table width="100%" class="table">';
+        $tela .= '<tr><td width="10%">Campanha</td>
+                            <td style="font-size: 150%; border-bottom: 1px solid #000000;"><b>' . $data['ca_nome'] . '</b></td>
+                      </tr>';
+        $tela .= '</table>';
+
+        $cp = array();
+        array_push($cp, array('$H8', '', '', false, false));
+        array_push($cp, array('$S80', '', 'Sítulo do e-mail', true, true));
+        array_push($cp, array('$T80:6', '', 'Texto para o e-mail', true, true));
+        array_push($cp, array('$B8', '', 'Enviar e-mail >>>', false, true));
+        $form = new form;
+
+        $tela .= $form -> editar($cp, '');
+
+        if ($form -> saved > 0) {
+            $title = '[COMGRAD] ' . get("dd1");
+            $texto = get("dd2");
+            $tela = $this -> pags -> campanha_enviar_email($arg, $title, $texto);
+        }
+        $data['content'] = $tela;
+
+        $this -> load -> view('content', $data);
+    }
+
+    function campanha_prepara($id) {
+        $this -> load -> model('comgrads');
+        $this -> load -> model('pags');
+        $this -> cab();
+
+        $data = $this -> pags -> le_campanha($id);
+        $arg2 = $data['ca_acompanhamento'];
+
+        $this -> pags -> campanha_prepara($id, $arg2);
+        redirect(base_url('index.php/main/campanha/' . $id));
+    }
+
+    function campanha($arg = '') {
+        $this -> load -> model('comgrads');
+        $this -> load -> model('pags');
+        $this -> cab();
+
+        $tela = '';
+
+        $data = $this -> pags -> le_campanha($arg);
+        $tela .= '<table width="100%" class="table">';
+        $tela .= '<tr><td width="10%">Campanha</td>
+                            <td style="font-size: 150%; border-bottom: 1px solid #000000;"><b>' . $data['ca_nome'] . '</b></td>
+                      </tr>';
+        $tela .= '<tr><td></td>
+                            <td>
+                                <a class="btn btn-secondary" href="' . base_url('index.php/main/campanhas_edit/' . $arg) . '">Editar Campanha</a>
+                                |
+                                <a class="btn btn-secondary" href="' . base_url('index.php/main/campanha_prepara/' . $arg) . '">Prepara Campanha</a>
+                                | 
+                                <a class="btn btn-secondary" href="' . base_url('index.php/main/campanha_email/' . $arg) . '">Envia e-mail</a>
+                                | 
+                                <a class="btn btn-secondary" href="' . base_url('index.php/main/campanha_cancela_alvo/' . $arg) . '">Excluir selecionados</a>
+                            </td>
+                      </tr>';
+        $tela .= '</table>';
+
+        $tela .= $this -> pags -> campanha_situacao($arg);
+
+        $data['content'] = $tela;
         $data['title'] = 'lista';
+        $this -> load -> view('content', $data);
+        $this -> foot();
+    }
+
+    function campanha_cancela_alvo($id = '') {
+        $this -> load -> model('comgrads');
+        $this -> load -> model('pags');
+        $this -> cab();
+
+        $this -> pags -> cancela_campanha($id);
+        redirect(base_url('index.php/main/campanha/' . $id));
+
+    }
+
+    function campanhas($id = '') {
+        $this -> load -> model('comgrads');
+        $this -> load -> model('pags');
+        $this -> cab();
+
+        $form = new form;
+        $form -> tabela = 'campanha';
+        $form -> see = true;
+        $form -> row = base_url('index.php/main/campanhas');
+        $form -> row_view = base_url('index.php/main/campanha');
+        $form -> row_edit = base_url('index.php/main/campanhas_edit');
+
+        $form -> edit = True;
+        $form -> novo = True;
+        $form = $this -> pags -> row_campanhas($form);
+
+        $data['title'] = 'Estudantes';
+        $data['content'] = row($form, $id);
+        $this -> load -> view('content', $data);
+    }
+
+    function campanhas_edit($id = '', $chk = '') {
+        $this -> load -> model('comgrads');
+        $this -> load -> model('pags');
+        $this -> cab();
+
+        $cp = $this -> pags -> cp_campanhas($id);
+        $form = new form;
+        $form -> id = $id;
+        $data['content'] = $form -> editar($cp, 'campanha');
+        $data['title'] = msg('campanhas');
+        $this -> load -> view('content', $data);
+
+        if ($form -> saved > 0) {
+            redirect(base_url('index.php/main/campanhas'));
+        }
+
+    }
+
+    function questionario_ver($id = '', $chk = '') {
+        $this -> load -> model('comgrads');
+        $this -> load -> model('pags');
+        $this -> cab(0);
+
+        $chk2 = checkpost_link($id);
+        if ($chk2 == $chk) {
+            $tela = $this -> pags -> questionario_ver($id);
+            $data['content'] .= $tela;
+            $data['title'] = 'lista';
+            $this -> load -> view('content', $data);
+        } else {
+            echo '='.$chk.'<br>='.$chk2;
+        }
+    }
+
+    function questionario($arg1 = '', $arg2 = '', $chk = '') {
+        $this -> load -> model('comgrads');
+        $this -> load -> model('pags');
+        $this -> cab(0);
+
+        $chk2 = checkpost_link($arg1 . $arg2);
+        if ($chk2 != $chk) {
+            $data['content'] = 'Checksun do link é inválido';
+            $this -> load -> view('errors/error', $data);
+            return ("");
+        }
+
+        $data['content'] = $this -> pags -> questionario($arg1, $arg2);
+        $data['content'] .= $this -> load -> view('header/form_style', null, true);
+        $data['title'] = 'lista';
+        $this -> load -> view('content', $data);
+    }
+
+    function relatorio($rel = '1', $arg1 = '', $arg2 = '', $arg3 = '') {
+        $this -> load -> model('comgrads');
+        $this -> load -> model('pags');
+        $this -> cab();
+        $data = array();
+        switch($rel) {
+            case '1' :
+                $data['content'] = $this -> pags -> rel_alunos_matriculados();
+                $data['title'] = 'lista';
+                break;
+            case '2' :
+                $data['content'] = $this -> pags -> rel_alunos_periodo($arg1, $arg2);
+                $data['title'] = 'lista';
+                break;
+            case '3' :
+                $data['content'] = $this -> pags -> rel_tempo_medio_integralizacao($arg1, $arg2);
+                $data['title'] = 'lista';
+                break;
+        }
+
         $this -> load -> view('content', $data);
     }
 

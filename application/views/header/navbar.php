@@ -13,14 +13,16 @@ $ac[$pag] = 'active';
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item active">
-				<a class="nav-link" href="<?php echo base_url('index.php/bolsas'); ?>">Divulgação de Estágios e Bolsas <span class="sr-only">(current)</span></a>
+				<a class="nav-link" href="<?php echo base_url('index.php/main/bolsas'); ?>">Divulgação de Estágios e Bolsas <span class="sr-only">(current)</span></a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="<?php echo base_url('index.php/about'); ?>">Sobre</a>
+				<a class="nav-link" href="<?php echo base_url('index.php/main/about'); ?>">Sobre</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="<?php echo base_url('index.php/contact'); ?>">Contato</a>
+				<a class="nav-link" href="<?php echo base_url('index.php/main/contact'); ?>">Contato</a>
 			</li>
+			<?php 
+			if ((isset($_SESSION['user'])) and ($_SESSION['user']=='COMGRADBIB')) { ?>
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Acompanhamento discente </a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -32,9 +34,18 @@ $ac[$pag] = 'active';
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Indicadores </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="<?php echo base_url('index.php/main/relatorio'); ?>">Total de estudantes</a>
+                    <a class="dropdown-item" href="<?php echo base_url('index.php/main/relatorio/1'); ?>">Total de estudantes</a>
+                    <a class="dropdown-item" href="<?php echo base_url('index.php/main/relatorio/2'); ?>">Período dos estudantes</a>
+                    <a class="dropdown-item" href="<?php echo base_url('index.php/main/relatorio/3'); ?>">Tempo de integralização</a>
                 </div>
-            </li>			
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Campanhas </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="<?php echo base_url('index.php/main/campanhas'); ?>">Campanhas</a>
+                </div>
+            </li> 
+            <?php } ?>           			
 		</ul>
 	</div>
 </nav>

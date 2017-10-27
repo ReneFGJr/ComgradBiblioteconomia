@@ -62,4 +62,8 @@ $lang['i_i13'] = 'Cred. Matriculado';
 $lang['i_i14'] = 'Cred. Integr.';
 $lang['i_i15'] = 'Cred. FF';
 
+$lang['q_situacao_0'] = 'Não respondido';
+$lang['q_situacao_1'] = 'Finalizado';
+$lang['q_situacao_9'] = 'Cancelado';
+
 ?>

@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @category    Helpers
  * @author      Rene F. Gabriel Junior <renefgj@gmail.com>
  * @link        http://www.sisdoc.com.br/CodIgniter
- * @version     v0.17.07.09
+ * @version     v0.17.10.21
  */
 $dd = array();
 
@@ -202,12 +202,22 @@ function page_count() {
 
 function get($key) {
     $CI = &get_instance();
-    $dp = $CI -> input -> post($key);
-    $dp .= $CI -> input -> get($key);
-    /* tratamento */
-    $dp = trim($dp);
+    $dp = '';
+    if (is_array($CI -> input -> post($key)))
+        {
+            $dpn = $CI -> input -> post($key);
+            for ($r=0;$r < count($dpn);$r++)
+                {
+                    $dp .= $dpn[$r].';';                    
+                }
+        } else {    
+            $dp = $CI -> input -> post($key);
+            $dp .= $CI -> input -> get($key);
+            /* tratamento */
+            $dp = trim($dp);
 
-    $dp = troca($dp, "'", '´');
+            $dp = troca($dp, "'", '´');
+        }
     return ($dp);
 
 }
@@ -1182,7 +1192,8 @@ function npag($obj, $blank = 1, $tot = 10, $offset = 20) {
 if (!function_exists('troca')) {
     function troca($qutf, $qc, $qt) {
         if (is_array($qutf)) {
-            return ('erro');
+            return($qutf);
+            return ('erro - funcao ja existe "erro"');
         }
         return (str_replace(array($qc), array($qt), $qutf));
     }
@@ -1317,7 +1328,6 @@ if (!function_exists('form_edit')) {
          echo '<br>field: '.$field;
          echo '<br>pag: '.$npag;
          echo '<hr>';
-         print_r($_SESSION);
          */
         /* Where */
         if (strlen($term) > 0) {
@@ -1572,7 +1582,13 @@ if (!function_exists('form_edit')) {
                     }
                     $sq1 .= $cp[$r][1];
                     if (is_array($vlr)) {
-                        $vlr = implode(';', $vlr);
+                        $vlr2 = '';
+                        for ($rw=0;$rw < count($vlr);$rw++)
+                            {
+                                if (strlen($vlr2) > 0) { $vlr2 .= ';'; }
+                                $vlr2 .= $vlr[$rw];
+                            }
+                        $vlr = $vlr2;
                     }
                     $vlr = troca($vlr,"'","´");
                     $sq2 .= "'" . $vlr . "'";
@@ -1757,12 +1773,9 @@ if (!function_exists('form_edit')) {
         
         $link = '';
         $tela = '';
-        $tela .= '
-            <div class="containter">
+        $tela .= 
+            form_open($link, $attribute) . '
             <table class="form_tabela2 table" width="100%">
-            <tr>
-                <td>' . form_open($link, $attribute) . '</td>
-            </tr>
             ';
     
     
@@ -1793,7 +1806,7 @@ if (!function_exists('form_edit')) {
             }
             $tela .= form_field($cp[$r], $vlr);
         }
-        $tela .= '</table></div>';
+        $tela .= '</table>';
         $tela .= "
         <script>
             $(document).ready(function(){
@@ -2064,7 +2077,8 @@ if (!function_exists('form_edit')) {
 
                 /* TR da tabela */
                 $tela .= '<td align="left">';
-                //echo implode(';',$vlr);
+                $vlr = splitx(';',$vlr.';');
+
                 if (is_array($vlr)) {
 
                 } else {
@@ -2292,7 +2306,7 @@ if (!function_exists('form_edit')) {
                 $ntype = trim(substr($type, 2, strlen($type)));
                 $ntype = troca($ntype, '&', ';') . ';'; 
                 $param = splitx(';', $ntype);
-                $form = '<table width="100%" border=0>';
+                $form = '';
 
                 for ($r = 0; $r < count($param); $r++) {
                     if (count(trim($param[$r])) > 0) {
@@ -2304,14 +2318,12 @@ if (!function_exists('form_edit')) {
                         if ($key == $vlr) { $checked = true;
                         }
                         $dados = array('name' => $dn, 'id' => $dn, 'value' => $key, 'class' => 'form_select  ', 'checked' => $checked);
-                        $form .= '<tr valign="top"><td class="form_radio">' . form_radio($dados);
-                        //$form .= '</td>';
-                        $form .= '' . $valor . '</td>';
-                        //$form .= '</tr>';
+                        if (strlen($form) > 0) { $form .= '<br>'.cr(); }
+                        $form .= form_radio($dados);
+                        $form .= '' . $valor;
                     }
                 }
-                $form .= '<tr><td><br></td></tr>';
-                $form .= '</table>';
+                $form .= '';
 
                 /* recupera dados */
                 $tela .= $tr;

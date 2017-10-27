@@ -1,7 +1,21 @@
 <?php
 class pags extends CI_model {
     var $tabela = 'person';
-    
+
+    function cp_campanhas($id) {
+        $cp = array();
+        array_push($cp, array('$H8', 'id_ca', '', false, true));
+        array_push($cp, array('$S100', 'ca_nome', 'Nome da campanha', true, true));
+        array_push($cp, array('$T80:6', 'ca_descricao', 'Descrição', false, true));
+        $sql = "select * from person_acompanhamento_tipo where pat_status = 1";
+        array_push($cp, array('$Q id_pat:pat_nome:' . $sql, 'ca_acompanhamento', 'Acompanhamento', true, true));
+        $sql = "select * from mensagem_own where m_ativo = 1";
+        array_push($cp, array('$Q id_m:m_descricao:' . $sql, 'ca_own', 'Responsável', true, true));
+
+        array_push($cp, array('$B8', '', 'Salvar >>>', false, true));
+        return ($cp);
+    }
+
     function row($obj) {
         $obj -> fd = array('id_p', 'p_nome', 'p_cracha');
         $obj -> lb = array('ID', 'Nome', 'Cracha');
@@ -9,20 +23,79 @@ class pags extends CI_model {
         return ($obj);
     }
 
-    function le_cracha($id)
-        {
-            $id = strzero(sonumero($id),8);
-            $sql ="select * from person where p_cracha = '$id' ";
-            $rlt = $this->db->query($sql);
-            $rlt = $rlt->result_array();
-            if (count($rlt) > 0)
-                {
-                    $line = $rlt[0];
-                    return($line['id_p']);
-                } else {
-                    return(0);
-                }
+    function row_campanhas($obj) {
+        $obj -> fd = array('id_ca', 'ca_nome');
+        $obj -> lb = array('ID', 'Nome');
+        $obj -> mk = array('', 'L', 'C');
+        return ($obj);
+    }
+
+    function link_questionario($id, $user) {
+        $link = base_url('index.php/main/questionario/' . $id . '/' . $user . '/' . checkpost_link($id . $user));
+        return ($link);
+    }
+
+    function campanha_enviar_email($id, $titulo, $texto) {
+        $data = $this -> le_campanha($id);
+        $sql = "select * from campanha_respostas
+                        INNER JOIN person ON id_p = cr_user
+                        LEFT JOIN person_contato ON id_p = ct_person and ct_tipo = 'E'
+                        WHERE cr_campanha = $id and cr_situacao = 0";
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+        $sx = '';
+        for ($r = 0; $r < count($rlt); $r++) {
+            $line = $rlt[$r];
+            $us_email = $line['ct_contato'];
+            $nome = $line['p_nome'];
+            $user = $line['id_p'];
+            $link = $this -> link_questionario($id, $user);
+            $texto2 = $texto. cr() . cr() . 'Link para o questionário:' . cr() . $link;
+
+            $sx .= '#' . ($r + 1) . ' ' . $nome . ' &lt;' . $us_email . '&gt;';
+            if (strlen($us_email) > 0) {
+                $sx .= ' <font color="green">enviado</font>';
+                $email = new email;
+                $email -> email = 'comgradbib@ufrgs.br';
+                $email -> titulo = $titulo . ' - ' . $nome;
+                $email -> texto = $texto2;
+                $email -> to = $us_email;
+                $email -> method_ufrgs();
+                $email -> to = 'comgradbib@ufrgs.br';
+                $email -> method_ufrgs();
+            } else {
+                $sx .= ' <font color="red">sem e-mail registrado</font>';
+            }
+            $sx .= '<br>';
         }
+        return ($sx);
+    }
+
+    function le_cracha($id) {
+        $id = strzero(sonumero($id), 8);
+        $sql = "select * from person where p_cracha = '$id' ";
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+        if (count($rlt) > 0) {
+            $line = $rlt[0];
+            return ($line['id_p']);
+        } else {
+            return (0);
+        }
+    }
+
+    function le_campanha($id) {
+        $sql = "select * from campanha where id_ca = $id";
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+        if (count($rlt) > 0) {
+            $line = $rlt[0];
+        } else {
+            $line = array();
+        }
+        return ($line);
+    }
+
     function le($id) {
         $sql = "select * from person where id_p = $id";
         $rlt = $this -> db -> query($sql);
@@ -48,13 +121,13 @@ class pags extends CI_model {
             $rlt = $this -> db -> query($sql);
             $rlt = $rlt -> result_array();
             $line['graduacao'] = $rlt;
-            
+
             /* person_indicadores */
             $sql = "select * from person_indicadores where i_person = $id order by i_ano desc ";
             $rlt = $this -> db -> query($sql);
             $rlt = $rlt -> result_array();
-            $line['indicadores'] = $rlt; 
-            
+            $line['indicadores'] = $rlt;
+
             /* person_acompanhamento */
             $sql = "select * from person_rod
                         INNER JOIN person_acompanhamento_tipo ON id_pat = rod_tipo 
@@ -62,7 +135,7 @@ class pags extends CI_model {
                         order by rod_created desc ";
             $rlt = $this -> db -> query($sql);
             $rlt = $rlt -> result_array();
-            $line['acompanhamento'] = $rlt;                       
+            $line['acompanhamento'] = $rlt;
             return ($line);
         }
         return ( array());
@@ -117,9 +190,9 @@ class pags extends CI_model {
 
         $f = troca($f, ';', '£');
         $f = troca($f, "'", "´");
-        
+
         $f = troca($f, '>', '£');
-        
+
         $f = troca($f, '\n', '£');
         $f = troca($f, '££', '£0£');
         $f = troca($f, '££', '£0£');
@@ -179,13 +252,12 @@ class pags extends CI_model {
                     $sx .= ' ' . $id_us . '. ';
                     /* curso */
                     $ok = $this -> curso($id_us, $curso, $curso2, $es_ano, $ingresso, $diplomacao, $afastado, $cred_mod);
-                    if ($ok==(-1))
-                        {
-                            echo 'ERRO NO CURSO ('.$curso.') ('.$curso2.')<br>';
-                            
-                            print_r($lns);
-                            exit;
-                        }
+                    if ($ok == (-1)) {
+                        echo 'ERRO NO CURSO (' . $curso . ') (' . $curso2 . ')<br>';
+
+                        print_r($lns);
+                        exit ;
+                    }
                     $sx .= $p_nome . '.' . $cred_mod . '</br>';
 
                     /* endereco */
@@ -194,38 +266,30 @@ class pags extends CI_model {
                     /* contato */
                     $this -> contato($id_us, 'T', $telefone);
                     $this -> contato($id_us, 'E', $email);
-                    
+
                     /* indicadores */
-                    $this -> indicadores($id_us, $cred_ult_let, $cred_obe, $cred_obr, $cred_elt, $cred_com,
-                            $cred_tim, $cred_i1, $cred_i2, $cred_i3, $cred_i4, $cred_i5, $cred_i6,
-                            $cred_ult_let, $cred_matr, $cred_inte, $cred_ff );
+                    $this -> indicadores($id_us, $cred_ult_let, $cred_obe, $cred_obr, $cred_elt, $cred_com, $cred_tim, $cred_i1, $cred_i2, $cred_i3, $cred_i4, $cred_i5, $cred_i6, $cred_ult_let, $cred_matr, $cred_inte, $cred_ff);
                 }
             } else {
-                if (count($lns) > 10)
-                    {
-                        print_r($lns);
-                        echo '<hr>';
-                    }
+                if (count($lns) > 10) {
+                    print_r($lns);
+                    echo '<hr>';
+                }
             }
         }
         $sx .= '</pre>';
         return ($sx);
     }
 
-    function indicadores($id_us, $cred_ult_let, $i1 , $i2 , $i3 , $i4 , $i5 , $i6 , $i7 
-                            , $i8='' , $i9='' , $i10='' , $i11='' , $i12='' 
-                            , $i13='0' , $i14='0' , $i15='0' , $i16='0' 
-                            , $i17='0' , $i18='0' , $i19='0' , $i20='0' , $i21='0' , $i22='0' )
-                {
-                    $sql = "select * from person_indicadores 
+    function indicadores($id_us, $cred_ult_let, $i1, $i2, $i3, $i4, $i5, $i6, $i7, $i8 = '', $i9 = '', $i10 = '', $i11 = '', $i12 = '', $i13 = '0', $i14 = '0', $i15 = '0', $i16 = '0', $i17 = '0', $i18 = '0', $i19 = '0', $i20 = '0', $i21 = '0', $i22 = '0') {
+        $sql = "select * from person_indicadores 
                                 where i_person= $id_us
-                                and i_ano = '$cred_ult_let' ";  
-                    $rlt = $this->db->query($sql);
-                    $rlt = $rlt->result_array();
-                    
-                    if (count($rlt) == 0)
-                        {
-                            $sql = "insert into person_indicadores
+                                and i_ano = '$cred_ult_let' ";
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+
+        if (count($rlt) == 0) {
+            $sql = "insert into person_indicadores
                                         (i_person, i_ano, 
                                         i_i1, i_i2, i_i3, i_i4, i_i5, 
                                         i_i6, i_i7, i_i8, i_i9, i_i10, 
@@ -240,9 +304,9 @@ class pags extends CI_model {
                                         $i16, $i17, $i18, $i19, $i20,
                                         $i21, $i22                                         
                                     )";
-                            $rlt = $this -> db -> query($sql);
-                        }  
-                }
+            $rlt = $this -> db -> query($sql);
+        }
+    }
 
     function sim_nao($c) {
         switch($c) {
@@ -253,7 +317,7 @@ class pags extends CI_model {
                 return (0);
                 break;
             default :
-                return(-1);
+                return (-1);
                 exit ;
         }
     }
@@ -273,7 +337,7 @@ class pags extends CI_model {
 
     function ingresso_tipo($tp) {
         switch ($tp) {
-            case '0':
+            case '0' :
                 $id = 99;
                 break;
             case 'Vestibular' :
@@ -294,10 +358,10 @@ class pags extends CI_model {
             case 'Aluno Convênio' :
                 $id = 6;
                 break;
-            case 'Transferência Interna - Aluno Convênio':
+            case 'Transferência Interna - Aluno Convênio' :
                 $id = 7;
                 break;
-            case 'Transferência Voluntária':
+            case 'Transferência Voluntária' :
                 $id = 8;
                 break;
             default :
@@ -321,13 +385,12 @@ class pags extends CI_model {
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
         if (count($rlt) == 0) {
-            if (strlen($dado) > 3)
-            {
-            $sql = "insert into person_contato
+            if (strlen($dado) > 3) {
+                $sql = "insert into person_contato
                         (ct_person, ct_tipo, ct_contato)
                         values
                         ($id_us,'$tipo','$dado')";
-            $rlt = $this -> db -> query($sql);
+                $rlt = $this -> db -> query($sql);
             }
         }
     }
@@ -371,10 +434,9 @@ class pags extends CI_model {
         $c1 = $this -> curso_id($c1);
         $c2 = $this -> curso_id($c2);
         $afastado = $this -> sim_nao($afastado);
-        if ($afastado == -1)
-            {
-                return(-1);
-            }
+        if ($afastado == -1) {
+            return (-1);
+        }
         $g_ingresso_modo = $this -> ingresso_tipo($g_ingresso_modo);
 
         $sql = "select * from person_graduacao
@@ -394,87 +456,82 @@ class pags extends CI_model {
         }
     }
 
-    function list_acompanhamento($limit = 20,$ord='id_rod desc')
-        {
-            $sql = "select * from person_rod
+    function list_acompanhamento($limit = 20, $ord = 'id_rod desc') {
+        $sql = "select * from person_rod
                         INNER JOIN person ON rod_person = id_p 
                         INNER JOIN person_acompanhamento_tipo ON id_pat = rod_tipo
                         order by $ord
                         limit $limit";
-            $rlt = $this->db->query($sql);
-            $rlt = $rlt->result_array();
-            
-            $sx = '<table width="100%">';
-            $sx .= '<tr><th>#</th><th>Cracha</th><th>Nome</th><th>Programa</th></tr>'.cr();
-            
-            $xname= "";
-            $id = 0;
-            for ($r=0;$r < count($rlt);$r++)
-                {
-                    $line = $rlt[$r];
-                    $name = trim($line['p_cracha']);
-                    $sx .= '<tr>';
-                    
-                    if ($xname == $name)
-                        {                            
-                            $sx .= '<td width="2%">';
-                            $sx .= ' ';
-                            $sx .= '</td>';
-                            
-                            $sx .= '<td width="10%">';
-                            $sx .= '&nbsp;';
-                            $sx .= '</td>';
-                                                                    
-                            $sx .= '<td width="60%">';
-                            $sx .= '&nbsp;';
-                            $sx .= '</td>';
-                        } else {
-                            $xname = $name;
-                            $id++;                    
-                            $sx .= '<td width="2%" style="border-top: 1px solid #808080;">';
-                            $sx .= ($id);
-                            $sx .= '</td>';
-                            
-                            $link = '<a href="'.base_url('index.php/main/person/'.$line['rod_person'].'/'.md5($line['rod_person'])).'">';
-                            $sx .= '<td width="10%" style="border-top: 1px solid #808080;">';
-                            $sx .= $link.$name.'</a>';
-                            $sx .= '</td>';
-                                                                    
-                            $sx .= '<td width="60%" style="border-top: 1px solid #808080;">';
-                            $sx .= $link.$line['p_nome'].'</a>';
-                            $sx .= '</td>';
-                        }
-                    
-                    $sx .= '<td width="28%" style="border-top: 1px solid #808080;">';
-                    $sx .= $line['pat_nome'];
-                    $sx .= '</td>';
-                    
-                    $sx .= '</tr>';
-                }
-            $sx .= '</table>';
-            return($sx);
-        }
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
 
-    function incluir_acompanhamento($c,$t)
-        {
-            $id_us = $this->le_cracha($c);
-            $sql = "select * from person_rod 
+        $sx = '<table width="100%">';
+        $sx .= '<tr><th>#</th><th>Cracha</th><th>Nome</th><th>Programa</th></tr>' . cr();
+
+        $xname = "";
+        $id = 0;
+        for ($r = 0; $r < count($rlt); $r++) {
+            $line = $rlt[$r];
+            $name = trim($line['p_cracha']);
+            $sx .= '<tr>';
+
+            if ($xname == $name) {
+                $sx .= '<td width="2%">';
+                $sx .= ' ';
+                $sx .= '</td>';
+
+                $sx .= '<td width="10%">';
+                $sx .= '&nbsp;';
+                $sx .= '</td>';
+
+                $sx .= '<td width="60%">';
+                $sx .= '&nbsp;';
+                $sx .= '</td>';
+            } else {
+                $xname = $name;
+                $id++;
+                $sx .= '<td width="2%" style="border-top: 1px solid #808080;">';
+                $sx .= ($id);
+                $sx .= '</td>';
+
+                $link = '<a href="' . base_url('index.php/main/person/' . $line['rod_person'] . '/' . md5($line['rod_person'])) . '">';
+                $sx .= '<td width="10%" style="border-top: 1px solid #808080;">';
+                $sx .= $link . $name . '</a>';
+                $sx .= '</td>';
+
+                $sx .= '<td width="60%" style="border-top: 1px solid #808080;">';
+                $sx .= $link . $line['p_nome'] . '</a>';
+                $sx .= '</td>';
+            }
+
+            $sx .= '<td width="28%" style="border-top: 1px solid #808080;">';
+            $sx .= $line['pat_nome'];
+            $sx .= '</td>';
+
+            $sx .= '</tr>';
+        }
+        $sx .= '</table>';
+        return ($sx);
+    }
+
+    function incluir_acompanhamento($c, $t) {
+        $id_us = $this -> le_cracha($c);
+        $sql = "select * from person_rod 
                         where rod_person = $id_us and rod_tipo = $t
                         order by rod_update desc ";
-            $rlt = $this->db->query($sql);
-            $rlt = $rlt->result_array();
-            
-            if (count($rlt) == 0)
-                {
-                    $sql = "insert into person_rod
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+
+        if (count($rlt) == 0) {
+            $sql = "insert into person_rod
                             (rod_person, rod_tipo)
                             values
                             ($id_us, $t)";
-                    $rlt = $this->db->query($sql);
-                    return(1);
-                }
-           return(0);
+            $rlt = $this -> db -> query($sql);
+            return (1);
         }
+        return (0);
+    }
 
     function rel_cidade($tp = 1) {
         switch($tp) {
@@ -486,33 +543,464 @@ class pags extends CI_model {
                 break;
         }
     }
-    
-    function rel_alunos_matriculados()
-        {
-            $sql = "select * from (
+
+    function rel_tempo_medio_integralizacao($arg1 = '', $arg2 = '') {
+        $arg0 = '';
+        $sql = "SELECT g_ingresso, g_ingresso_sem, 
+                        i_i12, 1 as total, g_person 
+                    FROM `person_indicadores` INNER JOIN person_graduacao on i_person = g_person 
+                    where i_i6 = 8 
+                    group by g_ingresso, g_ingresso_sem, i_i12, g_person";
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+        $rs = array();
+        for ($r = 0; $r < 15; $r = $r + 0.5) {
+            $rs[strzero($r * 10, 3)] = 0;
+        }
+        $t = 0;
+        for ($r = 0; $r < count($rlt); $r++) {
+            $line = $rlt[$r];
+            $ano1 = round($line['g_ingresso']);
+            $ano1s = round($line['g_ingresso_sem']);
+            $ano2 = round(substr($line['i_i12'], 0, 4));
+            $ano2s = round(substr($line['i_i12'], 5, 2));
+            $ano = $ano2 - $ano1;
+            $t = $t + 1;
+            if ($ano2s == $ano1s) {
+                $ano = $ano + 0.5;
+            }
+            $ano = strzero($ano * 10, 3);
+            if ($ano > 0) {
+                if (!isset($rs[$ano])) {
+                    $rs[$ano] = $line['total'];
+                } else {
+                    $rs[$ano] = $rs[$ano] + $line['total'];
+                }
+            }
+        }
+
+        $data1 = '';
+        $data2 = '';
+        foreach ($rs as $key => $value) {
+            if (strlen($data1) > 0) {
+                $data1 .= ', ';
+                $data2 .= ', ';
+            }
+            $data1 .= '"' . ($key / 10) . '"';
+            $data2 .= '' . ($value / 1) . '';
+        }
+        $sx = '
+            <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+            <script src="https://code.highcharts.com/highcharts.js"></script>
+            <script src="https://code.highcharts.com/modules/annotations.js"></script>            
+            <div id="container" style="height: 400px; min-width: 380px"></div>
+            <center>Contabilizado ' . $t . ' históricos, cálculo do tempo do estudante para chegar no 8º período.</center>
+            <style>
+            #container {
+                max-width: 800px;
+                height: 400px;
+                margin: 1em auto;
+                border: 1px solid #000000;
+            }
+            </style>
+            
+            <script>
+                Highcharts.chart(\'container\', {
+                    chart: {
+                        type: \'column\'
+                    },
+                    title: {
+                        text: \'Tempo de Integralização do Curso' . $arg0 . '\'
+                    },
+                    xAxis: {
+                        categories: [ ' . $data1 . ' ],
+                        crosshair: true
+                    },
+                      
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: \'Estudantes\'
+                        }
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.01,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        name: \'Estudantes\',
+                        data: [' . $data2 . ']
+                
+                    }]
+                }); 
+            </script>
+            ';
+        return ($sx);
+    }
+
+    function campanha_situacao($arg1) {
+
+        $sql = "select * from campanha_respostas
+                    LEFT JOIN person ON id_p = cr_user 
+                    where cr_campanha = $arg1 and cr_situacao <> 9
+                        ";
+
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+        $sx = '<table width="100%">';
+        $sx .= '<tr><th width="1%">#</th>
+                        <th>nome</th>
+                        <th width="10%">cracha</th>
+                        <th width="15%">situação</th>
+                    </tr>';
+        for ($r = 0; $r < count($rlt); $r++) {
+            $line = $rlt[$r];
+            $link = '<a href="' . base_url('index.php/main/person/' . $line['id_p'] . '/' . checkpost_link($line['id_p'])) . '" target="_new">';
+            $sx .= '<tr>';
+            $sx .= '<td>' . ($r + 1) . '</td>';
+            $sx .= '<td>' . $link . $line['p_nome'] . '</a>' . '</td>';
+            $sx .= '<td>' . $line['p_cracha'] . '</td>';
+            $link .= '<a name="">';
+            
+            if ($line['cr_situacao']!='0')
+                {
+                    $link = '<a href="#" onclick="newwin(\''.base_url('index.php/main/questionario_ver/'.$line['id_cr'].'/'.checkpost_link($line['id_cr'])).'\');">';
+                }
+            $sx .= '<td>' . $link.msg('q_situacao_' . $line['cr_situacao']) . '</a></td>';
+        }
+        $sx .= '</table>';
+        return ($sx);
+
+    }
+
+    function cancela_campanha($arg1 = '') {
+        $sql = "update campanha_respostas 
+                        set cr_situacao  = 9
+                        where cr_campanha = $arg1 ";
+        $rlt2 = $this -> db -> query($sql);
+        return (0);
+    }
+
+    function campanha_prepara($arg1 = '', $arg2 = '') {
+        $sql = "select * from person_rod 
+                        where rod_tipo = $arg2 and rod_status = 1";
+
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+        for ($r = 0; $r < count($rlt); $r++) {
+            $line = $rlt[$r];
+            $arg3 = $line['rod_person'];
+            $sql = "select * from campanha_respostas
+                                WHERE   cr_user = $arg3
+                                    AND cr_campanha = $arg1 ";
+            $rlt2 = $this -> db -> query($sql);
+            $rlt2 = $rlt2 -> result_array();
+            if (count($rlt2) == 0) {
+                $sql = "insert into campanha_respostas 
+                                            (cr_user, cr_campanha)
+                                            values
+                                            ('$arg3','$arg1')";
+                $rlt2 = $this -> db -> query($sql);
+            } else {
+                $ln = $rlt2[0];
+                $sql = "update campanha_respostas set cr_situacao = 0
+                            where id_cr = " . $ln['id_cr'];
+                $rlt2 = $this -> db -> query($sql);
+
+            }
+        }
+        return ('');
+    }
+
+    function questionario($arg1, $arg2) {
+
+        $data = $this -> le($arg2);
+        $tl = $this -> load -> view('person/show', $data, true);
+
+        $id = 0;
+        $sql = "select * from campanha_respostas
+                        WHERE cr_user = $arg2
+                        AND cr_campanha = $arg1 ";
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+        if (count($rlt) > 0) {
+            $line = $rlt[0];
+            $id = $line['id_cr'];
+            $sit = $line['cr_situacao'];
+
+        }
+
+        if ($sit == 0) {
+            $sql = "select * from campanha_questionario 
+                        WHERE qs_campanha = $arg1
+                        ORDER BY qs_ordem";
+            $rlt = $this -> db -> query($sql);
+            $rlt = $rlt -> result_array();
+            $cp = array();
+
+            array_push($cp, array('$H8', 'id_cr', '', false, true));
+            array_push($cp, array('$HV', 'cr_user', $arg2, false, true));
+            array_push($cp, array('$HV', 'cr_campanha', $arg1, false, true));
+            array_push($cp, array('$HV', 'cr_saved', date("Y-m-d H:i:s"), false, true));
+            array_push($cp, array('$HV', 'cr_situacao', 1, true, true));
+
+            for ($r = 0; $r < count($rlt); $r++) {
+                $line = $rlt[$r];
+                $ps = mst($line['qs_pergunta']);
+                array_push($cp, array($line['qs_query'], 'cr_p' . $r, '<b>' . $ps . '</b>', false, true));
+            }
+            array_push($cp, array('$B8', '', 'Finalizar questionário >>>', false, true));
+            $form = new form;
+            $form -> id = $id;
+            $tela = $form -> editar($cp, 'campanha_respostas');
+
+            if ($form -> saved > 0) {
+                $tela = '
+                        <div style="margin-top: 100px;">
+                        <center>
+                        <h1>Sucesso!</h1>
+                        <p>Questionário enviado com sucesso!</p>
+                        </div>';
+            }
+        } else {
+            $tela = '
+                        <div style="margin-top: 100px;">
+                        <center>
+                        <h1>Questionário já finalizado!</h1>
+                        <p>Esse questionário já foi enviado!</p>
+                        </div>';
+        }
+
+        return ($tl . $tela);
+    }
+
+    function questionario_ver($id) {
+
+        $sql = "select * from campanha_respostas
+                        WHERE id_cr = $id";
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+        
+        if (count($rlt) > 0) {
+            $line = $rlt[0];
+            $id = $line['id_cr'];
+            $sit = $line['cr_situacao'];
+            $arg1 = $line['cr_campanha'];
+        }
+
+            $sql = "select * from campanha_questionario 
+                        WHERE qs_campanha = $arg1
+                        ORDER BY qs_ordem";
+            $rlt = $this -> db -> query($sql);
+            $rlt = $rlt -> result_array();
+            $sx = '';
+            for ($r=0;$r < count($rlt);$r++)
+                {
+                    $line2 = $rlt[$r];
+                    $sx .= $line2['qs_pergunta'];
+                    $sx .= '<br><b>'.$line['cr_p'.$r].'</b>';
+                    $sx .= '<hr>';
+                }
+            echo $sx;
+            exit;
+
+        return ($tela);
+    }
+
+    function rel_alunos_periodo($arg1 = '', $arg2 = '') {
+        $sx = '';
+        $arg0 = '';
+        $sql = "SELECT i_ano 
+            FROM person_indicadores
+            where i_i6 <> '-' 
+            GROUP BY i_ano
+            ORDER BY i_ano desc";
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+
+        for ($r = 0; $r < count($rlt); $r++) {
+            $line = $rlt[$r];
+            if (strlen($arg0) == 0) {
+                $arg0 = $line['i_ano'];
+            }
+            if (strlen($sx) > 0) { $sx .= ' | ';
+            }
+            $sx .= '<a href="' . base_url('index.php/main/relatorio/2/' . $line['i_ano']) . '" style="font-size: 70%;">' . $line['i_ano'] . '</a>';
+        }
+
+        /********************************************************************/
+        if (strlen($arg2) > 0) {
+            $arg0 = $arg1 . '/' . $arg2;
+        }
+        $sql = "SELECT i_i6, count(*) as total 
+            FROM person_indicadores 
+            WHERE i_ano = '$arg0' 
+            GROUP BY i_i6
+            ORDER BY i_i6";
+
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+        $data1 = '';
+        $data2 = '';
+        for ($r = 0; $r < count($rlt); $r++) {
+            $line = $rlt[$r];
+            if (strlen($data1) > 0) {
+                $data1 .= ', ';
+                $data2 .= ', ';
+            }
+            $data1 .= '"' . $line['i_i6'] . '"';
+            $data2 .= '' . $line['total'] . '';
+        }
+
+        $sx .= '
+            <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+            <script src="https://code.highcharts.com/highcharts.js"></script>
+            <script src="https://code.highcharts.com/modules/annotations.js"></script>            
+            <div id="container" style="height: 400px; min-width: 380px"></div>
+            <style>
+            #container {
+                max-width: 800px;
+                height: 400px;
+                margin: 1em auto;
+                border: 1px solid #000000;
+            }
+            </style>
+            
+            <script>
+                Highcharts.chart(\'container\', {
+                    chart: {
+                        type: \'column\'
+                    },
+                    title: {
+                        text: \'Estudantes ativos pelo período ' . $arg0 . '\'
+                    },
+                    xAxis: {
+                        categories: [ ' . $data1 . ' ],
+                        crosshair: true
+                    },
+                      
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: \'Estudantes\'
+                        }
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.01,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        name: \'Estudantes\',
+                        data: [' . $data2 . ']
+                
+                    }]
+                }); 
+            </script>
+            ';
+
+        /* PARTE II */
+        $sql = "SELECT i_i6, count(*) as total 
+                        FROM person_indicadores
+                        where i_i6 <> 0 
+                        group by i_i6 
+                        order by i_i6";
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+        $data1 = '';
+        $data2 = '';
+        for ($r = 0; $r < count($rlt); $r++) {
+            $line = $rlt[$r];
+            if (strlen($data1) > 0) {
+                $data1 .= ', ';
+                $data2 .= ', ';
+            }
+            $data1 .= '"' . $line['i_i6'] . '"';
+            $data2 .= '' . $line['total'] . '';
+        }
+
+        $sx .= '          
+            <div id="container2" style="height: 400px; min-width: 380px"></div>
+            <div id="container3" style="height: 400px; min-width: 380px">
+                Metodologia: Em todos os anos de análise calcula-se a frequencia do indicado i6, mostrando o tempo que os estudantes passam em cada período.
+            </div>
+            
+            <style>
+            #container2 {
+                max-width: 800px;
+                height: 400px;
+                margin: 1em auto;
+                border: 1px solid #000000;
+            }
+            #container3 {
+                max-width: 800px;
+                margin: 1em auto;
+            }
+            </style>
+            
+            <script>
+                Highcharts.chart(\'container2\', {
+                    chart: {
+                        type: \'column\'
+                    },
+                    title: {
+                        text: \'Concentração de períodos do curso - Desde 2008\'
+                    },
+                    xAxis: {
+                        categories: [ ' . $data1 . ' ],
+                        crosshair: true
+                    },
+                      
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: \'Estudantes\'
+                        }
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.01,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        name: \'Estudantes\',
+                        data: [' . $data2 . ']
+                
+                    }]
+                }); 
+            </script>
+            ';
+
+        return ($sx);
+    }
+
+    function rel_alunos_matriculados() {
+        $sql = "select * from (
                         SELECT count(*) as total, i_ano 
                         FROM `person_indicadores` 
                         WHERE i_ano <> '-'                        
                         group by i_ano 
                         ) as tabela where total > 20
                         order by i_ano";
-            $rlt = $this->db->query($sql);
-            $rlt = $rlt->result_array();
-            $data1 = '';
-            $data2 = '';
-            for ($r=0;$r < count($rlt);$r++)
-                {
-                    $line = $rlt[$r];
-                    if (strlen($data1) > 0)
-                        {
-                            $data1 .= ', ';
-                            $data2 .= ', ';
-                        }
-                    $data1 .= '"'.$line['i_ano'].'"';
-                    $data2 .= ''.$line['total'].'';
-                }
-            
-            $sx = '
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+        $data1 = '';
+        $data2 = '';
+        for ($r = 0; $r < count($rlt); $r++) {
+            $line = $rlt[$r];
+            if (strlen($data1) > 0) {
+                $data1 .= ', ';
+                $data2 .= ', ';
+            }
+            $data1 .= '"' . $line['i_ano'] . '"';
+            $data2 .= '' . $line['total'] . '';
+        }
+
+        $sx = '
             <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
             <script src="https://code.highcharts.com/highcharts.js"></script>
             <script src="https://code.highcharts.com/modules/annotations.js"></script>            
@@ -535,7 +1023,7 @@ class pags extends CI_model {
                         text: \'Estudantes ativos por semestre\'
                     },
                     xAxis: {
-                        categories: [ '.$data1.' ],
+                        categories: [ ' . $data1 . ' ],
                         crosshair: true
                     },
                       
@@ -553,15 +1041,15 @@ class pags extends CI_model {
                     },
                     series: [{
                         name: \'Estudantes\',
-                        data: ['.$data2.']
+                        data: [' . $data2 . ']
                 
                     }]
                 }); 
             </script>
             ';
 
-            return($sx);
-        }
+        return ($sx);
+    }
 
 }
 ?>
