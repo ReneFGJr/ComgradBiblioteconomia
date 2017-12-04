@@ -12,6 +12,7 @@ class Main extends CI_controller {
         $this -> load -> helper('email');
         $this -> load -> helper('url');
         $this -> load -> library('session');
+        $this -> load -> library('tcpdf');
         date_default_timezone_set('America/Sao_Paulo');
         /* Security */
         //		$this -> security();
@@ -21,6 +22,172 @@ class Main extends CI_controller {
         $_SESSION['user'] = 'COMGRADBIB';
         redirect(base_url('index.php/main'));
     }
+
+    function evento($action='',$arg='') {
+        $this->load->model('events');
+        $data['title'] = 'Comgrad de Biblitoeconomia da UFRGS ::::';
+        $this -> load -> view('header/header', $data);
+        
+        switch($action)
+            {
+            case 'checkin':
+                $this->cab();
+                $event = 1;
+                $data['content'] = $this->events->event_checkin_form($event);               
+                
+                
+                /*************/
+                $CHK = get("checkin");
+                if (strlen($CHK) > 0)
+                    {
+                        /**************************************** CHECKIN REGISTER ********/
+                        $CHK = get("checkin");
+                        $data['content'] .= $this->events->event_registra_checkin($CHK,$arg);
+                    }
+                $data['content'] .= $this->events->lista_inscritos($event);  
+                $this->load->view("content",$data);
+                break;
+            case 'print':
+                $mes = array('','janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro');
+                $nr = 1021;
+                $nome = 'RENE FAUSTINO GABRIEL JUNIOR';
+                $cidade = 'Porto Alegre';
+                $data = date("d").' de '.$mes[round(date("m"))].' de '.date("Y").'.';
+                $ass_nome = "Rita do Carmo F. Laipelt";
+                $ass_cargo = "Coordenadora da Comgrad de Biblioteconomia/UFRGS";
+                
+                // create new PDF document
+                $pdf = new tcpdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+                
+                // set document information
+                $pdf->SetCreator(PDF_CREATOR);
+                $pdf->SetAuthor('Comgrad Biblioteconomia - UFRGS');
+                $pdf->SetTitle('Declaração - 70 anos de Biblioteconomia');
+                $pdf->SetSubject('Biblioteconomia. UFRGS. 70 anos');
+                $pdf->SetKeywords('70 anos, UFRGS, Biblioteconomia');
+                
+                // set header and footer fonts
+                $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+                
+                // set default monospaced font
+                $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+                
+                // set margins
+                $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+                $pdf->SetHeaderMargin(0);
+                $pdf->SetFooterMargin(0);
+                
+                // remove default footer
+                $pdf->setPrintFooter(false);
+                
+                // set auto page breaks
+                $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+                
+                // set image scale factor
+                $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+                
+                // set font
+                $pdf->SetFont('times', '', 48);
+                
+                // add a page
+                $pdf->AddPage();
+                
+                
+                // -- set new background ---
+                
+                // get the current page break margin
+                $bMargin = $pdf->getBreakMargin();
+                // get current auto-page-break mode
+                $auto_page_break = $pdf->getAutoPageBreak();
+                // disable auto-page-break
+                $pdf->SetAutoPageBreak(false, 0);
+                // set bacground image
+                $img_file = 'img/certificado/cert_biblio_003.jpg';
+                $pdf->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+                // restore auto-page-break status
+                $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
+                // set the starting point for the page content
+                $pdf->setPageMark();
+                
+                
+                // Print a text
+                $pdf->setfont("helvetica");
+                $html = '<span style="font-family: tahoma, arial; color: #333333;text-align:left;font-weight:bold;font-size:30pt;">DECLARAÇÃO</span>';
+                $pdf->writeHTML($html, true, false, true, false, '');
+                
+                $txt1 = 'Declaro, para os devidos fins, que ';
+                $txt1 .= '<b>'.$nome.'</b>';
+                $txt1 .= ' participou da ';
+                $txt1 .= ' palestra ';
+                $txt1 .= ' proferida pela ';
+                $txt1 .= '<b>Profa. Dra. Marisa Brascher Basilio Medeiros</b>';
+                $txt1 .= ' intitulada ';
+                $txt1 .= '"Panorama da Pós-Graduação em Ciência da Informação no Brasil: oportunidades de formação e pesquisa"';
+                $txt1 .= ' e das atividades dos 70 anos do Curso de Biblioteconomia da UFRGS ';
+                $txt1 .= ' dia 05 de dezembro de 2017, no horário das 09h à 12h no Auditório 1 da FABICO/UFRGS, contemplando três horas.';                
+
+                $txt2 = '<br><br>'.$cidade.', '.$data;
+                
+                $txt3 = '<br><br><br><br><br><br><br><br>';
+                $txt3 .= '<b>'.$ass_nome.'</b>';
+                $txt4 = '<br>'.$ass_cargo;
+                
+                $html = '
+                <table cellspacing="0" cellpadding="0" border="0" width="445"  style="font-family: tahoma, arial; color: #333333;text-align:left; font-size:15pt; line-height: 190%;">
+                    <tr>
+                        <td rowspan="1" width="100%">'.$txt1.'</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="1" width="100%" align="right">'.$txt2.'</td>
+                    </tr>
+                    <tr style="font-family: tahoma, arial; color: #333333;text-align:left; font-size:15pt; line-height: 100%;">
+                        <td rowspan="1" width="100%" align="center">'.$txt3.'</td>
+                    </tr>                
+                    <tr style="font-family: tahoma, arial; color: #333333;text-align:left; font-size:9pt; line-height: 120%;">
+                        <td rowspan="1" width="100%" align="center">
+                        '.$txt4.'</td>
+                    </tr>                
+                </table>
+                ';                
+
+                //$html .= '<div style="text-align: right; width: 100%">';
+                //$html .= $cidade.', '.$data;
+                //$html .= '</div>';
+                
+                
+                
+                $pdf->writeHTML($html, true, false, true, false, '');
+                
+                
+                // QRCODE,Q : QR-CODE Better error correction
+                // set style for barcode
+                $style = array(
+                    'border' => 2,
+                    'vpadding' => 'auto',
+                    'hpadding' => 'auto',
+                    'fgcolor' => array(0,0,0),
+                    'bgcolor' => false, //array(255,255,255)
+                    'module_width' => 1, // width of a single module in points
+                    'module_height' => 1 // height of a single module in points                    
+                );                
+                $pdf->write2DBarcode('www.ufrgs.br/comgrad/main/evento/valida/', 'QRCODE,Q', 110, 241, 30, 30, $style, 'N');
+                
+                $pdf->SetFont('helvetica', '', 8, '', false);
+                $pdf->Text(110, 236, 'validador do certificado');
+                
+                // ---------------------------------------------------------
+                
+                //Close and output PDF document
+                $pdf->Output('UFRGS-Certificado'.$nr.'.pdf', 'I');
+                
+                //============================================================+
+                // END OF FILE
+                //============================================================+
+                break;
+            }
+        
+    }
+
 
     private function cab($navbar = 1) {
         $data['title'] = 'Comgrad de Biblitoeconomia da UFRGS ::::';
