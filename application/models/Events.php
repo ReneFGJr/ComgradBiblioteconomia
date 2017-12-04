@@ -109,7 +109,7 @@ class events extends CI_model
                                 $sx = '
                                 <br>
                                 <div class="alert alert-success" role="alert">
-                                  <strong>Sucesso!</strong> <a href="#" class="alert-link">'.$p['name'].' registrado com sucesso!
+                                  <strong>Sucesso!</strong> <a href="#" class="alert-link">'.$p['name'].' registrado com sucesso!</a>
                                 </div>
                                 ';                                 
                             } else {
@@ -129,7 +129,7 @@ class events extends CI_model
                         $sx = '
                         <br>
                         <div class="alert alert-danger" role="alert">
-                          <strong>Erro!</strong> <a href="#" class="alert-link">Nenhuma ocorrencia para esse nome / cracha.
+                          <strong>Erro!</strong> <a href="#" class="alert-link">Nenhuma ocorrencia para esse nome / cracha.</a>
                         </div>
                         ';                        
                     }

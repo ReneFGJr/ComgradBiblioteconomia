@@ -47,6 +47,7 @@ class Main extends CI_controller {
                 $data['content'] .= $this->events->lista_inscritos($event);  
                 $this->load->view("content",$data);
                 break;
+                
             case 'print':
                 $mes = array('','janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro');
                 $nr = 1021;
