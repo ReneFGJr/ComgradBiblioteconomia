@@ -25,6 +25,7 @@ class Main extends CI_controller {
 
     function evento($action='',$arg='') {
         $this->load->model('events');
+
         $data['title'] = 'Comgrad de Biblitoeconomia da UFRGS ::::';
         $this -> load -> view('header/header', $data);
         
@@ -106,6 +107,8 @@ class Main extends CI_controller {
                 $img_file = 'img/certificado/cert_biblio_003.jpg';
                 $pdf->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
                 // restore auto-page-break status
+
+                
                 $pdf->SetAutoPageBreak($auto_page_break, $bMargin);
                 // set the starting point for the page content
                 $pdf->setPageMark();
@@ -125,7 +128,7 @@ class Main extends CI_controller {
                 $txt1 .= ' intitulada ';
                 $txt1 .= '"Panorama da Pós-Graduação em Ciência da Informação no Brasil: oportunidades de formação e pesquisa"';
                 $txt1 .= ' e das atividades dos 70 anos do Curso de Biblioteconomia da UFRGS ';
-                $txt1 .= ' dia 05 de dezembro de 2017, no horário das 09h à 12h no Auditório 1 da FABICO/UFRGS, contemplando três horas.';                
+                $txt1 .= ' dia 05 de dezembro de 2017, no horário das 09h às 12h no Auditório 1 da FABICO/UFRGS, totalizando três horas.';                
 
                 $txt2 = '<br><br>'.$cidade.', '.$data;
                 
@@ -150,6 +153,9 @@ class Main extends CI_controller {
                     </tr>                
                 </table>
                 ';                
+
+                $img_file = 'img/certificado/ass_rita.jpg';
+                $pdf->Image($img_file, 40, 175, 80, 30, '', '', '', false, 300, '', false, false, 0);
 
                 //$html .= '<div style="text-align: right; width: 100%">';
                 //$html .= $cidade.', '.$data;
