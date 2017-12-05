@@ -86,6 +86,11 @@ class events extends CI_model
             {
                 $event = 1;
                 if ((strlen($arg) > 0) and (strlen($id) == 0)) { $id = $arg; }
+                
+                $sql = "insert into events_login
+                            (el_usca) value ($id)";
+                $rlt = $this->db->query($sql);
+                
                 $sql = "select * from person 
                             LEFT JOIN person_contato ON ct_person = id_p AND ct_tipo = 'E'
                             where p_nome like '%".$id."%' or p_cracha like '%".sonumero($id)."%'
