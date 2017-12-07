@@ -34,16 +34,22 @@ class Main extends CI_controller {
             case 'checkin':
                 $this->cab();
                 $event = 1;
+                $this->events->acao($event);
+                
                 $data['content'] = $this->events->event_checkin_form($event);               
                 
                 
                 /*************/
                 $CHK = get("checkin");
-                if (strlen($CHK) > 0)
+                if (strlen($CHK.$arg) > 0)
                     {
                         /**************************************** CHECKIN REGISTER ********/
                         $CHK = get("checkin");
                         $data['content'] .= $this->events->event_registra_checkin($CHK,$arg);
+                        if (strlen($arg) > 0)
+                            {
+                                redirect(base_url('index.php/main/evento/checkin'));
+                            }
                     }
                 $data['content'] .= $this->events->lista_inscritos($event);  
                 $this->load->view("content",$data);
