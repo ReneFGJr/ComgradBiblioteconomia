@@ -23,7 +23,7 @@ class Main extends CI_controller {
         redirect(base_url('index.php/main'));
     }
 
-    function evento($action='',$arg='') {
+    function evento($action='',$arg='', $arg2='') {
         $this->load->model('events');
 
         $data['title'] = 'Comgrad de Biblitoeconomia da UFRGS ::::';
@@ -31,6 +31,15 @@ class Main extends CI_controller {
         
         switch($action)
             {
+            case 'inscritos':
+                    $this->cab(0);
+                    $data['content'] = $this->events->inscritos($arg,$arg2);
+                    $this->load->view("content",$data);       
+                break;
+            case 'valida':
+                    $this->cab(0);
+                    $this->events->valida($arg,$arg2);       
+                break;
             case 'checkin':
                 $this->cab();
                 $event = 1;
@@ -57,22 +66,49 @@ class Main extends CI_controller {
                 
             case 'print':
                 $mes = array('','janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro');
-                $nr = 1021;
-                $nome = 'RENE FAUSTINO GABRIEL JUNIOR';
-                $cidade = 'Porto Alegre';
-                $data = date("d").' de '.$mes[round(date("m"))].' de '.date("Y").'.';
-                $ass_nome = "Rita do Carmo F. Laipelt";
-                $ass_cargo = "Coordenadora da Comgrad de Biblioteconomia/UFRGS";
+                $chk = checkpost_link($arg);
+                if ($chk != $arg2)
+                    {
+                        $sx = '
+                        <br>
+                        <div class="alert alert-danger" role="alert">
+                          Erro de checksum do post
+                        </div>
+                        ';
+                        $this->cab(0);
+                        $data['content'] = $sx;
+                        $this->load->view('content',$data);
+                        return('');
+                    }
+                    
+                $line = $this->events->le($arg);
+                if (round($line['i_certificado']) == 0)
+                    {
+                        $sql = "update events_inscritos 
+                                    set i_certificado = '".date("Y-m-d H:i_s")."'
+                                    WHERE id_i = ".$line['id_i'];
+                        $this->db->query($sql);
+                    }
+                $nr = $line['id_i'];
+                $nome = trim($line['n_nome']);
+                $cidade = trim($line['e_cidade']);
+                $evento = trim($line['e_name']);
+                $data = sonumero($line['e_data']);
+                $img_file = $line['e_background'];
+                
+                $data = substr($data,6,2).' de '.$mes[round(substr($data,4,2))].' de '.substr($data,0,4).'.';
+                $ass_nome = trim($line['e_ass_none_1']);
+                $ass_cargo = trim($line['e_ass_cargo_1']);
                 
                 // create new PDF document
                 $pdf = new tcpdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
                 
                 // set document information
                 $pdf->SetCreator(PDF_CREATOR);
-                $pdf->SetAuthor('Comgrad Biblioteconomia - UFRGS');
-                $pdf->SetTitle('Declaração - 70 anos de Biblioteconomia');
-                $pdf->SetSubject('Biblioteconomia. UFRGS. 70 anos');
-                $pdf->SetKeywords('70 anos, UFRGS, Biblioteconomia');
+                $pdf->SetAuthor($evento);
+                $pdf->SetTitle('Declaração - '.$evento);
+                $pdf->SetSubject($evento);
+                $pdf->SetKeywords($evento);
                 
                 // set header and footer fonts
                 $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -110,7 +146,7 @@ class Main extends CI_controller {
                 // disable auto-page-break
                 $pdf->SetAutoPageBreak(false, 0);
                 // set bacground image
-                $img_file = 'img/certificado/cert_biblio_003.jpg';
+                
                 $pdf->Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
                 // restore auto-page-break status
 
@@ -125,16 +161,8 @@ class Main extends CI_controller {
                 $html = '<span style="font-family: tahoma, arial; color: #333333;text-align:left;font-weight:bold;font-size:30pt;">DECLARAÇÃO</span>';
                 $pdf->writeHTML($html, true, false, true, false, '');
                 
-                $txt1 = 'Declaro, para os devidos fins, que ';
-                $txt1 .= '<b>'.$nome.'</b>';
-                $txt1 .= ' participou da ';
-                $txt1 .= ' palestra ';
-                $txt1 .= ' proferida pela ';
-                $txt1 .= '<b>Profa. Dra. Marisa Brascher Basilio Medeiros</b>';
-                $txt1 .= ' intitulada ';
-                $txt1 .= '"Panorama da Pós-Graduação em Ciência da Informação no Brasil: oportunidades de formação e pesquisa"';
-                $txt1 .= ' e das atividades dos 70 anos do Curso de Biblioteconomia da UFRGS ';
-                $txt1 .= ' dia 05 de dezembro de 2017, no horário das 09h às 12h no Auditório 1 da FABICO/UFRGS, totalizando três horas.';                
+                $txt1 = $line['e_texto'];
+                $txt1 = troca($txt1,'$nome',$nome);                
 
                 $txt2 = '<br><br>'.$cidade.', '.$data;
                 
@@ -160,15 +188,8 @@ class Main extends CI_controller {
                 </table>
                 ';                
 
-                $img_file = 'img/certificado/ass_rita.jpg';
+                $img_file = $line['e_ass_img'];
                 $pdf->Image($img_file, 40, 175, 80, 30, '', '', '', false, 300, '', false, false, 0);
-
-                //$html .= '<div style="text-align: right; width: 100%">';
-                //$html .= $cidade.', '.$data;
-                //$html .= '</div>';
-                
-                
-                
                 $pdf->writeHTML($html, true, false, true, false, '');
                 
                 
@@ -183,7 +204,7 @@ class Main extends CI_controller {
                     'module_width' => 1, // width of a single module in points
                     'module_height' => 1 // height of a single module in points                    
                 );                
-                $pdf->write2DBarcode('www.ufrgs.br/comgrad/main/evento/valida/', 'QRCODE,Q', 110, 241, 30, 30, $style, 'N');
+                $pdf->write2DBarcode('www.ufrgs.br/comgradbib/index.php/main/evento/valida/'.$nr.'/'.checkpost_link($nr), 'QRCODE,Q', 110, 241, 30, 30, $style, 'N');
                 
                 $pdf->SetFont('helvetica', '', 8, '', false);
                 $pdf->Text(110, 236, 'validador do certificado');
@@ -191,12 +212,18 @@ class Main extends CI_controller {
                 // ---------------------------------------------------------
                 
                 //Close and output PDF document
-                $pdf->Output('UFRGS-Certificado'.$nr.'.pdf', 'I');
+                $pdf->Output('UFRGS-Certificado-'.$nome.'.pdf', 'I');
                 
                 //============================================================+
                 // END OF FILE
                 //============================================================+
                 break;
+                
+            default:
+                $this->cab(0);
+                $data['content'] = $this->events->certificados();
+                $this->load->view('content',$data);
+                    
             }
         
     }
