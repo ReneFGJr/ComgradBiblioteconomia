@@ -29,6 +29,7 @@ $ac[$pag] = 'active';
 				    <a class="dropdown-item" href="<?php echo base_url('index.php/main/persons'); ?>">Estudantes</a>
 					<a class="dropdown-item" href="<?php echo base_url('index.php/main/persons_list'); ?>">Lista de acompanhados</a>
 					<a class="dropdown-item" href="<?php echo base_url('index.php/main/import_ROD'); ?>">Lançar acompanhamento</a>
+					<a class="dropdown-item" href="<?php echo base_url('index.php/main/prerequisito_analise'); ?>">Pre-requisito</a>
 				</div>
 			</li>
             <li class="nav-item dropdown">

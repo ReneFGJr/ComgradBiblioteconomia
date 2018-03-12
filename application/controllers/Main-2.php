@@ -12,215 +12,46 @@ class Main extends CI_controller {
 		$this -> load -> helper('email');
 		$this -> load -> helper('url');
 		$this -> load -> library('session');
-		$this -> load -> library('tcpdf');
 		date_default_timezone_set('America/Sao_Paulo');
 		/* Security */
 		//		$this -> security();
 	}
 
+	function mailer() {
+		$this->load->model("pags");
+		
+		$this -> cab();
+		$form = new form;
+		$cp = array();
+		array_push($cp, array('$H8', '', '', false, false));
+		array_push($cp, array('$T80:5', '', 'Lista de E-mail', true, true));
+		array_push($cp, array('$S100', '', 'Assunto', true, true));
+		array_push($cp, array('$T80:5', '', 'Texto HTML', true, true));
+		array_push($cp, array('$B8', '', 'Enviar', false, false));
+
+		$tela = $form -> editar($cp, '');
+
+		if ($form -> saved > 0) {
+			$e = troca(get("dd1") . ';', chr(13), ';');
+			$e = troca($e, chr(10), '');
+			$e = splitx(';', $e);
+			for ($r = 0; $r < count($e); $r++) {
+				$title = '[COMGRAD] ' . get("dd1");
+				$title = get("dd2");
+				$texto = get("dd3");
+				$tela .= $this -> pags -> enviar_email($e[$r], $title, $texto);
+			}
+			$tela .= "enviado";
+		}
+		$data['content'] = $tela;
+		$data['title'] = 'Mailer';
+		$this -> load -> view('content', $data);
+		//$this->footer();
+	}
+
 	function login() {
 		$_SESSION['user'] = 'COMGRADBIB';
 		redirect(base_url('index.php/main'));
-	}
-
-	function evento($action = '', $arg = '', $arg2 = '') {
-		$this -> load -> model('events');
-
-		$data['title'] = 'Comgrad de Biblitoeconomia da UFRGS ::::';
-		$this -> load -> view('header/header', $data);
-
-		switch($action) {
-            case 'select':
-                $this -> cab(0);
-                $data['content'] = $this -> events -> select($arg, $arg2);
-                $this -> load -> view("content", $data);
-                break;
-                
-			case 'inscritos' :
-				$this -> cab(0);
-				$data['content'] = $this -> events -> inscritos($arg, $arg2);
-				$this -> load -> view("content", $data);
-				break;
-			case 'valida' :
-				$this -> cab(0);
-				$this -> events -> valida($arg, $arg2);
-				break;
-			case 'checkin' :
-				$this -> cab();
-                if (isset($_SESSION['event_id']))
-                    {
-                        $event = $_SESSION['event_id'];
-                        $this -> events -> acao($event);
-                        $data['content'] = $this -> events -> event_checkin_form($event);                        
-                    } else {
-                        redirect('index.php/main/evento/select');
-                    }
-
-
-				/*************/
-				$CHK = get("checkin");
-				if (strlen($CHK . $arg) > 0) {
-					/**************************************** CHECKIN REGISTER ********/
-					$CHK = get("checkin");
-					$data['content'] .= $this -> events -> event_registra_checkin($CHK, $arg);
-					if (strlen($arg) > 0) {
-						redirect(base_url('index.php/main/evento/checkin'));
-					}
-				}
-				$data['content'] .= $this -> events -> lista_inscritos($event);
-				$this -> load -> view("content", $data);
-				break;
-
-			case 'print' :
-				$mes = array('', 'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro');
-				$chk = checkpost_link($arg);
-				if ($chk != $arg2) {
-					$sx = '
-                        <br>
-                        <div class="alert alert-danger" role="alert">
-                          Erro de checksum do post
-                        </div>
-                        ';
-					$this -> cab(0);
-					$data['content'] = $sx;
-					$this -> load -> view('content', $data);
-					return ('');
-				}
-
-				$line = $this -> events -> le($arg);
-				if (round($line['i_certificado']) == 0) {
-					$sql = "update events_inscritos 
-                                    set i_certificado = '" . date("Y-m-d H:i_s") . "'
-                                    WHERE id_i = " . $line['id_i'];
-					$this -> db -> query($sql);
-				}
-				$nr = $line['id_i'];
-				$nome = trim($line['n_nome']);
-				$cidade = trim($line['e_cidade']);
-				$evento = trim($line['e_name']);
-				$data = sonumero($line['e_data']);
-				$img_file = $line['e_background'];
-
-				$data = substr($data, 6, 2) . ' de ' . $mes[round(substr($data, 4, 2))] . ' de ' . substr($data, 0, 4) . '.';
-				$ass_nome = trim($line['e_ass_none_1']);
-				$ass_cargo = trim($line['e_ass_cargo_1']);
-
-				// create new PDF document
-				$pdf = new tcpdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-
-				// set document information
-				$pdf -> SetCreator(PDF_CREATOR);
-				$pdf -> SetAuthor($evento);
-				$pdf -> SetTitle('Declaração - ' . $evento);
-				$pdf -> SetSubject($evento);
-				$pdf -> SetKeywords($evento);
-
-				// set header and footer fonts
-				$pdf -> setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-
-				// set default monospaced font
-				$pdf -> SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-				// set margins
-				$pdf -> SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-				$pdf -> SetHeaderMargin(0);
-				$pdf -> SetFooterMargin(0);
-
-				// remove default footer
-				$pdf -> setPrintFooter(false);
-
-				// set auto page breaks
-				$pdf -> SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-
-				// set image scale factor
-				$pdf -> setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-				// set font
-				$pdf -> SetFont('times', '', 48);
-
-				// add a page
-				$pdf -> AddPage();
-
-				// -- set new background ---
-
-				// get the current page break margin
-				$bMargin = $pdf -> getBreakMargin();
-				// get current auto-page-break mode
-				$auto_page_break = $pdf -> getAutoPageBreak();
-				// disable auto-page-break
-				$pdf -> SetAutoPageBreak(false, 0);
-				// set bacground image
-
-				$pdf -> Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
-				// restore auto-page-break status
-
-				$pdf -> SetAutoPageBreak($auto_page_break, $bMargin);
-				// set the starting point for the page content
-				$pdf -> setPageMark();
-
-				// Print a text
-				$pdf -> setfont("helvetica");
-				$html = '<span style="font-family: tahoma, arial; color: #333333;text-align:left;font-weight:bold;font-size:30pt;">DECLARAÇÃO</span>';
-				$pdf -> writeHTML($html, true, false, true, false, '');
-
-				$txt1 = $line['e_texto'];
-				$txt1 = troca($txt1, '$nome', $nome);
-
-				$txt2 = '<br><br>' . $cidade . ', ' . $data;
-
-				$txt3 = '<br><br><br><br><br><br><br><br>';
-				$txt3 .= '<b>' . $ass_nome . '</b>';
-				$txt4 = '<br>' . $ass_cargo;
-
-				$html = '
-                <table cellspacing="0" cellpadding="0" border="0" width="445"  style="font-family: tahoma, arial; color: #333333;text-align:left; font-size:15pt; line-height: 190%;">
-                    <tr>
-                        <td rowspan="1" width="100%">' . $txt1 . '</td>
-                    </tr>
-                    <tr>
-                        <td rowspan="1" width="100%" align="right">' . $txt2 . '</td>
-                    </tr>
-                    <tr style="font-family: tahoma, arial; color: #333333;text-align:left; font-size:15pt; line-height: 100%;">
-                        <td rowspan="1" width="100%" align="center">' . $txt3 . '</td>
-                    </tr>                
-                    <tr style="font-family: tahoma, arial; color: #333333;text-align:left; font-size:9pt; line-height: 120%;">
-                        <td rowspan="1" width="100%" align="center">
-                        ' . $txt4 . '</td>
-                    </tr>                
-                </table>
-                ';
-
-				$img_file = $line['e_ass_img'];
-				$pdf -> Image($img_file, 40, 175, 80, 30, '', '', '', false, 300, '', false, false, 0);
-				$pdf -> writeHTML($html, true, false, true, false, '');
-
-				// QRCODE,Q : QR-CODE Better error correction
-				// set style for barcode
-				$style = array('border' => 2, 'vpadding' => 'auto', 'hpadding' => 'auto', 'fgcolor' => array(0, 0, 0), 'bgcolor' => false, //array(255,255,255)
-				'module_width' => 1, // width of a single module in points
-				'module_height' => 1 // height of a single module in points
-				);
-				$pdf -> write2DBarcode('www.ufrgs.br/comgradbib/index.php/main/evento/valida/' . $nr . '/' . checkpost_link($nr), 'QRCODE,Q', 110, 241, 30, 30, $style, 'N');
-
-				$pdf -> SetFont('helvetica', '', 8, '', false);
-				$pdf -> Text(110, 236, 'validador do certificado');
-
-				// ---------------------------------------------------------
-
-				//Close and output PDF document
-				$pdf -> Output('UFRGS-Certificado-' . $nome . '.pdf', 'I');
-
-				//============================================================+
-				// END OF FILE
-				//============================================================+
-				break;
-
-			default :
-				$this -> cab(0);
-				$data['content'] = $this -> events -> certificados();
-				$this -> load -> view('content', $data);
-		}
-
 	}
 
 	private function cab($navbar = 1) {
@@ -602,39 +433,6 @@ class Main extends CI_controller {
 			$this -> load -> view('content', $data);
 		}
 	}
-
-	function prerequisito_nr($nr) {
-		$this -> load -> model('comgrads');
-		$this -> cab();
-		$data = array();
-		$data['title'] = '';
-		$data['content'] = $this -> comgrads -> prerequisito_nrs($nr);
-		$data['content'] .= $this -> comgrads -> avaliacao($nr) ;
-		
-		$this -> load -> view('content', $data);
-	}
-	
-	function prerequisito() {
-		$this -> load -> model('comgrads');
-		$this -> cab();
-		$data = array();
-		$data['title'] = '';
-		$data['content'] = $this -> comgrads -> prerequisito_form();
-		
-		$this -> load -> view('content', $data);
-	}
-		
-	function prerequisito_analise() {
-		$this -> load -> model('comgrads');
-		$this -> cab();
-		$data = array();
-		$data['title'] = '';
-		$data['content'] = $this -> comgrads -> prerequisito_analise();
-		
-		$data['content'] .= '<a href="'.base_url('index.php/main/prerequisito').'" class="btn btn-secondary">Solicitar quebra</a>';
-		
-		$this -> load -> view('content', $data);
-	}	
 
 }
 ?>

@@ -1,5 +1,44 @@
 <?php
 class events extends CI_model {
+    function select($id='')
+        {
+            if (strlen($id) > 0)
+                {
+                    $_SESSION['event_id'] = $id;
+                    redirect(base_url('index.php/main/evento/checkin'));
+                }
+            $sql = "select * from events where e_status = 1 order by e_data_i";
+            $rlt = $this->db->query($sql);
+            $rlt = $rlt->result_array();
+            $sx = '<div class="container">'.cr();
+            $sx .= '<div class="row">'.cr();
+            $sx .= '<div class="col-md-12">'.cr();
+            $sx .= '<h1>Eventos abertos para inscrição</h1>';
+            $sx .= '<ul>'.cr();
+                        
+            for ($r=0;$r < count($rlt);$r++)
+                {
+                    $line = $rlt[$r];
+                    
+                    $sx .= '<li>' ;
+                    $sx .= '<a href="'.base_url('index.php/main/evento/select/'.$line['id_e']).'" style="font-size: 200%;">';
+                    $sx .= $line['e_name'];
+                    $sx .= ' (';
+                    $sx .= stodbr($line['e_data_i']);
+                    if ($line['e_data_f'] > $line['e_data_i'])
+                        {
+                            $sx .= ' à ';
+                            $sx .= stodbr($line['e_data_f']);        
+                        }
+                    $sx .= ')';
+                    $sx .= '</a>';
+                    $sx .= '</li>';
+                }
+            $sx .= '</ul>'.cr();                
+            $sx .= '</div>'.cr();
+            $sx .= '</div>'.cr();
+            return($sx);
+        }
     function valida($arg, $arg2) {
         $chk = checkpost_link($arg);
         if ($chk != $arg2) {
@@ -180,6 +219,7 @@ class events extends CI_model {
     function lista_inscritos($event) {
         $sql = "select * from events_inscritos
                             INNER JOIN events_names ON id_n = i_user 
+                            where i_evento = $event
                             ORDER BY i_date_in desc ";
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
@@ -245,6 +285,11 @@ class events extends CI_model {
                                 ";
             $rlt = $this -> db -> query($sql);
             return (1);
+        } else {
+            $line = $rlt[0];
+            $sql = "update events_inscritos set i_status = 1 
+                        where id_i = ".$line['id_i'];
+            $rlt = $this -> db -> query($sql);                        
         }
     }
 
@@ -284,7 +329,7 @@ class events extends CI_model {
     }
 
     function event_registra_checkin($id, $arg) {
-        $event = 1;
+        $event = $_SESSION['event_id'];
 
         if ((strlen($arg) > 0) and (strlen($id) == 0)) { $id = $arg;
         }
@@ -321,11 +366,12 @@ class events extends CI_model {
 
         if (count($rlt) == 0) {
             $sql = "select * from
-                                (select n_nome as p_nome, n_cracha as p_cracha 
+                                (select n_nome as p_nome, n_cracha as p_cracha, n_email as ct_contato 
                                     from events_names ) as tabela 
-                                    where $wh
+                                    where $wh OR (p_email = '".$nn[0]."')
                                 limit 20
                                 ";
+                                echo $sql;
             $rlt = $this -> db -> query($sql);
             $rlt = $rlt -> result_array();
         }
@@ -429,7 +475,7 @@ class events extends CI_model {
         return ($sx);
     }
 
-    function event_checkin_form() {
+    function event_checkin_form($ev=0) {
         $sx = '<form method="post">';
         $sx .= '
                   Informe o nome ou cracha
