@@ -1,44 +1,110 @@
 <?php
 class events extends CI_model {
-    function select($id='')
-        {
-            if (strlen($id) > 0)
-                {
-                    $_SESSION['event_id'] = $id;
-                    redirect(base_url('index.php/main/evento/checkin'));
-                }
-            $sql = "select * from events where e_status = 1 order by e_data_i";
-            $rlt = $this->db->query($sql);
-            $rlt = $rlt->result_array();
-            $sx = '<div class="container">'.cr();
-            $sx .= '<div class="row">'.cr();
-            $sx .= '<div class="col-md-12">'.cr();
-            $sx .= '<h1>Eventos abertos para inscrição</h1>';
-            $sx .= '<ul>'.cr();
-                        
-            for ($r=0;$r < count($rlt);$r++)
-                {
-                    $line = $rlt[$r];
+    function inport_event_incritos($a = '', $b = '') {
+        $d1 = get("dd1");
+        $cp = array();
+        array_push($cp, array('$Q id_e:e_name:select * from events where e_status = 1 order by e_data_i desc', '', 'Evento', true, true));
+        array_push($cp, array('$T80:10', '', 'Lista de inscritos', true, true));
+
+        $form = new form;
+        $sx = $form -> editar($cp, '');
+        if ($form -> saved > 0) {
+            $l = get("dd1");
+            $evento = get("dd0");
+            $l = troca($l, ';', '£');
+            $l = troca($l, chr(13), ';');
+            $l = troca($l, chr(10), '');
+            $ln = splitx(';', $l);
+            for ($r = 0; $r < count($ln); $r++) {
+                $ll = $ln[$r];
+                $ll = troca($ll, '£', ';');
+                $ll = splitx(';', $ll . ';');
+                if (strpos($ll[1], '@')) {
+                    $email = $ll[1];
+                    $cracha = md5($email);
+                    $nome = $ll[0];
+                    $sx .= '<br>' . $nome . ' (' . $email . ') ';
+                    $sql = "select * from events_names where n_email = '$email' ";
+                    $rlt = $this -> db -> query($sql);
+                    $rlt = $rlt -> result_array();
+                    if (count($rlt) == 0) {
+                        $xsql = "insert into events_names
+                                                    (n_nome, n_email, n_cracha)
+                                                    values
+                                                    ('$nome','$email','$cracha')";
+                        $rlt = $this -> db -> query($xsql);
+                        $rlt = $this -> db -> query($sql);
+                        $rlt = $rlt -> result_array();
+                        $sx .= ' <font color=green>Inserido!</font>';
+                    } else {
+                        $sx .= ' <font color=red>Já existe!</font>';
+                    }
+                    $line = $rlt[0];
+                    $idu = $line['id_n'];
+                    $sx .= ' <font color=red>Já existe!</font>';
                     
-                    $sx .= '<li>' ;
-                    $sx .= '<a href="'.base_url('index.php/main/evento/select/'.$line['id_e']).'" style="font-size: 200%;">';
-                    $sx .= $line['e_name'];
-                    $sx .= ' (';
-                    $sx .= stodbr($line['e_data_i']);
-                    if ($line['e_data_f'] > $line['e_data_i'])
+                    
+                    $sql = "select * from events_inscritos
+                                where i_evento = $evento AND i_user = $idu ";
+                    $zrlt = $this->db->query($sql);
+                    $zrlt = $zrlt->result_array();
+                    if (count($zrlt) == 0)
                         {
-                            $sx .= ' à ';
-                            $sx .= stodbr($line['e_data_f']);        
+                            $sql = "insert into events_inscritos
+                                        (i_evento, i_user, i_status)
+                                        values
+                                        ($evento,$idu,1) ";
+                            $erlt = $this->db->query($sql);
+                            $sx .= ' <font color="green">Inscrito</font>';
+                        } else {
+                            $sx .= ' <font color="red">Já inscrito</font>';
                         }
-                    $sx .= ')';
-                    $sx .= '</a>';
-                    $sx .= '</li>';
+
                 }
-            $sx .= '</ul>'.cr();                
-            $sx .= '</div>'.cr();
-            $sx .= '</div>'.cr();
-            return($sx);
+            }
+        } else {
+
         }
+        return ($sx);
+
+    }
+
+    function select($id = '') {
+        if (strlen($id) > 0) {
+            $_SESSION['event_id'] = $id;
+            redirect(base_url('index.php/main/evento/checkin'));
+        }
+        $sql = "select * from events where e_status = 1 order by e_data_i";
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+        $sx = '<div class="container">' . cr();
+        $sx .= '<div class="row">' . cr();
+        $sx .= '<div class="col-md-12">' . cr();
+        $sx .= '<h1>Eventos abertos para inscrição</h1>';
+        $sx .= '<ul>' . cr();
+
+        for ($r = 0; $r < count($rlt); $r++) {
+            $line = $rlt[$r];
+
+            $sx .= '<li>';
+            $sx .= '<a href="' . base_url('index.php/main/evento/select/' . $line['id_e']) . '" style="font-size: 200%;">';
+            $sx .= $line['e_name'];
+            $sx .= ' (';
+            $sx .= stodbr($line['e_data_i']);
+            if ($line['e_data_f'] > $line['e_data_i']) {
+                $sx .= ' à ';
+                $sx .= stodbr($line['e_data_f']);
+            }
+            $sx .= ')';
+            $sx .= '</a>';
+            $sx .= '</li>';
+        }
+        $sx .= '</ul>' . cr();
+        $sx .= '</div>' . cr();
+        $sx .= '</div>' . cr();
+        return ($sx);
+    }
+
     function valida($arg, $arg2) {
         $chk = checkpost_link($arg);
         if ($chk != $arg2) {
@@ -120,12 +186,12 @@ class events extends CI_model {
             $sx .= ' ';
             $sx .= substr($line['i_date_in'], 11, 5);
             $sx .= '</td>';
-            
+
             $sx .= '<td width="15%" class="text-right">';
             $sx .= stodbr($line['i_certificado']);
             $sx .= ' ';
             $sx .= substr($line['i_certificado'], 11, 5);
-            $sx .= '</td>';            
+            $sx .= '</td>';
 
             $sx .= '</tr>';
             $sx .= cr();
@@ -288,8 +354,8 @@ class events extends CI_model {
         } else {
             $line = $rlt[0];
             $sql = "update events_inscritos set i_status = 1 
-                        where id_i = ".$line['id_i'];
-            $rlt = $this -> db -> query($sql);                        
+                        where id_i = " . $line['id_i'];
+            $rlt = $this -> db -> query($sql);
         }
     }
 
@@ -368,10 +434,9 @@ class events extends CI_model {
             $sql = "select * from
                                 (select n_nome as p_nome, n_cracha as p_cracha, n_email as ct_contato 
                                     from events_names ) as tabela 
-                                    where $wh OR (p_email = '".$nn[0]."')
+                                    where $wh OR (p_email = '" . $nn[0] . "')
                                 limit 20
                                 ";
-                                echo $sql;
             $rlt = $this -> db -> query($sql);
             $rlt = $rlt -> result_array();
         }
@@ -475,7 +540,7 @@ class events extends CI_model {
         return ($sx);
     }
 
-    function event_checkin_form($ev=0) {
+    function event_checkin_form($ev = 0) {
         $sx = '<form method="post">';
         $sx .= '
                   Informe o nome ou cracha

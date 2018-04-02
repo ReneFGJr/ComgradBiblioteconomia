@@ -30,6 +30,12 @@ class Main extends CI_controller {
 		$this -> load -> view('header/header', $data);
 
 		switch($action) {
+            case 'import':
+                $this -> cab(0);
+                $data['content'] = $this -> events -> inport_event_incritos($arg, $arg2);
+                $this -> load -> view("content", $data);
+                break;
+                    
             case 'select':
                 $this -> cab(0);
                 $data['content'] = $this -> events -> select($arg, $arg2);
