@@ -22,7 +22,7 @@ $ac[$pag] = 'active';
 				<a class="nav-link" href="<?php echo base_url('index.php/main/contact'); ?>">Contato</a>
 			</li>
 			<?php 
-			if ((isset($_SESSION['user'])) and ($_SESSION['user']=='COMGRADBIB')) { ?>
+			if (perfil("#ADM#USR")) { ?>
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Acompanhamento discente </a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -38,6 +38,7 @@ $ac[$pag] = 'active';
                     <a class="dropdown-item" href="<?php echo base_url('index.php/main/relatorio/1'); ?>">Total de estudantes</a>
                     <a class="dropdown-item" href="<?php echo base_url('index.php/main/relatorio/2'); ?>">Período dos estudantes</a>
                     <a class="dropdown-item" href="<?php echo base_url('index.php/main/relatorio/3'); ?>">Tempo de integralização</a>
+                    <a class="dropdown-item" href="<?php echo base_url('index.php/main/relatorio/4'); ?>">Bairros (ativos)</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
@@ -46,7 +47,10 @@ $ac[$pag] = 'active';
                     <a class="dropdown-item" href="<?php echo base_url('index.php/main/campanhas'); ?>">Campanhas</a>
                 </div>
             </li> 
-            <?php } ?>           			
+            <?php } ?>
+            <li class="nav-item navbar-toggler-right">
+                <?php echo $this -> socials -> menu_user(); ?>
+            </li>                       			
 		</ul>
 	</div>
 </nav>

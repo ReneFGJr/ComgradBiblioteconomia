@@ -56,7 +56,7 @@ class social extends CI_Controller {
         $this -> load -> helper('url');
         $this -> load -> library('session');
         $this -> load -> helper('form');
-        $this -> load -> helper('form_sisdoc');        
+        $this -> load -> helper('form_sisdoc');       
         date_default_timezone_set('America/Sao_Paulo');
     }
 
@@ -74,7 +74,7 @@ class social extends CI_Controller {
         $data['js'] = $js;
         $data['css'] = $css;
 
-        $data['title'] = ':: Giga Informática ::';
+        $data['title'] = ':: Login ::';
         $this -> load -> view('header/header', $data);
     }
 
@@ -84,21 +84,21 @@ class social extends CI_Controller {
 
     function logout() {
         /* Salva session */
-        $this -> load -> model('users');
-        $this -> users -> security_logout();
+        $this -> load -> model('socials');
+        $this -> socials -> security_logout();
         redirect(base_url('index.php/main'));
     }
 
     function login_local() {
-        $this -> load -> model('users');
+        $this -> load -> model('socials');
 
-        $dd1 = $this -> input -> post('dd1');
-        $dd2 = $this -> input -> post('dd2');
+        $dd1 = $this -> input -> post('dd1') . $this -> input -> post('user_login');
+        $dd2 = $this -> input -> post('dd2') . $this -> input -> post('user_password');
 
         if ((strlen($dd1) > 0) and (strlen($dd2) > 0)) {
             $dd1 = troca($dd1, "'", '´');
             $dd2 = troca($dd2, "'", '´');
-            $ok = $this -> users -> security_login($dd1, $dd2);
+            $ok = $this -> socials -> security_login($dd1, $dd2);
         }
 
         if ($ok == 1) {
@@ -110,10 +110,8 @@ class social extends CI_Controller {
 
     function login() {
         $this -> cab();
-        $this -> load -> view('auth_social/login_pre', null);
-        //$this -> load -> view('auth_social/login', null);
-        $this -> load -> view('auth_social/login_horizontal', null);
-        $this -> load -> view('header/credits', null);
+        $data['show'] = 1;
+        $this -> load -> view('login/login', $data);
     }
 
     public function session($provider) {
@@ -235,5 +233,16 @@ class social extends CI_Controller {
         $data['content'] = $this -> users -> my_account($id);
         $this -> load -> view('content', $data);
     }
+    
+    function show_perfil()
+        {
+        $id = $_SESSION['id'];
+        $this -> load -> model('socials');
+
+        $this -> cab();
+        $data['title'] = '';
+        $data['content'] = $this -> socials -> perfil($id);
+        $this -> load -> view('content', $data);   
+        }
 
 }

@@ -345,6 +345,52 @@ class comgrads extends CI_model {
 
 		$this -> email -> send();
 		return($us_email.' enviado<br>');
-	}		
+	}
+    
+    function rel_bairros()
+    {
+        $sql = "select ed_cidade, ed_bairro, count(*) as total 
+                        from person_endereco
+                        group by ed_cidade, ed_bairro 
+                        order by ed_cidade, ed_bairro";
+        $rlt = $this->db->query($sql);
+        $rlt = $rlt->result_array();
+        $sx = '<table width="100%" class="table">';
+        $tot = 0;
+        $totg = 0;
+        $totc = 0;
+        $xcd = '';
+        for ($r=0;$r < count($rlt);$r++)
+            {
+                $line = $rlt[$r];
+                $cd = $line['ed_cidade'];
+                
+                if ($xcd != $cd)
+                    {
+                        if ($totc > 0)
+                            {
+                                $sx .= '<tr><td colspan=3 align="right"><b>total cidade '.$totc.'</td></tr>';        
+                            }                        
+                        $xcd = $cd;
+                        $totc = 0;
+                    }
+                $sx .= '<tr>';
+                $sx .= '<td>';
+                $sx .= $line['ed_cidade'];
+                $sx .= '</td>';
+                $sx .= '<td>';
+                $sx .= $line['ed_bairro'];
+                $sx .= '</td>';
+                $sx .= '<td align="right">';
+                $sx .= $line['total'];
+                $sx .= '</td>';           
+                $sx .= '</tr>';
+                $tot = $tot + $line['total'];
+                $totg = $totg + $line['total'];
+                $totc = $totc + $line['total'];
+            }
+        $sx .= '</table>';
+        return($sx);
+    }		
 }
 ?>
