@@ -337,7 +337,7 @@ class Main extends CI_controller {
         $this -> cab();
         $data = array();
         $data['title'] = 'Comgrad/PAG';
-        $file = '_documentation/estudantes-2012-2.txt';
+        $file = '_documentation/estudantes-2018-2.txt';
         if (file_exists($file)) {
             $data['content'] = $this -> pags -> inport($file);
             $this -> load -> view('content', $data);
