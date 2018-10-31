@@ -9,6 +9,7 @@ class Main extends CI_controller {
         $this -> load -> database();
         $this -> load -> helper('form');
         $this -> load -> helper('form_sisdoc');
+		$this -> load -> helper('bootstrap');
         $this -> load -> helper('email');
         $this -> load -> helper('url');
         $this -> load -> library('session');
@@ -34,6 +35,12 @@ class Main extends CI_controller {
                 $data['content'] = $this -> events -> inport_event_incritos($arg, $arg2);
                 $this -> load -> view("content", $data);
                 break;
+				
+            case 'assignin' :
+                $this -> cab(0);
+                $data['content'] = $this -> events -> assignin($arg, $arg2);
+                $this -> load -> view("content", $data);
+                break;				
 
             case 'select' :
                 $this -> cab(0);
@@ -46,6 +53,11 @@ class Main extends CI_controller {
                 $data['content'] = $this -> events -> inscritos($arg, $arg2);
                 $this -> load -> view("content", $data);
                 break;
+            case 'booking' :
+                $this -> cab(0);
+                $data['content'] = $this -> events -> inscricao($arg, $arg2);
+                $this -> load -> view("content", $data);
+                break;				
             case 'valida' :
                 $this -> cab(0);
                 $this -> events -> valida($arg, $arg2);

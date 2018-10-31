@@ -1,217 +1,337 @@
 <?php
 class events extends CI_model {
-    function inport_event_incritos($a = '', $b = '') {
-        $d1 = get("dd1");
-        $cp = array();
-        array_push($cp, array('$Q id_e:e_name:select * from events where e_status = 1 order by e_data_i desc', '', 'Evento', true, true));
-        array_push($cp, array('$T80:10', '', 'Lista de inscritos', true, true));
+	function inport_event_incritos($a = '', $b = '') {
+		$d1 = get("dd1");
+		$cp = array();
+		array_push($cp, array('$Q id_e:e_name:select * from events where e_status = 1 order by e_data_i desc', '', 'Evento', true, true));
+		array_push($cp, array('$T80:10', '', 'Lista de inscritos', true, true));
 
-        $form = new form;
-        $sx = $form -> editar($cp, '');
-        if ($form -> saved > 0) {
-            $l = get("dd1");
-            $evento = get("dd0");
-            $l = troca($l, ';', '£');
-            $l = troca($l, chr(13), ';');
-            $l = troca($l, chr(10), '');
-            $ln = splitx(';', $l);
-            for ($r = 0; $r < count($ln); $r++) {
-                $ll = $ln[$r];
-                $ll = troca($ll, '£', ';');
-                $ll = splitx(';', $ll . ';');
-                if (strpos($ll[1], '@')) {
-                    $email = $ll[1];
-                    $cracha = md5($email);
-                    $nome = $ll[0];
-                    $sx .= '<br>' . $nome . ' (' . $email . ') ';
-                    $sql = "select * from events_names where n_email = '$email' ";
-                    $rlt = $this -> db -> query($sql);
-                    $rlt = $rlt -> result_array();
-                    if (count($rlt) == 0) {
-                        $xsql = "insert into events_names
+		$form = new form;
+		$sx = $form -> editar($cp, '');
+		if ($form -> saved > 0) {
+			$l = get("dd1");
+			$evento = get("dd0");
+			$l = troca($l, ';', '£');
+			$l = troca($l, chr(13), ';');
+			$l = troca($l, chr(10), '');
+			$ln = splitx(';', $l);
+			for ($r = 0; $r < count($ln); $r++) {
+				$ll = $ln[$r];
+				$ll = troca($ll, '£', ';');
+				$ll = splitx(';', $ll . ';');
+				if (strpos($ll[1], '@')) {
+					$email = $ll[1];
+					$cracha = md5($email);
+					$nome = $ll[0];
+					$sx .= '<br>' . $nome . ' (' . $email . ') ';
+					$sql = "select * from events_names where n_email = '$email' ";
+					$rlt = $this -> db -> query($sql);
+					$rlt = $rlt -> result_array();
+					if (count($rlt) == 0) {
+						$xsql = "insert into events_names
                                                     (n_nome, n_email, n_cracha)
                                                     values
                                                     ('$nome','$email','$cracha')";
-                        $rlt = $this -> db -> query($xsql);
-                        $rlt = $this -> db -> query($sql);
-                        $rlt = $rlt -> result_array();
-                        $sx .= ' <font color=green>Inserido!</font>';
-                    } else {
-                        $sx .= ' <font color=red>Já existe!</font>';
-                    }
-                    $line = $rlt[0];
-                    $idu = $line['id_n'];
-                    $sx .= ' <font color=red>Já existe!</font>';
-                    
-                    
-                    $sql = "select * from events_inscritos
+						$rlt = $this -> db -> query($xsql);
+						$rlt = $this -> db -> query($sql);
+						$rlt = $rlt -> result_array();
+						$sx .= ' <font color=green>Inserido!</font>';
+					} else {
+						$sx .= ' <font color=red>Já existe!</font>';
+					}
+					$line = $rlt[0];
+					$idu = $line['id_n'];
+					$sx .= ' <font color=red>Já existe!</font>';
+
+					$sql = "select * from events_inscritos
                                 where i_evento = $evento AND i_user = $idu ";
-                    $zrlt = $this->db->query($sql);
-                    $zrlt = $zrlt->result_array();
-                    if (count($zrlt) == 0)
-                        {
-                            $sql = "insert into events_inscritos
+					$zrlt = $this -> db -> query($sql);
+					$zrlt = $zrlt -> result_array();
+					if (count($zrlt) == 0) {
+						$sql = "insert into events_inscritos
                                         (i_evento, i_user, i_status)
                                         values
                                         ($evento,$idu,1) ";
-                            $erlt = $this->db->query($sql);
-                            $sx .= ' <font color="green">Inscrito</font>';
-                        } else {
-                            $sx .= ' <font color="red">Já inscrito</font>';
-                        }
+						$erlt = $this -> db -> query($sql);
+						$sx .= ' <font color="green">Inscrito</font>';
+					} else {
+						$sx .= ' <font color="red">Já inscrito</font>';
+					}
 
-                }
-            }
-        } else {
+				}
+			}
+		} else {
 
-        }
-        return ($sx);
+		}
+		return ($sx);
 
-    }
+	}
 
-    function select($id = '') {
-        if (strlen($id) > 0) {
-            $_SESSION['event_id'] = $id;
-            redirect(base_url('index.php/main/evento/checkin'));
-        }
-        $sql = "select * from events where e_status = 1 order by e_data_i";
-        $rlt = $this -> db -> query($sql);
-        $rlt = $rlt -> result_array();
-        $sx = '<div class="container">' . cr();
-        $sx .= '<div class="row">' . cr();
-        $sx .= '<div class="col-md-12">' . cr();
-        $sx .= '<h1>Eventos abertos para inscrição</h1>';
-        $sx .= '<ul>' . cr();
+	function select($id = '') {
+		if (strlen($id) > 0) {
+			$_SESSION['event_id'] = $id;
+			redirect(base_url('index.php/main/evento/checkin'));
+		}
+		$sql = "select * from events where e_status = 1 order by e_data_i";
+		$rlt = $this -> db -> query($sql);
+		$rlt = $rlt -> result_array();
+		$sx = '<div class="container">' . cr();
+		$sx .= '<div class="row">' . cr();
+		$sx .= '<div class="col-md-12">' . cr();
+		$sx .= '<h1>Eventos abertos para inscrição</h1>';
+		$sx .= '<ul>' . cr();
 
-        for ($r = 0; $r < count($rlt); $r++) {
-            $line = $rlt[$r];
+		for ($r = 0; $r < count($rlt); $r++) {
+			$line = $rlt[$r];
 
-            $sx .= '<li>';
-            $sx .= '<a href="' . base_url('index.php/main/evento/select/' . $line['id_e']) . '" style="font-size: 200%;">';
-            $sx .= $line['e_name'];
-            $sx .= ' (';
-            $sx .= stodbr($line['e_data_i']);
-            if ($line['e_data_f'] > $line['e_data_i']) {
-                $sx .= ' à ';
-                $sx .= stodbr($line['e_data_f']);
-            }
-            $sx .= ')';
-            $sx .= '</a>';
-            $sx .= '</li>';
-        }
-        $sx .= '</ul>' . cr();
-        $sx .= '</div>' . cr();
-        $sx .= '</div>' . cr();
-        return ($sx);
-    }
+			$sx .= '<li>';
+			$sx .= '<a href="' . base_url('index.php/main/evento/select/' . $line['id_e']) . '" style="font-size: 200%;">';
+			$sx .= $line['e_name'];
+			$sx .= ' (';
+			$sx .= stodbr($line['e_data_i']);
+			if ($line['e_data_f'] > $line['e_data_i']) {
+				$sx .= ' à ';
+				$sx .= stodbr($line['e_data_f']);
+			}
+			$sx .= ')';
+			$sx .= '</a>';
+			$sx .= '</li>';
+		}
+		$sx .= '</ul>' . cr();
+		$sx .= '</div>' . cr();
+		$sx .= '</div>' . cr();
+		return ($sx);
+	}
 
-    function valida($arg, $arg2) {
-        $chk = checkpost_link($arg);
-        if ($chk != $arg2) {
-            $sx = '
+	function inscricao($id = '', $arg2 = '') {
+		$ev = $this -> le_event($id);
+		$email = get("dd3");
+		if (strlen(get("dd8")) > 0)
+			{
+				$email = get("dd8");
+				$name = get("dd9");
+				$cracha = get("dd10");		
+				$this->register($id, $name, $cracha, $email);
+				$tela = '<h1>'.$ev['e_name'].'</h1>';	
+				$tela .= bs_alert('success','Inscrição realizada com sucesso para '.$name.' ('.$email.')');
+				$tela .= '<br>';
+				$tela .= '<a href="'.base_url('index.php/main/evento/assignin').'" class="btn btn-secondary">Voltar</a>';
+				return($tela);			 
+			}
+
+		if ((count($ev) > 0) and ($ev['e_status'] == 1)) {
+			$form = new form;
+			$cp = array();
+			array_push($cp, array('$H8', '', '', false, false));
+			array_push($cp, array('$A1', '', 'Inscrições no evento', false, false));
+			array_push($cp, array('$A2', '', $ev['e_name'], false, false));
+			array_push($cp, array('$S100', '', 'informe seu e-mail', true, true));
+			array_push($cp, array('$B8', '', 'Inscrever-se', false, false));
+			$tela = $form -> editar($cp, '');
+
+			if ($form -> saved > 0) {
+				$email =get("dd3");
+				if (validaemail($email))
+					{
+						$ide = $this->le_email($email);	
+						if (count($ide) == 0)
+							{
+								$tela = bs_alert('warning','E-mail não cadastrado');
+								$cp = array();
+								array_push($cp, array('$H8', '', '', false, false));
+								array_push($cp, array('$A1', '', 'Inscrições no evento', false, false));
+								array_push($cp, array('$A2', '', $ev['e_name'], false, false));
+								array_push($cp, array('$S100', '', 'informe seu e-mail', false, false));
+								array_push($cp, array('$S100', '', 'Nome completo (para certificado)', true, true));
+								array_push($cp, array('$S100', '', 'Cracha (opcional)', false, true));
+								array_push($cp, array('$B8', '', 'Inscrever-se', false, false));
+								$tela .= $form -> editar($cp, '');
+							} else {
+								$name = $ide['n_nome'];
+								$cracha = $ide['n_cracha'];
+								$email = $ide['n_email'];
+								$rs = $this->register($id, $name, $cracha, $email);
+								$tela = '<h1>'.$ev['e_name'].'</h1>';	
+								if ($rs == 2)
+									{
+										$tela .= bs_alert('warning','Inscrição já havia sido realizada para '.$name.' ('.$email.')');
+										$tela .= '<br>';
+									} else {
+										$tela .= bs_alert('success','Inscrição realizada com sucesso  para '.$name.' ('.$email.')');
+										$tela .= '<br>';
+									}
+								
+								$tela .= '<a href="'.base_url('index.php/main/evento/assignin').'" class="btn btn-secondary">Voltar</a>';
+																
+							}	
+					} else {
+						$tela .= '<h2>e-mail inválido</h2>';
+					}
+				
+			}
+		}
+		return ($tela);
+	}
+
+	function assignin($id = '') {
+		if (strlen($id) > 0) {
+			$_SESSION['event_id'] = $id;
+			redirect(base_url('index.php/main/evento/assignin2'));
+		}
+		$sql = "select * from events where e_status = 1 order by e_data_i";
+		$rlt = $this -> db -> query($sql);
+		$rlt = $rlt -> result_array();
+		$sx = '<div class="container">' . cr();
+		$sx .= '<div class="row">' . cr();
+		$sx .= '<div class="col-md-12">' . cr();
+		$sx .= '<h1>Eventos abertos para inscrição</h1>';
+		$sx .= '<ul>' . cr();
+
+		for ($r = 0; $r < count($rlt); $r++) {
+			$line = $rlt[$r];
+
+			$sx .= '<li>';
+			$sx .= '<a href="' . base_url('index.php/main/evento/booking/' . $line['id_e']) . '" style="font-size: 150%;">';			
+			$sx .= '';
+			$sx .= stodbr($line['e_data_i']);
+			if ($line['e_data_f'] > $line['e_data_i']) {
+				$sx .= ' à ';
+				$sx .= stodbr($line['e_data_f']);
+			}
+			$sx .= ' - ';
+			$sx .= ' ';
+			$sx .= $line['e_name'];
+			$sx .= '</a>';
+			$sx .= '</li>';
+		}
+		$sx .= '</ul>' . cr();
+		$sx .= '</div>' . cr();
+		$sx .= '</div>' . cr();
+		return ($sx);
+	}
+
+	function valida($arg, $arg2) {
+		$chk = checkpost_link($arg);
+		if ($chk != $arg2) {
+			$sx = '
                         <br>
                         <div class="alert alert-danger" role="alert">
                           Erro de checksum do post
                         </div>
                         ';
-            $this -> cab(0);
-            $data['content'] = $sx;
-            $this -> load -> view('content', $data);
-            return ('');
-        }
+			$this -> cab(0);
+			$data['content'] = $sx;
+			$this -> load -> view('content', $data);
+			return ('');
+		}
 
-        $data = $this -> events -> le($arg);
-        $sx = '<br><br>';
-        $sx .= '<h1>Validação de declaração/certificado</h1>';
-        $sx .= '<br><p>';
-        $sx .= 'Nome: ' . $data['n_nome'] . '<br>';
-        $sx .= 'Evento: ' . $data['e_name'] . '<br>';
-        $sx .= 'Cidade: ' . $data['e_cidade'] . '<br>';
-        $sx .= 'Data: ' . $data['e_data'] . '<br>';
+		$data = $this -> events -> le($arg);
+		$sx = '<br><br>';
+		$sx .= '<h1>Validação de declaração/certificado</h1>';
+		$sx .= '<br><p>';
+		$sx .= 'Nome: ' . $data['n_nome'] . '<br>';
+		$sx .= 'Evento: ' . $data['e_name'] . '<br>';
+		$sx .= 'Cidade: ' . $data['e_cidade'] . '<br>';
+		$sx .= 'Data: ' . $data['e_data'] . '<br>';
 
-        $sx .= '
+		$sx .= '
                         <div class="alert alert-success" role="alert">
                           Documento validado com sucesso!
                         </div>
                 ';
-        $data['content'] = $sx;
-        $this -> load -> view('content', $data);
-        return ('');
-    }
+		$data['content'] = $sx;
+		$this -> load -> view('content', $data);
+		return ('');
+	}
 
-    function le($id) {
-        $sql = "select * from events_inscritos
+	function le($id) {
+		$sql = "select * from events_inscritos
                             INNER JOIN events_names ON i_user = id_n 
                             INNER JOIN events ON i_evento = id_e
                             where id_i = '$id' ";
-        $rlt = $this -> db -> query($sql);
-        $rlt = $rlt -> result_array();
-        if (count($rlt) > 0) {
-            $line = $rlt[0];
-            return ($line);
-        } else {
-            $line = array();
-            return ($line);
-        }
-    }
+		$rlt = $this -> db -> query($sql);
+		$rlt = $rlt -> result_array();
+		if (count($rlt) > 0) {
+			$line = $rlt[0];
+			return ($line);
+		} else {
+			$line = array();
+			return ($line);
+		}
+	}
+	
+	function le_email($email) {
+		$sql = "select * from events_names
+                            where n_email = '$email' ";
+		$rlt = $this -> db -> query($sql);
+		$rlt = $rlt -> result_array();
+		if (count($rlt) > 0) {
+			$line = $rlt[0];
+			return ($line);
+		} else {
+			$line = array();
+			return ($line);
+		}
+	}
+		
 
-    function inscritos($event) {
-        $sql = "select * from events_inscritos
+	function inscritos($event) {
+		$sql = "select * from events_inscritos
                             INNER JOIN events_names ON id_n = i_user 
                             WHERE i_evento = $event
                             ORDER BY i_date_in desc ";
-        $rlt = $this -> db -> query($sql);
-        $rlt = $rlt -> result_array();
-        $n = 0;
-        $email = '';
-        $sx = '<table width="100%" class="table">' . cr();
-        for ($r = 0; $r < count($rlt); $r++) {
-            $line = $rlt[$r];
-            $n++;
-            $sx .= '<tr>';
-            $sx .= '<td width="2%" class="text-center">';
-            $sx .= ($r + 1);
-            $sx .= '</td>';
+		$rlt = $this -> db -> query($sql);
+		$rlt = $rlt -> result_array();
+		$n = 0;
+		$email = '';
+		$sx = '<table width="100%" class="table">' . cr();
+		for ($r = 0; $r < count($rlt); $r++) {
+			$line = $rlt[$r];
+			$n++;
+			$sx .= '<tr>';
+			$sx .= '<td width="2%" class="text-center">';
+			$sx .= ($r + 1);
+			$sx .= '</td>';
 
-            $sx .= '<td>';
-            $sx .= $line['n_nome'];
-            $sx .= '</td>';
+			$sx .= '<td>';
+			$sx .= $line['n_nome'];
+			$sx .= '</td>';
 
-            $sx .= '<td width="10%">';
-            $sx .= $line['n_cracha'];
-            $sx .= '</td>';
+			$sx .= '<td width="10%">';
+			$sx .= $line['n_cracha'];
+			$sx .= '</td>';
 
-            $sx .= '<td width="15%" class="text-right">';
-            $sx .= stodbr($line['i_date_in']);
-            $sx .= ' ';
-            $sx .= substr($line['i_date_in'], 11, 5);
-            $sx .= '</td>';
+			$sx .= '<td width="15%" class="text-right">';
+			$sx .= stodbr($line['i_date_in']);
+			$sx .= ' ';
+			$sx .= substr($line['i_date_in'], 11, 5);
+			$sx .= '</td>';
 
-            $sx .= '<td width="15%" class="text-right">';
-            $sx .= stodbr($line['i_certificado']);
-            $sx .= ' ';
-            $sx .= substr($line['i_certificado'], 11, 5);
-            $sx .= '</td>';
+			$sx .= '<td width="15%" class="text-right">';
+			$sx .= stodbr($line['i_certificado']);
+			$sx .= ' ';
+			$sx .= substr($line['i_certificado'], 11, 5);
+			$sx .= '</td>';
 
-            $sx .= '</tr>';
-            $sx .= cr();
+			$sx .= '</tr>';
+			$sx .= cr();
 
-            $email .= trim($line['n_email']) . '; ';
-        }
-        $sx .= '</table>';
+			$email .= trim($line['n_email']) . '; ';
+		}
+		$sx .= '</table>';
 
-        $sa = '<br><table width="100%" border="1"><tr><td class="text-center"><h3>' . $n . ' Presente(s)</h3></td></tr></table>';
-        return ($sa . $sx . '<h4>e-mail dos inscritos</h4>' . $email);
-    }
+		$sa = '<br><table width="100%" border="1"><tr><td class="text-center"><h3>' . $n . ' Presente(s)</h3></td></tr></table>';
+		return ($sa . $sx . '<h4>e-mail dos inscritos</h4>' . $email);
+	}
 
-    function certificados() {
-        $sx = '<br><br><br><br><br>';
-        $sx .= '<div class="row">' . cr();
-        $sx .= '<div class="col-md-12">' . cr();
-        $sx .= '<h2>Emissão de declarações/certificados</h2>' . cr();
-        $sx .= '<p>Informe o número de seu cracha, nome completo ou e-mail para emissão de sua declaração ou certificado de participação.</p>' . cr();
-        $sx .= '<form method="post">' . cr();
-        $sx .= '
+	function certificados() {
+		$sx = '<br><br><br><br><br>';
+		$sx .= '<div class="row">' . cr();
+		$sx .= '<div class="col-md-12">' . cr();
+		$sx .= '<h2>Emissão de declarações/certificados</h2>' . cr();
+		$sx .= '<p>Informe o número de seu cracha, nome completo ou e-mail para emissão de sua declaração ou certificado de participação.</p>' . cr();
+		$sx .= '<form method="post">' . cr();
+		$sx .= '
                         <div class="input-group">
                         <input type="text" class="form-control" name="dd1" value="' . get("dd1") . '"  placeholder="Cracha, nome ou e-mail" aria-label="Cracha, nome ou e-mail">
                           <span class="input-group-btn">
@@ -219,44 +339,44 @@ class events extends CI_model {
                           </span>
                         </div>                
                 ' . cr();
-        $sx .= '';
-        $sx .= '</form>' . cr();
-        $sx .= '</div>' . cr();
-        $sx .= '</div>' . cr();
+		$sx .= '';
+		$sx .= '</form>' . cr();
+		$sx .= '</div>' . cr();
+		$sx .= '</div>' . cr();
 
-        /************************************************************/
-        $n = get("dd1");
-        $sql = "select * from events_inscritos
+		/************************************************************/
+		$n = get("dd1");
+		$sql = "select * from events_inscritos
                             INNER JOIN events_names ON i_user = id_n 
                             INNER JOIN events ON i_evento = id_e
                             where n_nome = '$n' OR
                                   n_cracha = '$n' OR
                                   n_email = '$n' ";
-        $rlt = $this -> db -> query($sql);
-        $rlt = $rlt -> result_array();
-        $sx .= '<div class="row">' . cr();
-        $sx .= '<div class="col-md-12">' . cr();
-        if (count($rlt) == 0) {
-            if (strlen($n) > 0) {
-                $sx .= '
+		$rlt = $this -> db -> query($sql);
+		$rlt = $rlt -> result_array();
+		$sx .= '<div class="row">' . cr();
+		$sx .= '<div class="col-md-12">' . cr();
+		if (count($rlt) == 0) {
+			if (strlen($n) > 0) {
+				$sx .= '
                         <br>
                         <div class="alert alert-danger" role="alert">
                           Nenhuma declaração ou certificado disponível para "<b>' . $n . '</b>".
                         </div>
                         ';
-            }
-        } else {
-            $sx .= '<br><br>';
-            $sx .= '<h2><b>' . $rlt[0]['n_nome'] . ' (' . $rlt[0]['n_cracha'] . ')</b></h2>';
-            $sx .= 'Certificados / declarações disponíveis:';
-        }
+			}
+		} else {
+			$sx .= '<br><br>';
+			$sx .= '<h2><b>' . $rlt[0]['n_nome'] . ' (' . $rlt[0]['n_cracha'] . ')</b></h2>';
+			$sx .= 'Certificados / declarações disponíveis:';
+		}
 
-        $sx .= '<table class="table" width="100%">' . cr();
-        for ($r = 0; $r < count($rlt); $r++) {
-            $line = $rlt[$r];
-            $id = $line['id_i'];
+		$sx .= '<table class="table" width="100%">' . cr();
+		for ($r = 0; $r < count($rlt); $r++) {
+			$line = $rlt[$r];
+			$id = $line['id_i'];
 
-            $sx .= '
+			$sx .= '
                             <tr>
                             <td valign="center" style="font-size: 150%;">
                             ' . $line['e_name'] . '
@@ -270,208 +390,210 @@ class events extends CI_model {
                             </td>
                             </tr>                         
                         ';
-            $sx .= '</div>';
-        }
-        $sx .= '</table>' . cr();
-        $sx .= '</div>' . cr();
-        $sx .= '</div>' . cr();
-        return ($sx);
-    }
+			$sx .= '</div>';
+		}
+		$sx .= '</table>' . cr();
+		$sx .= '</div>' . cr();
+		$sx .= '</div>' . cr();
+		return ($sx);
+	}
 
-    function create_event() {
+	function create_event() {
 
-    }
+	}
 
-    function lista_inscritos($event) {
-        $sql = "select * from events_inscritos
+	function lista_inscritos($event) {
+		$sql = "select * from events_inscritos
                             INNER JOIN events_names ON id_n = i_user 
                             where i_evento = $event
                             ORDER BY i_date_in desc ";
-        $rlt = $this -> db -> query($sql);
-        $rlt = $rlt -> result_array();
-        $n = 0;
-        $sx = '<table width="100%" class="table">' . cr();
-        for ($r = 0; $r < count($rlt); $r++) {
-            $line = $rlt[$r];
-            $n++;
-            $sx .= '<tr>';
-            $sx .= '<td width="2%" class="text-center">';
-            $sx .= ($r + 1);
-            $sx .= '</td>';
+		$rlt = $this -> db -> query($sql);
+		$rlt = $rlt -> result_array();
+		$n = 0;
+		$sx = '<table width="100%" class="table">' . cr();
+		for ($r = 0; $r < count($rlt); $r++) {
+			$line = $rlt[$r];
+			$n++;
+			$sx .= '<tr>';
+			$sx .= '<td width="2%" class="text-center">';
+			$sx .= ($r + 1);
+			$sx .= '</td>';
 
-            $sx .= '<td>';
-            $sx .= $line['n_nome'];
-            $sx .= '</td>';
+			$sx .= '<td>';
+			$sx .= $line['n_nome'];
+			$sx .= '</td>';
 
-            $sx .= '<td width="10%">';
-            $sx .= $line['n_cracha'];
-            $sx .= '</td>';
+			$sx .= '<td width="10%">';
+			$sx .= $line['n_cracha'];
+			$sx .= '</td>';
 
-            $sx .= '<td width="15%" class="text-right">';
-            $sx .= stodbr($line['i_date_in']);
-            $sx .= ' ';
-            $sx .= substr($line['i_date_in'], 11, 5);
-            $sx .= '</td>';
+			$sx .= '<td width="15%" class="text-right">';
+			$sx .= stodbr($line['i_date_in']);
+			$sx .= ' ';
+			$sx .= substr($line['i_date_in'], 11, 5);
+			$sx .= '</td>';
 
-            $sx .= '</tr>';
-            $sx .= cr();
-        }
-        $sx .= '</table>';
+			$sx .= '</tr>';
+			$sx .= cr();
+		}
+		$sx .= '</table>';
 
-        $sa = '<br><table width="100%" border="1"><tr><td class="text-center"><h3>' . $n . ' Presente(s)</h3></td></tr></table>';
-        return ($sa . $sx);
-    }
+		$sa = '<br><table width="100%" border="1"><tr><td class="text-center"><h3>' . $n . ' Presente(s)</h3></td></tr></table>';
+		return ($sa . $sx);
+	}
 
-    function register($event, $name, $cracha, $email = '') {
-        $sql = "select * from events_names where n_nome = '$name' and n_cracha = '$cracha' ";
-        $rlt = $this -> db -> query($sql);
-        $rlt = $rlt -> result_array();
-        if (count($rlt) == 0) {
-            $sqli = "insert into events_names
+	function register($event, $name, $cracha, $email = '') {
+		$sql = "select * from events_names where n_nome = '$name' and n_cracha = '$cracha' ";
+		$rlt = $this -> db -> query($sql);
+		$rlt = $rlt -> result_array();
+		if (count($rlt) == 0) {
+			$sqli = "insert into events_names
                                     (n_nome, n_cracha, n_email)
                                     values
                                     ('$name','$cracha','$email')
                                 ";
-            $rlt = $this -> db -> query($sqli);
-            $rlt = $this -> db -> query($sql);
-            $rlt = $rlt -> result_array();
-        }
-        $line = $rlt[0];
-        $id_us = $line['id_n'];
+			$rlt = $this -> db -> query($sqli);
+			$rlt = $this -> db -> query($sql);
+			$rlt = $rlt -> result_array();
+		}
+		$line = $rlt[0];
+		$id_us = $line['id_n'];
 
-        $sql = "select * from events_inscritos where i_evento = $event and i_user = $id_us";
-        $rlt = $this -> db -> query($sql);
-        $rlt = $rlt -> result_array();
+		$sql = "select * from events_inscritos where i_evento = $event and i_user = $id_us";
+		$rlt = $this -> db -> query($sql);
+		$rlt = $rlt -> result_array();
 
-        if (count($rlt) == 0) {
-            $sql = "insert into events_inscritos
+		if (count($rlt) == 0) {
+			$sql = "insert into events_inscritos
                                     ( i_evento, i_user, i_status)
                                     values
                                     ( $event, $id_us, 1)
                                 ";
-            $rlt = $this -> db -> query($sql);
-            return (1);
-        } else {
-            $line = $rlt[0];
-            $sql = "update events_inscritos set i_status = 1 
+			$rlt = $this -> db -> query($sql);
+			return (1);
+		} else {
+			$line = $rlt[0];
+			$sql = "update events_inscritos set i_status = 1 
                         where id_i = " . $line['id_i'];
-            $rlt = $this -> db -> query($sql);
-        }
-    }
+			$rlt = $this -> db -> query($sql);
+			return(2);
+		}
+		return(0);
+	}
 
-    function cadastra_usuario($nome, $email, $cracha) {
-        $sql = "select * from events_names where n_email = '$email' ";
-        $rlt = $this -> db -> query($sql);
-        $rlt = $rlt -> result_array();
-        if (count($rlt) > 0) {
-            echo "Já existe";
-            exit ;
-        } else {
-            $sql = "insert into events_names 
+	function cadastra_usuario($nome, $email, $cracha) {
+		$sql = "select * from events_names where n_email = '$email' ";
+		$rlt = $this -> db -> query($sql);
+		$rlt = $rlt -> result_array();
+		if (count($rlt) > 0) {
+			echo "Já existe";
+			exit ;
+		} else {
+			$sql = "insert into events_names 
                                 (n_nome, n_cracha, n_email)
                                 value
                                 ('$nome','$cracha','$email') ";
-            $rlt = $this -> db -> query($sql);
-        }
-        return ('');
-    }
+			$rlt = $this -> db -> query($sql);
+		}
+		return ('');
+	}
 
-    function acao() {
-        /************************/
-        if ((strlen(get("action")) > 0) and (strlen(get("dd_nome") . get("dd_cracha")) > 0)) {
-            $nome = strtoupper(get("dd_nome"));
-            $email = get("dd_email");
-            $cracha = get("dd_cracha");
-            if (strlen($cracha) < 8) { $cracha = strzero($cracha, 8);
-            }
-            $this -> cadastra_usuario($nome, $email, $cracha);
-            if (strlen($cracha) > 0) {
-                $id = $cracha;
-            } else {
-                $id = $nome;
-            }
-            redirect(base_url('index.php/main/evento/checkin/' . $id));
-        }
-    }
+	function acao() {
+		/************************/
+		if ((strlen(get("action")) > 0) and (strlen(get("dd_nome") . get("dd_cracha")) > 0)) {
+			$nome = strtoupper(get("dd_nome"));
+			$email = get("dd_email");
+			$cracha = get("dd_cracha");
+			if (strlen($cracha) < 8) { $cracha = strzero($cracha, 8);
+			}
+			$this -> cadastra_usuario($nome, $email, $cracha);
+			if (strlen($cracha) > 0) {
+				$id = $cracha;
+			} else {
+				$id = $nome;
+			}
+			redirect(base_url('index.php/main/evento/checkin/' . $id));
+		}
+	}
 
-    function event_registra_checkin($id, $arg) {
-        $event = $_SESSION['event_id'];
+	function event_registra_checkin($id, $arg) {
+		$event = $_SESSION['event_id'];
 
-        if ((strlen($arg) > 0) and (strlen($id) == 0)) { $id = $arg;
-        }
+		if ((strlen($arg) > 0) and (strlen($id) == 0)) { $id = $arg;
+		}
 
-        $sql = "insert into events_login
+		$sql = "insert into events_login
                             (el_usca) value ('$id')";
-        $rlt = $this -> db -> query($sql);
+		$rlt = $this -> db -> query($sql);
 
-        $wh = '';
-        $cracha = '';
-        $name = '';
-        if ($id == sonumero($id)) {
-            $id = strzero($id, 8);
-            $wh = " p_cracha = '$id' ";
-            $cracha = $id;
-        } else {
-            $nn = troca($id, ' ', ';');
-            $nn = splitx(';', $nn);
-            for ($r = 0; $r < count($nn); $r++) {
-                if ($r > 0) { $wh .= ' AND ';
-                }
-                $wh .= "(p_nome like '%" . $nn[$r] . "%')";
-            }
-            $name = $id;
-        }
+		$wh = '';
+		$cracha = '';
+		$name = '';
+		if ($id == sonumero($id)) {
+			$id = strzero($id, 8);
+			$wh = " p_cracha = '$id' ";
+			$cracha = $id;
+		} else {
+			$nn = troca($id, ' ', ';');
+			$nn = splitx(';', $nn);
+			for ($r = 0; $r < count($nn); $r++) {
+				if ($r > 0) { $wh .= ' AND ';
+				}
+				$wh .= "(p_nome like '%" . $nn[$r] . "%')";
+			}
+			$name = $id;
+		}
 
-        $sql = "select * from person 
+		$sql = "select * from person 
                             LEFT JOIN person_contato ON ct_person = id_p AND ct_tipo = 'E'
                             where $wh
                             limit 20
                             ";
-        $rlt = $this -> db -> query($sql);
-        $rlt = $rlt -> result_array();
+		$rlt = $this -> db -> query($sql);
+		$rlt = $rlt -> result_array();
 
-        if (count($rlt) == 0) {
-            $sql = "select * from
+		if (count($rlt) == 0) {
+			$sql = "select * from
                                 (select n_nome as p_nome, n_cracha as p_cracha, n_email as ct_contato 
                                     from events_names ) as tabela 
                                     where $wh OR (p_email = '" . $nn[0] . "')
                                 limit 20
                                 ";
-            $rlt = $this -> db -> query($sql);
-            $rlt = $rlt -> result_array();
-        }
-        $sx = '';
+			$rlt = $this -> db -> query($sql);
+			$rlt = $rlt -> result_array();
+		}
+		$sx = '';
 
-        if (count($rlt) > 0) {
-            if (count($rlt) == 1) {
-                $p = array();
-                $line = $rlt[0];
-                $p['name'] = $line['p_nome'];
-                $p['cracha'] = $line['p_cracha'];
-                $p['email'] = '';
+		if (count($rlt) > 0) {
+			if (count($rlt) == 1) {
+				$p = array();
+				$line = $rlt[0];
+				$p['name'] = $line['p_nome'];
+				$p['cracha'] = $line['p_cracha'];
+				$p['email'] = '';
 
-                $this -> events -> register($event, $line['p_nome'], $line['p_cracha'], $line['ct_contato']);
+				$this -> events -> register($event, $line['p_nome'], $line['p_cracha'], $line['ct_contato']);
 
-                $sx = '
+				$sx = '
                                 <br>
                                 <div class="alert alert-success" role="alert">
                                   <strong>Sucesso!</strong> <a href="#" class="alert-link">' . $p['name'] . ' registrado com sucesso!</a>
                                 </div>
                                 ';
-            } else {
-                $sx .= '<ul>';
-                for ($r = 0; $r < count($rlt); $r++) {
-                    $line = $rlt[$r];
-                    $sx .= '<li>';
-                    $sx .= '<a href="' . base_url('index.php/main/evento/checkin/' . $line['p_cracha']) . '">';
-                    $sx .= $line['p_nome'];
-                    $sx .= ' (' . $line['p_cracha'] . ')';
-                    $sx .= '</li>';
-                }
-                $sx .= '<ul>';
-            }
-        } else {
-            $sx = '
+			} else {
+				$sx .= '<ul>';
+				for ($r = 0; $r < count($rlt); $r++) {
+					$line = $rlt[$r];
+					$sx .= '<li>';
+					$sx .= '<a href="' . base_url('index.php/main/evento/checkin/' . $line['p_cracha']) . '">';
+					$sx .= $line['p_nome'];
+					$sx .= ' (' . $line['p_cracha'] . ')';
+					$sx .= '</li>';
+				}
+				$sx .= '<ul>';
+			}
+		} else {
+			$sx = '
                         <br>
                         <div class="alert alert-danger" role="alert">
                           <strong>Erro!</strong> <a href="#" class="alert-link">Nenhuma ocorrencia para esse nome / cracha. (' . $id . ')</a>
@@ -515,34 +637,34 @@ class events extends CI_model {
                             </div>                        
                         <br>
                         ';
-        }
-        return ($sx);
-    }
+		}
+		return ($sx);
+	}
 
-    function le_event($id) {
-        $sql = "select * from events where id_e = " . round($id);
-        $rlt = $this -> db -> query($sql);
-        $rlt = $rlt -> result_array();
-        if (count($rlt) > 0) {
-            $line = $rlt[0];
-            return ($line);
-        }
-        return ( array());
-    }
+	function le_event($id) {
+		$sql = "select * from events where id_e = " . round($id);
+		$rlt = $this -> db -> query($sql);
+		$rlt = $rlt -> result_array();
+		if (count($rlt) > 0) {
+			$line = $rlt[0];
+			return ($line);
+		}
+		return ( array());
+	}
 
-    function event_checkin($ch) {
-        $sx = '
+	function event_checkin($ch) {
+		$sx = '
                 <br>
                 <div class="alert alert-danger" role="alert">
                   <strong>Erro!</strong> <a href="#" class="alert-link">Nome ou cracha não registrado no sistema.
                 </div>
                 ';
-        return ($sx);
-    }
+		return ($sx);
+	}
 
-    function event_checkin_form($ev = 0) {
-        $sx = '<form method="post">';
-        $sx .= '
+	function event_checkin_form($ev = 0) {
+		$sx = '<form method="post">';
+		$sx .= '
                   Informe o nome ou cracha
                   <div class="input-group">
                       <input id="checkin" name="checkin" type="text" class="form-control" placeholder="Informe o nome ou cracha">
@@ -554,9 +676,9 @@ class events extends CI_model {
                         jQuery("#checkin").focus();
                     </script>
                 ';
-        $sx .= '</form>';
-        return ($sx);
-    }
+		$sx .= '</form>';
+		return ($sx);
+	}
 
 }
 ?>
