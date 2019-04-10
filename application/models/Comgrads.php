@@ -5,7 +5,7 @@ class comgrads extends CI_model {
 		$form = 'Formulário';
 		$img = base_url('img/icone/about.png');
 		$tela = '
-				<div class="col-md-2"><img src="' . $img . '" class="img-responsive"></div>
+				<div class="col-md-2"><img src="' . $img . '"  style="height: 100px;"></div>
 				<div class="col-md-8">' . $form . '</div>';
 		return ($tela);
 	}
@@ -13,49 +13,57 @@ class comgrads extends CI_model {
 	function contact() {
 		$img = base_url('img/icone/contact-us.png');
 		$tela = '
-				<div class="col-md-2"><img src="' . $img . '" class="img-responsive"></div>
-				<div class="col-md-8">Sobre</div>';
+				<div class="col-md-2"><img src="' . $img . '" style="height: 100px;"></div>
+				<div class="col-md-8">comgradbib@ufrgs.br</div>';
 		return ($tela);
 	}
 
 	function disciplinas() {
 		$cp = array();
-		$cp['BIB03016'] = 'FONTES GERAIS DE INFORMAÇÃO';
-		$cp['BIB03332'] = 'FUNDAMENTOS DE ORGANIZAÇÃO DA INFORMAÇÃO';
-		$cp['BIB03084'] = 'NORMATIZAÇÃO DE DOCUMENTOS';
-		$cp['BIB03334'] = 'DOCUMENTOS DIGITAIS';
-		$cp['BIB03335'] = 'LINGUAGEM DOCUMENTÁRIA I';
-		$cp['BIB03333'] = 'ORGANIZAÇÃO, CONTROLE E AVALIAÇÃO EM AMBIENTES DE INFORMAÇÃO';
-		$cp['BIB03336'] = 'REPRESENTAÇÃO DESCRITIVA I';
-		$cp['BIB03337'] = 'GESTÃO DE AMBIENTES EM UNIDADES DE INFORMAÇÃO';
-		$cp['BIB03338'] = 'LINGUAGEM DOCUMENTÁRIA II';
-		$cp['BIB03339'] = 'REPRESENTAÇÃO DESCRITIVA II';
-		$cp['BIB03088'] = 'SERVIÇO DE REFERÊNCIA E INFORMAÇÃO';
-		$cp['BIB03340'] = 'ESTUDO DE COMUNIDADES, PÚBLICOS E USUÁRIOS';
-		$cp['BIB03085'] = 'FUNDAMENTOS DA CIÊNCIA DA INFORMAÇÃO A';
-		$cp['BIB03225'] = 'GESTÃO DO CONHECIMENTO';
-		$cp['BIB03079'] = 'INFORMACAO ESPECIALIZADA';
-		$cp['BIB03341'] = 'LINGUAGEM DOCUMENTÁRIA III';
-		$cp['BIB03343'] = 'ÉTICA EM INFORMAÇÃO';
-		$cp['BIB03344'] = 'GERENCIAMENTO DA ORGANIZAÇÃO DA INFORMAÇÃO';
-		$cp['BIB03342'] = 'MARKETING EM AMBIENTES DE INFORMAÇÃO';
-		$cp['BIB03023'] = 'PESQUISA E DESENVOLVIMENTO DE COLEÇÕES';
-		$cp['BIB03028'] = 'PLANEJAMENTO E ELABORAÇÃO DE BASES DE DADOS';
-		$cp['ESTÁGIO'] = 'CURRICULAR OBRIGATÓRIO - BIB';
-		$cp['BIB03345'] = 'PESQUISA EM CIÊNCIAS DA INFORMAÇÃO';
-		$cp['BIB03346'] = 'SEMINÁRIO DE PRÁTICA DE ESTÁGIO';
-		$cp['ELETI01'] = 'ELETIVA 1 CRÉDITOS';
-		$cp['ELETI02'] = 'ELETIVA 2 CRÉDITOS';
-		$cp['ELETI03'] = 'ELETIVA 3 CRÉDITOS';
-		$cp['ELETI04'] = 'ELETIVA 4 CRÉDITOS';
-		$cp['ELETI05'] = 'ELETIVA 5 CRÉDITOS';
-		$cp['ELETI06'] = 'ELETIVA 6 CRÉDITOS';
-		$cp['ELETI07'] = 'ELETIVA 7 CRÉDITOS';
-		$cp['ELETI08'] = 'ELETIVA 8 CRÉDITOS';
-		$cp['ELETI09'] = 'ELETIVA 9 CRÉDITOS';
-		$cp['ELETI10'] = 'ELETIVA 10 CRÉDITOS';
-		$cp['OBRIGAT'] = 'FALTA DE CRÉDITOS OBRIGATÓRIOS';
-		$cp['NAOAPLICA'] = 'NÃO APLICÁVEL';
+        $cp['BIB03016'] = 'FONTES GERAIS DE INFORMAÇÃO';
+        $cp['BIB03023'] = 'PESQUISA E DESENVOLVIMENTO DE COLEÇÕES';
+        $cp['BIB03028'] = 'PLANEJAMENTO E ELABORAÇÃO DE BASES DE DADOS';
+        $cp['BIB03079'] = 'INFORMACAO ESPECIALIZADA';
+        $cp['BIB03084'] = 'NORMATIZAÇÃO DE DOCUMENTOS';
+        $cp['BIB03085'] = 'FUNDAMENTOS DA CIÊNCIA DA INFORMAÇÃO A';
+        $cp['BIB03088'] = 'SERVIÇO DE REFERÊNCIA E INFORMAÇÃO';
+        $cp['BIB03225'] = 'GESTÃO DO CONHECIMENTO';
+        $cp['BIB03332'] = 'FUNDAMENTOS DE ORGANIZAÇÃO DA INFORMAÇÃO';
+        $cp['BIB03333'] = 'ORGANIZAÇÃO, CONTROLE E AVALIAÇÃO EM AMBIENTES DE INFORMAÇÃO';
+        $cp['BIB03334'] = 'DOCUMENTOS DIGITAIS';
+        $cp['BIB03335'] = 'LINGUAGEM DOCUMENTÁRIA I';
+        $cp['BIB03336'] = 'REPRESENTAÇÃO DESCRITIVA I';
+        $cp['BIB03337'] = 'GESTÃO DE AMBIENTES EM UNIDADES DE INFORMAÇÃO';
+        $cp['BIB03338'] = 'LINGUAGEM DOCUMENTÁRIA II';
+        $cp['BIB03339'] = 'REPRESENTAÇÃO DESCRITIVA II';
+        $cp['BIB03340'] = 'ESTUDO DE COMUNIDADES, PÚBLICOS E USUÁRIOS';
+        $cp['BIB03341'] = 'LINGUAGEM DOCUMENTÁRIA III';
+        $cp['BIB03342'] = 'MARKETING EM AMBIENTES DE INFORMAÇÃO';
+        $cp['BIB03343'] = 'ÉTICA EM INFORMAÇÃO';
+        $cp['BIB03345'] = 'PESQUISA EM CIÊNCIAS DA INFORMAÇÃO';
+        $cp['BIB03346'] = 'SEMINÁRIO DE PRÁTICA DE ESTÁGIO (Retirado do Currículo)';
+        $cp['BIB03369'] = 'SEMINÁRIO DE PRÁTICA DE ESTÁGIO I';
+        $cp['BIB03370'] = 'SEMINÁRIO DE PRÁTICA DE ESTÁGIO II';
+        $cp['BIB03361'] = 'INTRODUÇÃO À ORGANIZAÇÃO DA INFORMAÇÃO';
+        $cp['MAT02280'] = 'ESTATÍSTICA BÁSICA I';
+        $cp['ELETI01'] = 'ELETIVA 1 CRÉDITOS';
+        $cp['ELETI02'] = 'ELETIVA 2 CRÉDITOS';
+        $cp['ELETI03'] = 'ELETIVA 3 CRÉDITOS';
+        $cp['ELETI04'] = 'ELETIVA 4 CRÉDITOS';
+        $cp['ELETI05'] = 'ELETIVA 5 CRÉDITOS';
+        $cp['ELETI06'] = 'ELETIVA 6 CRÉDITOS';
+        $cp['ELETI07'] = 'ELETIVA 7 CRÉDITOS';
+        $cp['ELETI08'] = 'ELETIVA 8 CRÉDITOS';
+        $cp['ELETI09'] = 'ELETIVA 9 CRÉDITOS';
+        $cp['ELETI10'] = 'ELETIVA 10 CRÉDITOS';
+        
+        $cp['ESTÁGIO1'] = 'CURRICULAR OBRIGATÓRIO I - BIB';
+        $cp['ESTÁGIO2'] = 'CURRICULAR OBRIGATÓRIO II - BIB';
+        $cp['ESTÁGIO'] = 'CURRICULAR OBRIGATÓRIO - BIB (Retirado do Currículo)';
+        $cp['NAOAPLICA'] = 'NÃO APLICÁVEL';
+        $cp['OBRIGAT'] = 'FALTA DE CRÉDITOS OBRIGATÓRIOS';
+        $cp['BIB03344'] = 'GERENCIAMENTO DA ORGANIZAÇÃO DA INFORMAÇÃO';
+
 		
 		$cp['TCC'] = 'TRABALHO DE CONCLUSÃO DE CURSO - BIB';
 		return ($cp);
@@ -221,10 +229,6 @@ class comgrads extends CI_model {
 					$sx .= '</tr>';
 					
 					$sx .= '<tr valign="top">';
-					$sx .= '<td colspan=2><hr>';
-					$sx .= '</tr>';					
-					
-					$sx .= '<tr valign="top">';
 					$sx .= '<td>Situação</td>';
 					$st = $line['pr_status'];
 					switch ($st)
@@ -235,15 +239,12 @@ class comgrads extends CI_model {
 						case '2':
 							$st = '<span style="color: blue"><b>Deferido</b></span>';
 							break;
-						case '1':
+						case '3':
 							$st = '<span style="color: red"><b>Indeferido</b></span>';
 							break;
 						}
 					$sx .= '<td>'.$st.'</td>';
 					
-					$sx .= '<tr valign="top">';
-					$sx .= '<td colspan=2><hr>';
-					$sx .= '</tr>';
 					$sx .= '<tr valign="top">';
 					$sx .= '<td>Parecer da Comgrad</td>';
 					$sx .= '<td>'.mst($line['pr_parecer']).'</td>';
@@ -253,9 +254,6 @@ class comgrads extends CI_model {
 					$sx .= '<td>Data do parecer</td>';
 					$sx .= '<td>'.stodbr($line['pr_parecer_data']).'</td>';
 					$sx .= '</tr>';	
-					$sx .= '<tr valign="top">';
-					$sx .= '<td colspan=2><hr>';
-					$sx .= '</tr>';
 				}
 			$sx .= '</table>';
 			return($sx);
@@ -324,7 +322,6 @@ class comgrads extends CI_model {
 					$sx .= '<td>'.substr($line['pr_data'],11,5).'</td>';
 					$sx .= '<td>'.$line['p_nome'].'</td>';
 					$sx .= '</tr>';
-					echo '<hr>';
 				}
 			$sx .= '</table>';
 			return($sx);
