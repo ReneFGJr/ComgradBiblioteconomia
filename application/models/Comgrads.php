@@ -344,6 +344,36 @@ class comgrads extends CI_model {
 		return($us_email.' enviado<br>');
 	}
     
+    function rel_email()
+        {
+        $sql = "select * 
+                        from person_contato
+                        INNER JOIN person ON id_p = ct_person
+                        WHERE ct_contato like '%@%'
+                        order by p_nome
+                ";
+        $rlt = $this->db->query($sql);
+        $rlt = $rlt->result_array();
+        $tot = 0;
+        $totg = 0;
+        $totc = 0;
+        $xcd = '';
+        $sx = '';
+        $email = '';
+        for ($r=0;$r < count($rlt);$r++)
+            {
+                $line = $rlt[$r];
+                $cd = $line['p_nome'];
+                $sx .= lowercase($line['ct_contato']);
+                $sx .= ' &lt;'.$cd.'&gt;<br>';
+                $tot++;
+                $email .= lowercase($line['ct_contato']).'; ';
+            }
+            $sx .= '<hr>'.$email;
+            $sx .= '<hr>Total: '.$tot;
+        return($sx);   
+        }
+    
     function rel_bairros()
     {
         $sql = "select ed_cidade, ed_bairro, count(*) as total 

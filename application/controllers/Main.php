@@ -428,7 +428,7 @@ class Main extends CI_controller {
 
 		$cp = array();
 		array_push($cp, array('$H8', '', '', false, false));
-		array_push($cp, array('$S80', '', 'Sítulo do e-mail', true, true));
+		array_push($cp, array('$S80', '', 'Título do e-mail', true, true));
 		array_push($cp, array('$T80:6', '', 'Texto para o e-mail', true, true));
 		array_push($cp, array('$B8', '', 'Enviar e-mail >>>', false, true));
 		$form = new form;
@@ -457,6 +457,14 @@ class Main extends CI_controller {
 		redirect(base_url('index.php/main/campanha/' . $id));
 	}
 
+    function campanha_selecionar_alunos($arg='')
+        {
+        $this -> load -> model('pags');
+        $this -> cab();
+        $this->pags->alunos_select($arg); 
+        redirect(base_url('index.php/main/campanha/'.$arg));                           
+        }
+
 	function campanha($arg = '') {
 		$this -> load -> model('comgrads');
 		$this -> load -> model('pags');
@@ -471,13 +479,15 @@ class Main extends CI_controller {
                       </tr>';
 		$tela .= '<tr><td></td>
                             <td>
+                                <a class="btn btn-secondary" href="' . base_url('index.php/main/campanhas_questionario_edit/' . $arg) . '">Editar Questionário</a>
+                                |
                                 <a class="btn btn-secondary" href="' . base_url('index.php/main/campanhas_edit/' . $arg) . '">Editar Campanha</a>
                                 |
-                                <a class="btn btn-secondary" href="' . base_url('index.php/main/campanha_prepara/' . $arg) . '">Prepara Campanha</a>
-                                | 
                                 <a class="btn btn-secondary" href="' . base_url('index.php/main/campanha_email/' . $arg) . '">Envia e-mail</a>
                                 | 
-                                <a class="btn btn-secondary" href="' . base_url('index.php/main/campanha_cancela_alvo/' . $arg) . '">Excluir selecionados</a>
+                                <a class="btn btn-primary" href="' . base_url('index.php/main/campanha_selecionar_alunos/' . $arg) . '">Marcar Alunos</a>
+                                | 
+                                <a class="btn btn-warning" href="' . base_url('index.php/main/campanha_cancela_alvo/' . $arg) . '">Excluir todos</a>
                             </td>
                       </tr>';
 		$tela .= '</table>';
@@ -554,6 +564,24 @@ class Main extends CI_controller {
 			echo '=' . $chk . '<br>=' . $chk2;
 		}
 	}
+    
+    function campanhas_questionario_edit($arg1='')
+        {
+        $this -> load -> model('comgrads');
+        $this -> load -> model('pags');
+        $this -> cab();
+        $data['content'] = $this -> pags -> questionario_editar($arg1);
+        $this->load->view('content',$data);
+        $this->foot();            
+        }
+    function campanhas_questionario_editar($arg1='',$arg2='')
+        {
+        $this -> load -> model('comgrads');
+        $this -> load -> model('pags');
+        $this -> cab(0);
+        $data['content'] = $this -> pags -> questionario_editar_cp($arg2,$arg1);
+        $this->load->view('content',$data);            
+        }
 
 	function questionario($arg1 = '', $arg2 = '', $chk = '') {
 		$this -> load -> model('comgrads');
@@ -595,6 +623,10 @@ class Main extends CI_controller {
 				$data['content'] = $this -> comgrads -> rel_bairros($arg1, $arg2);
 				$data['title'] = 'lista';
 				break;
+            case '5' :
+                $data['content'] = $this -> comgrads -> rel_email($arg1, $arg2);
+                $data['title'] = 'lista';
+                break;                
 		}
 
 		$this -> load -> view('content', $data);

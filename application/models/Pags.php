@@ -698,6 +698,72 @@ class pags extends CI_model {
 		$rlt2 = $this -> db -> query($sql);
 		return (0);
 	}
+        
+    function alunos_select($arg1 = '') {
+        $sql = "select * from campanha where id_ca = ".$arg1;
+        $rlt = $this->db->query($sql);
+        $rlt = $rlt->result_array();
+        $line = $rlt[0];
+        $tipo = $line['ca_acompanhamento'];
+        
+        $sql = "";
+        $y = date("Y");
+        $s = '1';
+        $s = $y.'/'.$s;
+        if (date("m") > 6) { $s = '2'; }
+        switch ($tipo) 
+            {
+            case 10: /* 7 etapa */
+                $sql = "SELECT * FROM person_indicadores 
+                            INNER JOIN person on i_person = id_p 
+                            WHERE i_i12 = '$s' and i_i6 = 6";
+                break;                
+            case 11: /* 7 etapa */
+                $sql = "SELECT * FROM person_indicadores 
+                            INNER JOIN person on i_person = id_p 
+                            WHERE i_i12 = '$s' and i_i6 = 7";
+                break;
+            case 12: /* 8 etapa */
+                $sql = "SELECT * FROM person_indicadores 
+                            INNER JOIN person on i_person = id_p 
+                            WHERE i_i12 = '$s' and i_i6 > 7";
+                break;                
+            case 13: /* teste */
+                $sql = "SELECT * FROM person_indicadores 
+                            INNER JOIN person on i_person = id_p 
+                            WHERE p_nome = 'Comgrad de Biblioteconomia'";
+                break;                
+            default:
+                echo 'Não implementado Regra #'.$tipo;
+                exit;
+            }
+            if (strlen($sql) > 0)
+                {
+                    $rlt = $this->db->query($sql);
+                    $rlt = $rlt->result_array();
+                    for ($r=0;$r < count($rlt);$r++)
+                        {
+                            $line = $rlt[$r];
+                            $arg3 = $line['id_p'];
+                            $sql = "select * from campanha_respostas 
+                                            where cr_user = $arg3 
+                                            and cr_campanha = $arg1";
+                            $rlt2 = $this -> db -> query($sql);
+                            $rlt2 = $rlt2->result_array();
+                            if (count($rlt2) == 0)
+                                {
+                                    $sql = "insert into campanha_respostas 
+                                                (cr_user, cr_campanha)
+                                                values
+                                                ('$arg3','$arg1')";
+                                    $rlt2 = $this -> db -> query($sql);
+                                }                            
+                        }
+                }
+
+
+            return('');
+    }        
 
 	function campanha_prepara($arg1 = '', $arg2 = '') {
 		$sql = "select * from person_rod 
@@ -791,6 +857,70 @@ class pags extends CI_model {
 
 		return ($tl . $tela);
 	}
+
+    function questionario_editar_cp($id2,$id1=0)
+        {
+            $cp = array();
+            $sx = '';
+            array_push($cp,array('$H8','id_qs','',false,false));
+            array_push($cp,array('$T80:5','qs_pergunta','Pergunta',true,true));
+            if ($id1 != 0)
+                {
+                    array_push($cp,array('$HV','qs_campanha',$id1,true,true));        
+                }            
+            array_push($cp,array('$[1-99]','qs_ordem','Ordem',true,true));
+            array_push($cp,array('$T80:10','qs_query','Tipo',true,true));
+            $m = '$R Nenhuma:Nenhuma&Pouca:Pouca&Média:Média&Muita:Muita&Totalmente Motivado:Totalmente Motivado';
+            $m .= '<hr>$S100';
+            $m .= '<hr>$T80:4';
+            $form = new form;
+            $form->id = $id2;
+            $sx = $form->editar($cp,'campanha_questionario');
+            $sx .= '<tt>'.$m.'</tt>';
+            if ($form->saved > 0)
+                {
+                    $sx = '<script> wclose(); </script>';
+                }
+            return($sx);
+        }
+
+    function questionario_editar($id)
+        {
+        $sql = "select * from campanha_respostas
+                        WHERE id_cr = $id";
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+
+        if (count($rlt) > 0) {
+            $line = $rlt[0];
+            $id = $line['id_cr'];
+            $sit = $line['cr_situacao'];
+            $arg1 = $line['cr_campanha'];
+        }
+
+        $sql = "select * from campanha_questionario 
+                        WHERE qs_campanha = $id
+                        ORDER BY qs_ordem";
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+        $sx = '';
+        for ($r = 0; $r < count($rlt); $r++) {
+            $line2 = $rlt[$r];
+            $idi = $line2['id_qs'];
+            $sx .= '<a href="#" onclick="newxy(\''.base_url('index.php/main/campanhas_questionario_editar/'.$id.'/'.$idi).'\',800,600);">';
+            $sx .= '[ed]';
+            $sx .= '</a> - ';
+            
+            $sx .= $line2['qs_pergunta'];            
+            $sx .= '<br>'.'<b>' . $line['cr_p' . $r] . '</b>';
+            $sx .= '<hr>';
+        }
+        
+        
+        $sx .= '<a href="#" onclick="newxy(\''.base_url('index.php/main/campanhas_questionario_editar/'.$id.'/0').'\',800,600);">NOVO</a>';
+        return($sx);
+     
+        }
 
 	function questionario_ver($id) {
 
