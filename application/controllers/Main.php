@@ -465,6 +465,20 @@ class Main extends CI_controller {
         redirect(base_url('index.php/main/campanha/'.$arg));                           
         }
 
+
+    function campanha_xls($arg = '') {
+                header("Content-Type:   application/vnd.ms-excel; charset=utf-8");
+                header("Content-type:   application/x-msexcel; charset=utf-8");
+                header("Content-Disposition: attachment; filename=Comgrad_".date("Ymd-His").".xls"); 
+                header("Expires: 0");
+                header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+                header("Cache-Control: private",false);
+
+                $this -> load -> model('comgrads');
+                $this -> load -> model('pags');
+                echo utf8_decode($this->pags->export_answer($arg));
+
+        }
 	function campanha($arg = '') {
 		$this -> load -> model('comgrads');
 		$this -> load -> model('pags');
