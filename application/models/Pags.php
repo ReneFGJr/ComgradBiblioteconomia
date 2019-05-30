@@ -1,7 +1,7 @@
 <?php
 class pags extends CI_model {
     var $tabela = 'person';
-
+    var $file_name = '';
     function cp_campanhas($id) {
         $cp = array();
         array_push($cp, array('$H8', 'id_ca', '', false, true));
@@ -159,6 +159,7 @@ class pags extends CI_model {
     }
 
     function user_add($p_nome, $p_cracha, $p_nasc, $p_cpf, $p_rg) {
+        
         $p_nasc = substr(sonumero($p_nasc), 0, 8);
         $p_nasc = substr($p_nasc, 4, 4) . substr($p_nasc, 2, 2) . substr($p_nasc, 0, 2);
         $p_cpf = strzero($p_cpf, 11);
@@ -169,8 +170,8 @@ class pags extends CI_model {
         if (strlen($p_nome) <= 5) {
             return (0);
         }
-
         if (round($p_cpf) == 0) {
+            echo "$p_nome<br>$p_cracha<br>Nasc:$p_nasc<br>CPF:$p_cpf<BR>RG:$p_rg";
             echo 'ops CPF inválido de ' . $p_nome . ' CPF:' . $p_cpf;
             exit ;
             return (0);
@@ -199,26 +200,34 @@ class pags extends CI_model {
     function inport($file = '') {
         $sx = '<h2>Importação de dados</h2>';
         $f = load_file_local($file);
-        $f = troca($f, '<br>', chr(13));
-        $f = troca($f, '<br/>', chr(13));
-        $f = troca($f, '; ;', ';-;');
-
+        /* Formato XLS */
+        $t = '<td style="border:1px solid;" align="center"><b>&nbsp;Modalidade:&nbsp;</b></td>';
+        $f = substr($f,strpos($f,$t)+strlen($t)+1);
         $f = utf8_encode($f);
-
-        $f = troca($f, ';', '£');
+        $f= troca($f,' align="center"','');  
+        $f= troca($f,' style="border:1px;"','');
+        $f= troca($f,'&nbsp;','');
+        for ($r=0;$r < 31;$r++)
+            {
+                $f = troca($f,chr($r),'');        
+            }
+        
+        $f = trim($f);
+        
+        while(strpos($f,'  ') > 0)
+            {
+                $f = trim(troca($f,'  ',' '));        
+            }
+        $f = troca($f,'</table></body></html>','');
+        $f = troca($f,'</tr>','');
+        $f = troca($f,'</td>','£');
+        $f = troca($f,'<td>','');
+        $f = troca($f,'<tr>',';');        
+        $f = troca($f, '££', '£-£');
+        $f = troca($f, '£ £', '£-£');
         $f = troca($f, "'", "´");
-
-        $f = troca($f, '>', '£');
-
-        $f = troca($f, '\n', '£');
-        $f = troca($f, '££', '£0£');
-        $f = troca($f, '££', '£0£');
-        $f = troca($f, '££', '£0£');
-
-        $f = troca($f, chr(13), ';');
-        $f = troca($f, chr(10), '');
-
         $ln = splitx(';', $f . ';');
+        
         $sx .= '<pre>';
         for ($r = 0; $r < count($ln); $r++) {
             $lns = $ln[$r];
@@ -289,8 +298,7 @@ class pags extends CI_model {
                 }
             } else {
                 if (count($lns) > 10) {
-                    print_r($lns);
-                    echo '<hr>';
+                    $sx .= '<hr>Erro em '.$ln[$r].'<hr>';
                 }
             }
         }
@@ -344,6 +352,9 @@ class pags extends CI_model {
             case 'BIBLIOTECONOMIA' :
                 $id = 1;
                 break;
+            case 'ARQUIVOLOGIA' :
+                $id = 2;
+                break;                
             default :
                 $id = 0;
                 echo 'OPS Curso:' . $curso;
@@ -380,6 +391,9 @@ class pags extends CI_model {
                 break;
             case 'Transferência Voluntária' :
                 $id = 8;
+                break;
+            case '-':
+                $id = 9;
                 break;
             default :
                 $id = 0;
@@ -446,6 +460,7 @@ class pags extends CI_model {
         $semestre = substr($ingresso, 5, 1);
         $ingresso = substr($ingresso, 0, 4);
         if ($id_us <= 0) {
+            echo '<br>=>id_us is zero';
             return (0);
         }
         $c1 = $this -> curso_id($c1);
@@ -1238,6 +1253,35 @@ class pags extends CI_model {
 
         return ($sx);
     }
+        function form_file($title='')
+            {
+                if (strlen($title) > 0)
+                    {
+                        $sx = '<h4>'.$title.'</h4>'.cr();
+                    } else {
+                        $sx = '';
+                    }
+                $sx .= '
+                    <form action="" method="post" enctype="multipart/form-data">
+                        <!-- MAX_FILE_SIZE deve preceder o campo input -->
+                        <!-- O Nome do elemento input determina o nome da array $_FILES -->
+                        Enviar esse arquivo: <input name="userfile" type="file" />
+                        <br><br>
+                        <input type="submit" value="Enviar arquivo" class="btn btn-primary" />
+                    </form>               
+                ';                
+                if (isset($_FILES['userfile']['tmp_name']))
+                {
+                    $file_name = $_FILES['userfile']['tmp_name'];
+                    if (file_exists(($file_name)))
+                    {
+                        $this->file_name = $file_name;
+                    }
+                }
+                return($sx);
+            }
 
 }
+
+
 ?>

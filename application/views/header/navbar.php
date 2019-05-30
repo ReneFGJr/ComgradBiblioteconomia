@@ -48,6 +48,12 @@ $ac[$pag] = 'active';
                     <a class="dropdown-item" href="<?php echo base_url('index.php/main/campanhas'); ?>">Campanhas</a>
                 </div>
             </li> 
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Gerenciamento </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="<?php echo base_url('index.php/main/pag'); ?>">Importar Arquivos</a>
+                </div>
+            </li>            
             <?php } ?>
             <li class="nav-item navbar-toggler-right">
                 <?php echo $this -> socials -> menu_user(); ?>
