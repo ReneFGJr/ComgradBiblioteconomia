@@ -10,8 +10,11 @@ class pags extends CI_model {
         $sql = "select * from person_acompanhamento_tipo where pat_status = 1";
         array_push($cp, array('$Q id_pat:pat_nome:' . $sql, 'ca_acompanhamento', 'Acompanhamento', true, true));
         $sql = "select * from mensagem_own where m_ativo = 1";
-        array_push($cp, array('$Q id_m:m_descricao:' . $sql, 'ca_own', 'Responsável', true, true));
-
+        array_push($cp, array('$Q id_m:m_descricao:' . $sql, 'ca_own', 'Responsável', true, true));        
+        IF ($id == 0)
+            {
+                array_push($cp, array('$HV', 'ca_curso', CURSO, true, true));
+            }
         array_push($cp, array('$B8', '', 'Salvar >>>', false, true));
         return ($cp);
     }
@@ -54,8 +57,11 @@ class pags extends CI_model {
 
     function campanha_enviar_email($id, $titulo, $texto) {
         $data = $this -> le_campanha($id);
-        $sql = "select * from campanha_respostas
+        $sql = "select distinct ct_contato, p_nome, id_p, i_curso, pc_nome, pc_email 
+                        FROM campanha_respostas
                         INNER JOIN person ON id_p = cr_user
+                        INNER JOIN person_indicadores on id_p = i_curso
+                        INNER JOIN person_curso ON i_curso = id_pc
                         LEFT JOIN person_contato ON id_p = ct_person and ct_tipo = 'E'
                         WHERE cr_campanha = $id and cr_situacao = 0";
         $rlt = $this -> db -> query($sql);
@@ -66,6 +72,7 @@ class pags extends CI_model {
             $us_email = $line['ct_contato'];
             $nome = $line['p_nome'];
             $user = $line['id_p'];
+            $email_send = $line['pc_email'];
             $link = $this -> link_questionario($id, $user);
             $texto2 = $texto . cr() . cr() . 'Link para o questionário:' . cr() . $link;
 
@@ -73,12 +80,12 @@ class pags extends CI_model {
             if (strlen($us_email) > 0) {
                 $sx .= ' <font color="green">enviado</font>';
                 $email = new email;
-                $email -> email = 'comgradbib@ufrgs.br';
+                $email -> email = $email_send;
                 $email -> titulo = $titulo . ' - ' . $nome;
                 $email -> texto = $texto2;
                 $email -> to = $us_email;
                 $email -> method_ufrgs();
-                $email -> to = 'comgradbib@ufrgs.br';
+                $email -> to = $email_send;
                 $email -> method_ufrgs();
             } else {
                 $sx .= ' <font color="red">sem e-mail registrado</font>';
@@ -312,6 +319,7 @@ class pags extends CI_model {
                                 and i_ano = '$cred_ult_let' ";
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
+        if ($i10 = '-') { $i10 = 0; }        
 
         if (count($rlt) == 0) {
             $sql = "insert into person_indicadores
@@ -320,14 +328,14 @@ class pags extends CI_model {
                                         i_i6, i_i7, i_i8, i_i9, i_i10, 
                                         i_i11, i_i12, i_i13, i_i14, i_i15, 
                                         i_i16, i_i17, i_i18, i_i19, i_i20,
-                                        i_i21, i_i22 
+                                        i_i21, i_i22, i_curso 
                                     ) values (
                                         $id_us, '$cred_ult_let',
                                         $i1, $i2, $i3, $i4, $i5, 
                                         $i6, $i7, $i8, $i9, $i10, 
                                         $i11, '$i12', $i13, $i14, $i15, 
                                         $i16, $i17, $i18, $i19, $i20,
-                                        $i21, $i22                                         
+                                        $i21, $i22, ".CURSO."                                         
                                     )";
             $rlt = $this -> db -> query($sql);
         }
@@ -581,7 +589,7 @@ class pags extends CI_model {
         $sql = "SELECT g_ingresso, g_ingresso_sem, 
                         i_i12, 1 as total, g_person 
                     FROM `person_indicadores` INNER JOIN person_graduacao on i_person = g_person 
-                    where i_i6 = 8 
+                    where i_i6 >= 8 AND i_curso = ".CURSO."
                     group by g_ingresso, g_ingresso_sem, i_i12, g_person";
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
@@ -703,7 +711,7 @@ class pags extends CI_model {
         $sql = "select * from campanha_respostas
                     LEFT JOIN person ON id_p = cr_user 
                     where cr_campanha = $arg1 and cr_situacao <> 9
-                        ";
+                    ORDER BY p_nome";
 
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
@@ -805,6 +813,8 @@ class pags extends CI_model {
                 exit ;
         }
         if (strlen($sql) > 0) {
+            $sql .= " AND (i_curso = ".CURSO.")";
+            
             $rlt = $this -> db -> query($sql);
             $rlt = $rlt -> result_array();
             for ($r = 0; $r < count($rlt); $r++) {
@@ -1017,7 +1027,7 @@ class pags extends CI_model {
         $arg0 = '';
         $sql = "SELECT i_ano 
             FROM person_indicadores
-            where i_i6 <> '-' 
+            where i_i6 <> '-' AND i_curso = ".CURSO."
             GROUP BY i_ano
             ORDER BY i_ano desc";
         $rlt = $this -> db -> query($sql);
@@ -1185,7 +1195,7 @@ class pags extends CI_model {
         $sql = "select * from (
                         SELECT count(*) as total, i_ano 
                         FROM `person_indicadores` 
-                        WHERE i_ano <> '-'                        
+                        WHERE i_ano <> '-' AND i_curso = ".CURSO."                       
                         group by i_ano 
                         ) as tabela where total > 20
                         order by i_ano";

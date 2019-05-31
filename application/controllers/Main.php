@@ -1,4 +1,6 @@
 <?php
+DEFINE("CURSO",2);
+
 class Main extends CI_controller {
     function __construct() {
         parent::__construct();
@@ -22,6 +24,14 @@ class Main extends CI_controller {
     function login() {
         redirect(base_url('index.php/main'));
     }
+    
+    function social($path='')
+        {
+            $this->load->model('socials');
+            $this->cab();
+            $data['content'] = $this->socials->social($path);
+            $this -> load -> view("content", $data);
+        }
 
     function evento($action = '', $arg = '', $arg2 = '') {
         $this -> load -> model('events');
@@ -543,7 +553,7 @@ class Main extends CI_controller {
         $this -> cab();
 
         $form = new form;
-        $form -> tabela = 'campanha';
+        $form -> tabela = '(select * from campanha where ca_curso = '.CURSO.') as camp';
         $form -> see = true;
         $form -> row = base_url('index.php/main/campanhas');
         $form -> row_view = base_url('index.php/main/campanha');

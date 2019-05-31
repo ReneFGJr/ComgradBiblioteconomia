@@ -346,10 +346,12 @@ class comgrads extends CI_model {
     
     function rel_email()
         {
-        $sql = "select * 
+        $sql = "select p_nome, ct_contato 
                         from person_contato
                         INNER JOIN person ON id_p = ct_person
-                        WHERE ct_contato like '%@%'
+                        INNER JOIN person_indicadores ON i_person = id_p
+                        WHERE ct_contato like '%@%' and i_curso = ".CURSO."
+                        group by p_nome, ct_contato
                         order by p_nome
                 ";
         $rlt = $this->db->query($sql);
