@@ -588,9 +588,11 @@ class pags extends CI_model {
         $arg0 = '';
         $sql = "SELECT g_ingresso, g_ingresso_sem, 
                         i_i12, 1 as total, g_person 
-                    FROM `person_indicadores` INNER JOIN person_graduacao on i_person = g_person 
+                    FROM person_indicadores 
+                    INNER JOIN person_graduacao on i_person = g_person 
                     where i_i6 >= 8 AND i_curso = ".CURSO."
                     group by g_ingresso, g_ingresso_sem, i_i12, g_person";
+                    echo $sql;
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
         $rs = array();
@@ -679,6 +681,100 @@ class pags extends CI_model {
             ';
         return ($sx);
     }
+                    
+   function rel_idade_media($arg1 = '', $arg2 = '') {
+        $arg0 = '';
+        $sql = "select i_ano from person_indicadores where i_curso = ".CURSO." order by i_ano desc limit 1";
+        $rlt = $this->db->query($sql);
+        $rlt = $rlt->result_array($rlt);
+        if (count($rlt) == 0)
+            {
+                return("Sem dados para calcular");
+            }
+        $ano = $rlt[0]['i_ano'];
+        
+        $sql = "select (".date("Y")." - nascimento) as idade, count(*) as total
+                    from (
+                    SELECT substr(p_nasc,1,4) as nascimento, id_p
+                    FROM `person_indicadores` 
+                    INNER JOIN person_graduacao on i_person = g_person
+                    INNER JOIN person ON i_person = id_p
+                    where i_curso = ".CURSO." and i_ano = '$ano'
+                    group by id_p, nascimento
+                        ) as tabela 
+                        group by idade
+                        order by idade";
+
+        $rlt = $this -> db -> query($sql);
+        $rlt = $rlt -> result_array();
+
+        $data1 = '';
+        $data2 = '';
+        $t = 0;
+        $id = 0;
+        for ($r=0;$r < count($rlt);$r++)
+            {
+                $line = $rlt[$r];
+            if (strlen($data1) > 0) {
+                $data1 .= ', ';
+                $data2 .= ', ';
+            }
+            $data1 .= '"' . ($line['idade']) . '"';
+            $data2 .= '' . ($line['total']) . '';
+            $t = $t + $line['total'];
+            $id = $id + $line['idade'] * $line['total'];
+        }
+        $sx = 'Média de idade = '.number_format($id / $t,1,',','.'). ' anos';
+        $sx .= '
+            <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+            <script src="https://code.highcharts.com/highcharts.js"></script>
+            <script src="https://code.highcharts.com/modules/annotations.js"></script>            
+            <div id="container" style="height: 400px; min-width: 380px"></div>
+            <center>Contabilizado ' . $t . ' estudantes matriculados em '.$ano.'</center>
+            <style>
+            #container {
+                max-width: 800px;
+                height: 400px;
+                margin: 1em auto;
+                border: 1px solid #000000;
+            }
+            </style>
+            
+            <script>
+                Highcharts.chart(\'container\', {
+                    chart: {
+                        type: \'column\'
+                    },
+                    title: {
+                        text: \'Idade média dos estudantes' . $arg0 . '\'
+                    },
+                    xAxis: {
+                        categories: [ ' . $data1 . ' ],
+                        crosshair: true
+                    },
+                      
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: \'Estudantes\'
+                        }
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.01,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        name: \'Idade\',
+                        data: [' . $data2 . ']
+                
+                    }]
+                }); 
+            </script>
+            ';
+        return ($sx);
+    }                    
 
     function export_answer($arg1) {
         $sql = "select * from person

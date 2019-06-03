@@ -38,6 +38,7 @@ $ac[$pag] = 'active';
                     <a class="dropdown-item" href="<?php echo base_url('index.php/main/relatorio/1'); ?>">Total de estudantes</a>
                     <a class="dropdown-item" href="<?php echo base_url('index.php/main/relatorio/2'); ?>">Período dos estudantes</a>
                     <a class="dropdown-item" href="<?php echo base_url('index.php/main/relatorio/3'); ?>">Tempo de integralização</a>
+                    <a class="dropdown-item" href="<?php echo base_url('index.php/main/relatorio/6'); ?>">Idade dos estudantes (ativos)</a>                    
                     <a class="dropdown-item" href="<?php echo base_url('index.php/main/relatorio/4'); ?>">Bairros (ativos)</a>
                     <a class="dropdown-item" href="<?php echo base_url('index.php/main/relatorio/5'); ?>">Estudantes e e-mail</a>
                 </div>

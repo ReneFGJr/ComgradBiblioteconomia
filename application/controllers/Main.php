@@ -663,6 +663,10 @@ class Main extends CI_controller {
                 $data['content'] = $this -> comgrads -> rel_email($arg1, $arg2);
                 $data['title'] = 'lista';
                 break;
+            case '6' :
+                $data['content'] = $this -> pags -> rel_idade_media($arg1, $arg2);
+                $data['title'] = 'Idade Média';
+                break;                
         }
 
         $this -> load -> view('content', $data);
