@@ -1,5 +1,5 @@
 <?php
-DEFINE("CURSO",2);
+DEFINE("CURSO",1);
 
 class Main extends CI_controller {
     function __construct() {

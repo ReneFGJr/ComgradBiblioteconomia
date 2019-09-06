@@ -577,32 +577,57 @@ class events extends CI_model {
         $rlt = $this -> db -> query($sql);
 
         $wh = '';
+        $wh2 = '';
         $cracha = '';
         $name = '';
+        
+        if (substr($id,0,1) == '#')
+            {
+                $sa = '';
+                $t = troca($id,'#','');
+                $t = splitx(';',$t);
+                for ($z=0;$z < count($t);$z++)
+                    {
+                        $sa .= $this->event_registra_checkin($t[$z],$arg);
+                    }
+                return($sa);
+                exit;
+            }
+        
         if ($id == sonumero($id)) {
             $id = strzero($id, 8);
             $wh = " p_cracha = '$id' ";
             $cracha = $id;
         } else {
             $nn = troca($id, ' ', ';');
-            $nn = splitx(';', $nn);
+            $nn = splitx(';', $nn,';');
             for ($r = 0; $r < count($nn); $r++) {
-                if ($r > 0) { $wh .= ' AND ';
+                if ($r > 0) { $wh .= ' AND '; $wh2 .= ' AND ';
                 }
                 $wh .= "(p_nome like '%" . $nn[$r] . "%')";
+                $wh2 .= "(ct_contato like '%" . $nn[$r] . "%')";
             }
             $name = $id;
         }
-
-        $sql = "select * from person 
+        if (strlen($wh2) > 0)
+            {
+                $wh .=  " OR ($wh2)";
+            }
+            
+        $sql = "select p_nome, p_cracha from person 
                             LEFT JOIN person_contato ON ct_person = id_p AND ct_tipo = 'E'
-                            where $wh
+                            where ($wh) 
+                            group by p_cracha, p_nome
                             limit 20
                             ";
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
 
         if (count($rlt) == 0) {
+            if (!isset($nn[0]))
+                {
+                    redirect('https://www.ufrgs.br/comgradbib/index.php/main/evento/checkin');
+                }
             $sql = "select * from
                                 (select n_nome as p_nome, n_cracha as p_cracha, n_email as ct_contato 
                                     from events_names ) as tabela 
@@ -621,8 +646,9 @@ class events extends CI_model {
                 $p['name'] = $line['p_nome'];
                 $p['cracha'] = $line['p_cracha'];
                 $p['email'] = '';
-
-                $this -> events -> register($event, $line['p_nome'], $line['p_cracha'], $line['ct_contato']);
+                $ctt = '';
+                if (isset($line['ct_contato'])) { $ctt = $line['ct_contato']; }
+                $this -> events -> register($event, $line['p_nome'], $line['p_cracha'], $ctt);
 
                 $sx = '
                                 <br>

@@ -60,7 +60,7 @@ class pags extends CI_model {
         $sql = "select distinct ct_contato, p_nome, id_p, i_curso, pc_nome, pc_email 
                         FROM campanha_respostas
                         INNER JOIN person ON id_p = cr_user
-                        INNER JOIN person_indicadores on id_p = i_curso
+                        INNER JOIN person_indicadores on i_person = cr_user
                         INNER JOIN person_curso ON i_curso = id_pc
                         LEFT JOIN person_contato ON id_p = ct_person and ct_tipo = 'E'
                         WHERE cr_campanha = $id and cr_situacao = 0";
@@ -84,9 +84,10 @@ class pags extends CI_model {
                 $email -> titulo = $titulo . ' - ' . $nome;
                 $email -> texto = $texto2;
                 $email -> to = $us_email;
+                $email -> cc = 'renefgj@gmail.com';
                 $email -> method_ufrgs();
-                $email -> to = $email_send;
-                $email -> method_ufrgs();
+                //$email -> to = $email_send;
+                //$email -> method_ufrgs();
             } else {
                 $sx .= ' <font color="red">sem e-mail registrado</font>';
             }
@@ -180,8 +181,8 @@ class pags extends CI_model {
         if (round($p_cpf) == 0) {
             echo "$p_nome<br>$p_cracha<br>Nasc:$p_nasc<br>CPF:$p_cpf<BR>RG:$p_rg";
             echo 'ops CPF inválido de ' . $p_nome . ' CPF:' . $p_cpf;
-            exit ;
-            return (0);
+            //exit ;
+            //return (0);
         }
 
         $sql = "select * from person 
@@ -871,7 +872,7 @@ class pags extends CI_model {
         $y = date("Y");
         $s = '1';
         $s = $y . '/' . $s;
-        if (date("m") > 6) { $s = '2';
+        if (date("m") > 7) { $s = '2';
         }
         switch ($tipo) {
             case 14 :
@@ -880,8 +881,20 @@ class pags extends CI_model {
                             INNER JOIN person on i_person = id_p 
                             WHERE i_i12 <> '$s' and i_i6 >= 8";
                 break;
+            case 6 :
+                /* 2 etapa */
+                $sql = "SELECT * FROM person_indicadores 
+                            INNER JOIN person on i_person = id_p 
+                            WHERE i_i12 = '$s' and i_i6 = 2";
+                break;
+            case 7 :
+                /* 3 etapa */
+                $sql = "SELECT * FROM person_indicadores 
+                            INNER JOIN person on i_person = id_p 
+                            WHERE i_i12 = '$s' and i_i6 = 3";
+                break;                                
             case 10 :
-                /* 7 etapa */
+                /* 6 etapa */
                 $sql = "SELECT * FROM person_indicadores 
                             INNER JOIN person on i_person = id_p 
                             WHERE i_i12 = '$s' and i_i6 = 6";
@@ -927,6 +940,13 @@ class pags extends CI_model {
                                                 values
                                                 ('$arg3','$arg1')";
                     $rlt2 = $this -> db -> query($sql);
+                } else {
+                    $line = $rlt2[0];
+                    $sql = "update campanha_respostas
+                                set cr_situacao = 0
+                                where cr_situacao = 9 and id_cr = ".$line['id_cr'];
+                    $rlt3 = $this -> db -> query($sql);
+                    
                 }
             }
         }
