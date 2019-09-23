@@ -45,6 +45,11 @@ class Main extends CI_controller {
                 $data['content'] = $this -> events -> inport_event_incritos($arg, $arg2);
                 $this -> load -> view("content", $data);
                 break;
+            case 'import_cracha' :
+                $this -> cab(0);
+                $data['content'] = $this -> events -> inport_event_cracha($arg, $arg2);
+                $this -> load -> view("content", $data);
+                break;                
 
             case 'assignin' :
                 $this -> cab(0);
@@ -83,6 +88,7 @@ class Main extends CI_controller {
                     $event = $_SESSION['event_id'];
                     $this -> events -> acao($event);
                     $data['content'] = $this -> events -> event_checkin_form($event);
+                    $data['content'] .= '<a href="'.base_url('index.php/main/evento/import_cracha').'">Importar cracha</a>';
                 } else {
                     redirect('index.php/main/evento/select');
                 }

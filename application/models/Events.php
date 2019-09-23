@@ -1,5 +1,90 @@
 <?php
 class events extends CI_model {
+    function le_aluno($cracha)
+    {
+        $sqln = "select * from person 
+        left join person_contato ON ct_person = id_p and ct_tipo = 'E'
+        where p_cracha = '".trim($cracha)."'";
+        $rltx = $this->db->query($sql);
+        $rltx = $rltx->result_array(); 
+        print_r($rltx);
+        exit;  
+    }
+    function inport_event_cracha($a = '', $b = '') {
+        $d1 = get("dd1");
+        $cp = array();
+        array_push($cp, array('$Q id_e:e_name:select * from events where e_status = 1 order by e_data_i desc', '', 'Evento', true, true));
+        array_push($cp, array('$T80:10', '', 'Lista de inscritos', true, true));
+
+        $form = new form;
+        $sx = $form -> editar($cp, '');
+        if ($form -> saved > 0) {
+            $l = get("dd1");
+            $evento = get("dd0");
+            $l = troca($l, chr(13), ';');
+            $l = troca($l, chr(10), '');
+            $ln = splitx(';', $l);
+            for ($r = 0; $r < count($ln); $r++) {
+                $cracha = $ln[$r];                                                           
+                $sql = "select * from events_names where n_cracha = '$cracha' ";
+                $rlt = $this -> db -> query($sql);
+                $rlt = $rlt -> result_array();
+                if (count($rlt) == 0) {
+                    $email = '[sem email]';
+                    $nome = '[sem nome]';
+                    $sqln = "select * from person 
+                                left join person_contato ON ct_person = id_p and ct_tipo = 'E'
+                                where p_cracha = '".trim($cracha)."'";
+                    $rltx = $this->db->query($sqln);
+                    $rltx = $rltx->result_array();
+                    if (count($rltx) > 0)
+                    {
+                        $nome = $rltx[0]['p_nome'];
+                        $email = $rltx[0]['ct_contato'];
+                    } else {
+                        $sx .= "OPS - Não localizado - $cracha<br>";
+                    }
+
+                    /* Busca no cadastro geral */                        
+                    $xsql = "insert into events_names
+                                (n_nome, n_email, n_cracha)
+                                values
+                                ('$nome','$email','$cracha')";
+                    $sx .= '<br>' . $nome . ' (' . $email . ') ';
+                    $rlt = $this -> db -> query($xsql);
+                    $rlt = $this -> db -> query($sql);
+                    $rlt = $rlt -> result_array();
+                    $sx .= ' <font color=green>Inserido!</font>';
+                } else {
+                    $nome = $rlt[0]['n_nome'];
+                    $email = $rlt[0]['n_email'];
+                    $sx .= '<br>' . $nome . ' (' . $email . ') ';
+                    $sx .= ' <font color=red>Já existe!</font>';
+                }
+                echo $sql.'<br>';
+                $line = $rlt[0];
+                $idu = $line['id_n'];
+                $sx .= ' <font color=red>Já existe!</font>';
+
+                $sql = "select * from events_inscritos
+                where i_evento = $evento AND i_user = $idu ";
+                $zrlt = $this -> db -> query($sql);
+                $zrlt = $zrlt -> result_array();
+                if (count($zrlt) == 0) {
+                    $sql = "insert into events_inscritos
+                    (i_evento, i_user, i_status)
+                    values
+                    ($evento,$idu,1) ";
+                    $erlt = $this -> db -> query($sql);
+                    $sx .= ' <font color="green">Inscrito</font>';
+                } else {
+                    $sx .= ' <font color="red">Já inscrito</font>';
+                }
+
+            }
+        }
+        return ($sx);
+    }    
     function inport_event_incritos($a = '', $b = '') {
         $d1 = get("dd1");
         $cp = array();
@@ -29,9 +114,9 @@ class events extends CI_model {
                     $rlt = $rlt -> result_array();
                     if (count($rlt) == 0) {
                         $xsql = "insert into events_names
-                                                    (n_nome, n_email, n_cracha)
-                                                    values
-                                                    ('$nome','$email','$cracha')";
+                        (n_nome, n_email, n_cracha)
+                        values
+                        ('$nome','$email','$cracha')";
                         $rlt = $this -> db -> query($xsql);
                         $rlt = $this -> db -> query($sql);
                         $rlt = $rlt -> result_array();
@@ -44,14 +129,14 @@ class events extends CI_model {
                     $sx .= ' <font color=red>Já existe!</font>';
 
                     $sql = "select * from events_inscritos
-                                where i_evento = $evento AND i_user = $idu ";
+                    where i_evento = $evento AND i_user = $idu ";
                     $zrlt = $this -> db -> query($sql);
                     $zrlt = $zrlt -> result_array();
                     if (count($zrlt) == 0) {
                         $sql = "insert into events_inscritos
-                                        (i_evento, i_user, i_status)
-                                        values
-                                        ($evento,$idu,1) ";
+                        (i_evento, i_user, i_status)
+                        values
+                        ($evento,$idu,1) ";
                         $erlt = $this -> db -> query($sql);
                         $sx .= ' <font color="green">Inscrito</font>';
                     } else {
@@ -210,11 +295,11 @@ class events extends CI_model {
         $chk = checkpost_link($arg);
         if ($chk != $arg2) {
             $sx = '
-                        <br>
-                        <div class="alert alert-danger" role="alert">
-                          Erro de checksum do post
-                        </div>
-                        ';
+            <br>
+            <div class="alert alert-danger" role="alert">
+            Erro de checksum do post
+            </div>
+            ';
             $this -> cab(0);
             $data['content'] = $sx;
             $this -> load -> view('content', $data);
@@ -231,10 +316,10 @@ class events extends CI_model {
         $sx .= 'Data: ' . $data['e_data'] . '<br>';
 
         $sx .= '
-                        <div class="alert alert-success" role="alert">
-                          Documento validado com sucesso!
-                        </div>
-                ';
+        <div class="alert alert-success" role="alert">
+        Documento validado com sucesso!
+        </div>
+        ';
         $data['content'] = $sx;
         $this -> load -> view('content', $data);
         return ('');
@@ -242,9 +327,9 @@ class events extends CI_model {
 
     function le($id) {
         $sql = "select * from events_inscritos
-                            INNER JOIN events_names ON i_user = id_n 
-                            INNER JOIN events ON i_evento = id_e
-                            where id_i = '$id' ";
+        INNER JOIN events_names ON i_user = id_n 
+        INNER JOIN events ON i_evento = id_e
+        where id_i = '$id' ";
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
         if (count($rlt) > 0) {
@@ -258,7 +343,7 @@ class events extends CI_model {
 
     function le_email($email) {
         $sql = "select * from events_names
-                            where n_email = '$email' ";
+        where n_email = '$email' ";
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
         if (count($rlt) > 0) {
@@ -272,9 +357,9 @@ class events extends CI_model {
 
     function inscritos($event) {
         $sql = "select * from events_inscritos
-                            INNER JOIN events_names ON id_n = i_user 
-                            WHERE i_evento = $event
-                            ORDER BY i_date_in desc ";
+        INNER JOIN events_names ON id_n = i_user 
+        WHERE i_evento = $event
+        ORDER BY i_date_in desc ";
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
         $n = 0;
@@ -328,9 +413,9 @@ class events extends CI_model {
     function presenca($event) {
 
         $sql = "select * from events_inscritos
-                            INNER JOIN events_names ON id_n = i_user 
-                            WHERE i_evento = $event
-                            ORDER BY n_nome ";
+        INNER JOIN events_names ON id_n = i_user 
+        WHERE i_evento = $event
+        ORDER BY n_nome ";
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
         $n = 0;
@@ -382,13 +467,13 @@ class events extends CI_model {
         $sx .= '<p>Informe o número de seu cracha, nome completo ou e-mail para emissão de sua declaração ou certificado de participação.</p>' . cr();
         $sx .= '<form method="post">' . cr();
         $sx .= '
-                        <div class="input-group">
-                        <input type="text" class="form-control" name="dd1" value="' . get("dd1") . '"  placeholder="Cracha, nome ou e-mail" aria-label="Cracha, nome ou e-mail">
-                          <span class="input-group-btn">
-                            <input type="submit" class="btn btn-danger" type="button" value="Emissão">
-                          </span>
-                        </div>                
-                ' . cr();
+        <div class="input-group">
+        <input type="text" class="form-control" name="dd1" value="' . get("dd1") . '"  placeholder="Cracha, nome ou e-mail" aria-label="Cracha, nome ou e-mail">
+        <span class="input-group-btn">
+        <input type="submit" class="btn btn-danger" type="button" value="Emissão">
+        </span>
+        </div>                
+        ' . cr();
         $sx .= '';
         $sx .= '</form>' . cr();
         $sx .= '</div>' . cr();
@@ -397,11 +482,11 @@ class events extends CI_model {
         /************************************************************/
         $n = get("dd1");
         $sql = "select * from events_inscritos
-                            INNER JOIN events_names ON i_user = id_n 
-                            INNER JOIN events ON i_evento = id_e
-                            where n_nome = '$n' OR
-                                  n_cracha = '$n' OR
-                                  n_email = '$n' ";
+        INNER JOIN events_names ON i_user = id_n 
+        INNER JOIN events ON i_evento = id_e
+        where n_nome = '$n' OR
+        n_cracha = '$n' OR
+        n_email = '$n' ";
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
         $sx .= '<div class="row">' . cr();
@@ -409,11 +494,11 @@ class events extends CI_model {
         if (count($rlt) == 0) {
             if (strlen($n) > 0) {
                 $sx .= '
-                        <br>
-                        <div class="alert alert-danger" role="alert">
-                          Nenhuma declaração ou certificado disponível para "<b>' . $n . '</b>".
-                        </div>
-                        ';
+                <br>
+                <div class="alert alert-danger" role="alert">
+                Nenhuma declaração ou certificado disponível para "<b>' . $n . '</b>".
+                </div>
+                ';
             }
         } else {
             $sx .= '<br><br>';
@@ -427,19 +512,19 @@ class events extends CI_model {
             $id = $line['id_i'];
 
             $sx .= '
-                            <tr>
-                            <td valign="center" style="font-size: 150%;">
-                            ' . $line['e_name'] . '
-                            </td>
-                            <td width="20%">
-                              <span class="input-group-btn">
-                                <a href="' . base_url('index.php/main/evento/print/' . $id . '/' . checkpost_link($id)) . '" class="btn btn-danger" target="_new' . $line['id_i'] . '">
-                                    Emitir!
-                                </a>
-                              </span>
-                            </td>
-                            </tr>                         
-                        ';
+            <tr>
+            <td valign="center" style="font-size: 150%;">
+            ' . $line['e_name'] . '
+            </td>
+            <td width="20%">
+            <span class="input-group-btn">
+            <a href="' . base_url('index.php/main/evento/print/' . $id . '/' . checkpost_link($id)) . '" class="btn btn-danger" target="_new' . $line['id_i'] . '">
+            Emitir!
+            </a>
+            </span>
+            </td>
+            </tr>                         
+            ';
             $sx .= '</div>';
         }
         $sx .= '</table>' . cr();
@@ -454,9 +539,9 @@ class events extends CI_model {
 
     function lista_inscritos($event) {
         $sql = "select * from events_inscritos
-                            INNER JOIN events_names ON id_n = i_user 
-                            where i_evento = $event
-                            ORDER BY i_date_in desc ";
+        INNER JOIN events_names ON id_n = i_user 
+        where i_evento = $event
+        ORDER BY i_date_in desc ";
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
         $n = 0;
@@ -498,10 +583,10 @@ class events extends CI_model {
         $rlt = $rlt -> result_array();
         if (count($rlt) == 0) {
             $sqli = "insert into events_names
-                                    (n_nome, n_cracha, n_email)
-                                    values
-                                    ('$name','$cracha','$email')
-                                ";
+            (n_nome, n_cracha, n_email)
+            values
+            ('$name','$cracha','$email')
+            ";
             $rlt = $this -> db -> query($sqli);
             $rlt = $this -> db -> query($sql);
             $rlt = $rlt -> result_array();
@@ -515,16 +600,16 @@ class events extends CI_model {
 
         if (count($rlt) == 0) {
             $sql = "insert into events_inscritos
-                                    ( i_evento, i_user, i_status)
-                                    values
-                                    ( $event, $id_us, 1)
-                                ";
+            ( i_evento, i_user, i_status)
+            values
+            ( $event, $id_us, 1)
+            ";
             $rlt = $this -> db -> query($sql);
             return (1);
         } else {
             $line = $rlt[0];
             $sql = "update events_inscritos set i_status = 1 
-                        where id_i = " . $line['id_i'];
+            where id_i = " . $line['id_i'];
             $rlt = $this -> db -> query($sql);
             return (2);
         }
@@ -540,9 +625,9 @@ class events extends CI_model {
             exit ;
         } else {
             $sql = "insert into events_names 
-                                (n_nome, n_cracha, n_email)
-                                value
-                                ('$nome','$cracha','$email') ";
+            (n_nome, n_cracha, n_email)
+            value
+            ('$nome','$cracha','$email') ";
             $rlt = $this -> db -> query($sql);
         }
         return ('');
@@ -573,7 +658,7 @@ class events extends CI_model {
         }
 
         $sql = "insert into events_login
-                            (el_usca) value ('$id')";
+        (el_usca) value ('$id')";
         $rlt = $this -> db -> query($sql);
 
         $wh = '';
@@ -582,17 +667,17 @@ class events extends CI_model {
         $name = '';
         
         if (substr($id,0,1) == '#')
+        {
+            $sa = '';
+            $t = troca($id,'#','');
+            $t = splitx(';',$t);
+            for ($z=0;$z < count($t);$z++)
             {
-                $sa = '';
-                $t = troca($id,'#','');
-                $t = splitx(';',$t);
-                for ($z=0;$z < count($t);$z++)
-                    {
-                        $sa .= $this->event_registra_checkin($t[$z],$arg);
-                    }
-                return($sa);
-                exit;
+                $sa .= $this->event_registra_checkin($t[$z],$arg);
             }
+            return($sa);
+            exit;
+        }
         
         if ($id == sonumero($id)) {
             $id = strzero($id, 8);
@@ -603,158 +688,158 @@ class events extends CI_model {
             $nn = splitx(';', $nn,';');
             for ($r = 0; $r < count($nn); $r++) {
                 if ($r > 0) { $wh .= ' AND '; $wh2 .= ' AND ';
-                }
-                $wh .= "(p_nome like '%" . $nn[$r] . "%')";
-                $wh2 .= "(ct_contato like '%" . $nn[$r] . "%')";
             }
-            $name = $id;
+            $wh .= "(p_nome like '%" . $nn[$r] . "%')";
+            $wh2 .= "(ct_contato like '%" . $nn[$r] . "%')";
         }
-        if (strlen($wh2) > 0)
-            {
-                $wh .=  " OR ($wh2)";
-            }
-            
-        $sql = "select p_nome, p_cracha from person 
-                            LEFT JOIN person_contato ON ct_person = id_p AND ct_tipo = 'E'
-                            where ($wh) 
-                            group by p_cracha, p_nome
-                            limit 20
-                            ";
-        $rlt = $this -> db -> query($sql);
-        $rlt = $rlt -> result_array();
-
-        if (count($rlt) == 0) {
-            if (!isset($nn[0]))
-                {
-                    redirect('https://www.ufrgs.br/comgradbib/index.php/main/evento/checkin');
-                }
-            $sql = "select * from
-                                (select n_nome as p_nome, n_cracha as p_cracha, n_email as ct_contato 
-                                    from events_names ) as tabela 
-                                    where $wh OR (p_email = '" . $nn[0] . "')
-                                limit 20
-                                ";
-            $rlt = $this -> db -> query($sql);
-            $rlt = $rlt -> result_array();
-        }
-        $sx = '';
-
-        if (count($rlt) > 0) {
-            if (count($rlt) == 1) {
-                $p = array();
-                $line = $rlt[0];
-                $p['name'] = $line['p_nome'];
-                $p['cracha'] = $line['p_cracha'];
-                $p['email'] = '';
-                $ctt = '';
-                if (isset($line['ct_contato'])) { $ctt = $line['ct_contato']; }
-                $this -> events -> register($event, $line['p_nome'], $line['p_cracha'], $ctt);
-
-                $sx = '
-                                <br>
-                                <div class="alert alert-success" role="alert">
-                                  <strong>Sucesso!</strong> <a href="#" class="alert-link">' . $p['name'] . ' registrado com sucesso!</a>
-                                </div>
-                                ';
-            } else {
-                $sx .= '<ul>';
-                for ($r = 0; $r < count($rlt); $r++) {
-                    $line = $rlt[$r];
-                    $sx .= '<li>';
-                    $sx .= '<a href="' . base_url('index.php/main/evento/checkin/' . $line['p_cracha']) . '">';
-                    $sx .= $line['p_nome'];
-                    $sx .= ' (' . $line['p_cracha'] . ')';
-                    $sx .= '</li>';
-                }
-                $sx .= '<ul>';
-            }
-        } else {
-            $sx = '
-                        <br>
-                        <div class="alert alert-danger" role="alert">
-                          <strong>Erro!</strong> <a href="#" class="alert-link">Nenhuma ocorrencia para esse nome / cracha. (' . $id . ')</a>
-                        </div>
-                        
-                        <br>
-                        
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
-                              Cadastrar Visitante
-                            </button>
-                            
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                              <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                  <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLongTitle">Cadastrar Visitante</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                      <span aria-hidden="true">&times;</span>
-                                    </button>
-                                  </div>
-                                  <form method="post" action="' . base_url('index.php/main/evento/checkin/') . '">
-                                  <div class="modal-body">
-                                    
-                                        <span>Nome completo</span>
-                                        <input type="text" name="dd_nome" class="form-control" value="' . $name . '" style="text-transform: uppercase;">
-                                        <span>Cracha</span>
-                                        <input type="text" name="dd_cracha" class="form-control" value="' . $cracha . '">
-                                        <span>e-mail</span>
-                                        <input type="text" name="dd_email" class="form-control" style="text-transform: lowercase;">
-                                    
-                                  </div>
-                                  <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                    <input type="submit" name="action" class="btn btn-primary" value="salvar">                                    
-                                  </div>
-                                  </form>
-                                </div>
-                              </div>
-                            </div>                        
-                        <br>
-                        ';
-        }
-        return ($sx);
+        $name = $id;
+    }
+    if (strlen($wh2) > 0)
+    {
+        $wh .=  " OR ($wh2)";
     }
 
-    function le_event($id) {
-        $sql = "select * from events where id_e = " . round($id);
+    $sql = "select p_nome, p_cracha from person 
+    LEFT JOIN person_contato ON ct_person = id_p AND ct_tipo = 'E'
+    where ($wh) 
+    group by p_cracha, p_nome
+    limit 20
+    ";
+    $rlt = $this -> db -> query($sql);
+    $rlt = $rlt -> result_array();
+
+    if (count($rlt) == 0) {
+        if (!isset($nn[0]))
+        {
+            redirect('https://www.ufrgs.br/comgradbib/index.php/main/evento/checkin');
+        }
+        $sql = "select * from
+        (select n_nome as p_nome, n_cracha as p_cracha, n_email as ct_contato 
+        from events_names ) as tabela 
+        where $wh OR (p_email = '" . $nn[0] . "')
+        limit 20
+        ";
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
-        if (count($rlt) > 0) {
+    }
+    $sx = '';
+
+    if (count($rlt) > 0) {
+        if (count($rlt) == 1) {
+            $p = array();
             $line = $rlt[0];
-            return ($line);
+            $p['name'] = $line['p_nome'];
+            $p['cracha'] = $line['p_cracha'];
+            $p['email'] = '';
+            $ctt = '';
+            if (isset($line['ct_contato'])) { $ctt = $line['ct_contato']; }
+            $this -> events -> register($event, $line['p_nome'], $line['p_cracha'], $ctt);
+
+            $sx = '
+            <br>
+            <div class="alert alert-success" role="alert">
+            <strong>Sucesso!</strong> <a href="#" class="alert-link">' . $p['name'] . ' registrado com sucesso!</a>
+            </div>
+            ';
+        } else {
+            $sx .= '<ul>';
+            for ($r = 0; $r < count($rlt); $r++) {
+                $line = $rlt[$r];
+                $sx .= '<li>';
+                $sx .= '<a href="' . base_url('index.php/main/evento/checkin/' . $line['p_cracha']) . '">';
+                $sx .= $line['p_nome'];
+                $sx .= ' (' . $line['p_cracha'] . ')';
+                $sx .= '</li>';
+            }
+            $sx .= '<ul>';
         }
-        return ( array());
-    }
-
-    function event_checkin($ch) {
+    } else {
         $sx = '
-                <br>
-                <div class="alert alert-danger" role="alert">
-                  <strong>Erro!</strong> <a href="#" class="alert-link">Nome ou cracha não registrado no sistema.
-                </div>
-                ';
-        return ($sx);
-    }
+        <br>
+        <div class="alert alert-danger" role="alert">
+        <strong>Erro!</strong> <a href="#" class="alert-link">Nenhuma ocorrencia para esse nome / cracha. (' . $id . ')</a>
+        </div>
 
-    function event_checkin_form($ev = 0) {
-        $sx = '<form method="post">';
-        $sx .= '
-                  Informe o nome ou cracha
-                  <div class="input-group">
-                      <input id="checkin" name="checkin" type="text" class="form-control" placeholder="Informe o nome ou cracha">
-                      <span class="input-group-btn">
-                        <input type="submit" class="btn btn-primary" type="button" value="Check-in">
-                      </span>
-                    </div>
-                    <script>
-                        jQuery("#checkin").focus();
-                    </script>
-                ';
-        $sx .= '</form>';
-        return ($sx);
+        <br>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+        Cadastrar Visitante
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Cadastrar Visitante</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <form method="post" action="' . base_url('index.php/main/evento/checkin/') . '">
+        <div class="modal-body">
+
+        <span>Nome completo</span>
+        <input type="text" name="dd_nome" class="form-control" value="' . $name . '" style="text-transform: uppercase;">
+        <span>Cracha</span>
+        <input type="text" name="dd_cracha" class="form-control" value="' . $cracha . '">
+        <span>e-mail</span>
+        <input type="text" name="dd_email" class="form-control" style="text-transform: lowercase;">
+
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <input type="submit" name="action" class="btn btn-primary" value="salvar">                                    
+        </div>
+        </form>
+        </div>
+        </div>
+        </div>                        
+        <br>
+        ';
     }
+    return ($sx);
+}
+
+function le_event($id) {
+    $sql = "select * from events where id_e = " . round($id);
+    $rlt = $this -> db -> query($sql);
+    $rlt = $rlt -> result_array();
+    if (count($rlt) > 0) {
+        $line = $rlt[0];
+        return ($line);
+    }
+    return ( array());
+}
+
+function event_checkin($ch) {
+    $sx = '
+    <br>
+    <div class="alert alert-danger" role="alert">
+    <strong>Erro!</strong> <a href="#" class="alert-link">Nome ou cracha não registrado no sistema.
+    </div>
+    ';
+    return ($sx);
+}
+
+function event_checkin_form($ev = 0) {
+    $sx = '<form method="post">';
+    $sx .= '
+    Informe o nome ou cracha
+    <div class="input-group">
+    <input id="checkin" name="checkin" type="text" class="form-control" placeholder="Informe o nome ou cracha">
+    <span class="input-group-btn">
+    <input type="submit" class="btn btn-primary" type="button" value="Check-in">
+    </span>
+    </div>
+    <script>
+    jQuery("#checkin").focus();
+    </script>
+    ';
+    $sx .= '</form>';
+    return ($sx);
+}
 
 }
 ?>
