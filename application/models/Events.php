@@ -33,8 +33,8 @@ class events extends CI_model {
                     $email = '[sem email]';
                     $nome = '[sem nome]';
                     $sqln = "select * from person 
-                                left join person_contato ON ct_person = id_p and ct_tipo = 'E'
-                                where p_cracha = '".trim($cracha)."'";
+                    left join person_contato ON ct_person = id_p and ct_tipo = 'E'
+                    where p_cracha = '".trim($cracha)."'";
                     $rltx = $this->db->query($sqln);
                     $rltx = $rltx->result_array();
                     if (count($rltx) > 0)
@@ -47,9 +47,9 @@ class events extends CI_model {
 
                     /* Busca no cadastro geral */                        
                     $xsql = "insert into events_names
-                                (n_nome, n_email, n_cracha)
-                                values
-                                ('$nome','$email','$cracha')";
+                    (n_nome, n_email, n_cracha)
+                    values
+                    ('$nome','$email','$cracha')";
                     $sx .= '<br>' . $nome . ' (' . $email . ') ';
                     $rlt = $this -> db -> query($xsql);
                     $rlt = $this -> db -> query($sql);
@@ -481,55 +481,58 @@ class events extends CI_model {
 
         /************************************************************/
         $n = get("dd1");
-        $sql = "select * from events_inscritos
-        INNER JOIN events_names ON i_user = id_n 
-        INNER JOIN events ON i_evento = id_e
-        where n_nome = '$n' OR
-        n_cracha = '$n' OR
-        n_email = '$n' ";
-        $rlt = $this -> db -> query($sql);
-        $rlt = $rlt -> result_array();
-        $sx .= '<div class="row">' . cr();
-        $sx .= '<div class="col-md-12">' . cr();
-        if (count($rlt) == 0) {
-            if (strlen($n) > 0) {
-                $sx .= '
-                <br>
-                <div class="alert alert-danger" role="alert">
-                Nenhuma declaração ou certificado disponível para "<b>' . $n . '</b>".
-                </div>
-                ';
+        if (strlen($n) > 0)
+        {
+            $sql = "select * from events_inscritos
+            INNER JOIN events_names ON i_user = id_n 
+            INNER JOIN events ON i_evento = id_e
+            where n_nome = '$n' OR
+            n_cracha = '$n' OR
+            n_email = '$n' ";
+            $rlt = $this -> db -> query($sql);
+            $rlt = $rlt -> result_array();
+            $sx .= '<div class="row">' . cr();
+            $sx .= '<div class="col-md-12">' . cr();
+            if (count($rlt) == 0) {
+                if (strlen($n) > 0) {
+                    $sx .= '
+                    <br>
+                    <div class="alert alert-danger" role="alert">
+                    Nenhuma declaração ou certificado disponível para "<b>' . $n . '</b>".
+                    </div>
+                    ';
+                }
+            } else {
+                $sx .= '<br><br>';
+                $sx .= '<h2><b>' . $rlt[0]['n_nome'] . ' (' . $rlt[0]['n_cracha'] . ')</b></h2>';
+                $sx .= 'Certificados / declarações disponíveis:';
             }
-        } else {
-            $sx .= '<br><br>';
-            $sx .= '<h2><b>' . $rlt[0]['n_nome'] . ' (' . $rlt[0]['n_cracha'] . ')</b></h2>';
-            $sx .= 'Certificados / declarações disponíveis:';
-        }
 
-        $sx .= '<table class="table" width="100%">' . cr();
-        for ($r = 0; $r < count($rlt); $r++) {
-            $line = $rlt[$r];
-            $id = $line['id_i'];
+            $sx .= '<table class="table" width="100%">' . cr();
+            for ($r = 0; $r < count($rlt); $r++) {
+                $line = $rlt[$r];
+                $id = $line['id_i'];
 
-            $sx .= '
-            <tr>
-            <td valign="center" style="font-size: 150%;">
-            ' . $line['e_name'] . '
-            </td>
-            <td width="20%">
-            <span class="input-group-btn">
-            <a href="' . base_url('index.php/main/evento/print/' . $id . '/' . checkpost_link($id)) . '" class="btn btn-danger" target="_new' . $line['id_i'] . '">
-            Emitir!
-            </a>
-            </span>
-            </td>
-            </tr>                         
-            ';
-            $sx .= '</div>';
+                $sx .= '
+                <tr>
+                <td valign="center" style="font-size: 150%;">
+                ' . $line['e_name'] . '
+                </td>
+                <td width="20%">
+                <span class="input-group-btn">
+                <a href="' . base_url('index.php/main/evento/print/' . $id . '/' . checkpost_link($id)) . '" class="btn btn-danger" target="_new' . $line['id_i'] . '">
+                Emitir!
+                </a>
+                </span>
+                </td>
+                </tr>                         
+                ';
+                $sx .= '</div>';
+            }
+            $sx .= '</table>' . cr();
+            $sx .= '</div>' . cr();
+            $sx .= '</div>' . cr();
         }
-        $sx .= '</table>' . cr();
-        $sx .= '</div>' . cr();
-        $sx .= '</div>' . cr();
         return ($sx);
     }
 
