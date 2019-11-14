@@ -505,6 +505,7 @@ class events extends CI_model {
             } else {
                 $sx .= '<br><br>';
                 $sx .= '<h2><b>' . $rlt[0]['n_nome'] . ' (' . $rlt[0]['n_cracha'] . ')</b></h2>';
+                $sx .= '<span style="font-size: 75%">&lt;'.$rlt[0]['n_email'].'&gt;</span><hr>';
                 $sx .= 'Certificados / declarações disponíveis:';
             }
 
