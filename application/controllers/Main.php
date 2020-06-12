@@ -15,7 +15,6 @@ class Main extends CI_controller {
         $this -> load -> helper('email');
         $this -> load -> helper('url');
         $this -> load -> library('session');
-        $this -> load -> library('tcpdf');
         date_default_timezone_set('America/Sao_Paulo');
         /* Security */
         //		$this -> security();
@@ -273,8 +272,15 @@ class Main extends CI_controller {
     }
 
     public function index() {
+        $this->load->model('comgrads');
         $this -> cab();
-        $this -> load -> view('welcome');
+        
+        $sx = $this->comgrads->painel("xxxxxxxxx");
+        $data['content'] = $sx;
+        $data['fluid'] = 'true';
+        $this->load->view('content',$data);
+
+        //$this -> load -> view('welcome');
     }
 
     public function bolsas() {
@@ -377,6 +383,12 @@ class Main extends CI_controller {
         if (isset($_FILES['userfile']['tmp_name']))
             {
                 $file = $_FILES['userfile']['tmp_name'];
+            }
+        echo $file;
+        if (file_exists($file))
+            {
+            $data['content'] = $this -> pags -> inport($file);    
+            $this -> load -> view('content', $data);
             }
         if (file_exists($file)) {
             $data['content'] = $this -> pags -> inport($file);

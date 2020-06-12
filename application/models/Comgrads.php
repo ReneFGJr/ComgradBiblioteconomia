@@ -10,6 +10,58 @@ class comgrads extends CI_model {
 		return ($tela);
 	}
 
+	function painel()
+		{
+			$sx = '<div class="row" style="background-color: #F0F0F0; padding: 30px 10px;">';
+			$sx .= '<div class="col-md-12">';
+			$sx .= '<h3>Painel Biblioteconomia UFRGS</h3>';
+			$sx .= '</div>';
+
+			$sx .= '<div class="col-md-2">';
+			$sx .= $this->painel_grid('Duração do curso','4 anos','1');
+			$sx .= '</div>';
+
+			$sx .= '<div class="col-md-2">';
+			$sx .= $this->painel_grid('Período do curso','Diurno/Manhã','1');
+			$sx .= '</div>';
+
+			$sx .= '<div class="col-md-2">';
+			$sx .= $this->painel_grid('Total de estudantes','322');
+			$sx .= '</div>';
+
+			$sx .= '<div class="col-md-2">';
+			$sx .= $this->painel_grid('Idade média dos estudantes','29,4 anos','2');
+			$sx .= '</div>';
+
+
+			$sx .= '<div class="col-md-2">';
+			$sx .= $this->painel_grid('Tempo de Integralização do curso','4,5 anos','1');
+			$sx .= '</div>';
+
+			$sx .= '</div>';
+			return($sx);
+		}
+	function painel_grid($txt,$ind,$t=1)
+		{
+			switch($t)
+				{
+					case '2':
+					$cor = '#A00000';
+					break;
+
+					default:
+					$cor = '#00A000';
+				}
+			
+			$sx = '';
+			$sx .= '<div style="background-color: #fff; border-radius: 4px; border-left: 4px '.$cor.' solid; padding: 5px 5px 5px 10px;">';
+			$sx .= '<span style="color: '.$cor.'">'.$txt.'</span>';
+			$sx .= '<br>';
+			$sx .= '<h2>'.$ind.'</h2>';
+			$sx .= '</div>';
+			return($sx);
+		}
+
 	function contact() {
 		$img = base_url('img/icone/contact-us.png');
 		$tela = '

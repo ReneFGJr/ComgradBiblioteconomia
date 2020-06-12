@@ -212,35 +212,25 @@ class pags extends CI_model {
         $t = '<td style="border:1px solid;" align="center"><b>&nbsp;Modalidade:&nbsp;</b></td>';
         $f = substr($f,strpos($f,$t)+strlen($t)+1);
         $f = utf8_encode($f);
-        $f= troca($f,' align="center"','');  
-        $f= troca($f,' style="border:1px;"','');
-        $f= troca($f,'&nbsp;','');
-        for ($r=0;$r < 31;$r++)
-            {
-                $f = troca($f,chr($r),'');        
-            }
-        
-        $f = trim($f);
-        
+     
+        $f = trim($f);        
         while(strpos($f,'  ') > 0)
             {
                 $f = trim(troca($f,'  ',' '));        
             }
-        $f = troca($f,'</table></body></html>','');
-        $f = troca($f,'</tr>','');
-        $f = troca($f,'</td>','£');
-        $f = troca($f,'<td>','');
-        $f = troca($f,'<tr>',';');        
-        $f = troca($f, '££', '£-£');
-        $f = troca($f, '£ £', '£-£');
-        $f = troca($f, "'", "´");
+        $f = troca($f,';','£');
+        $f = troca($f,chr(13),';');
+        $f = troca($f,chr(10),';');
         $ln = splitx(';', $f . ';');
+
         
         $sx .= '<pre>';
         for ($r = 0; $r < count($ln); $r++) {
             $lns = $ln[$r];
             $lns = troca($lns, '£', ';');
+            $lns = troca($lns, ';;', ';0;');
             $lns = troca($lns, ',', '.');
+            $lns = troca($lns, '\n', '');
             $lns = splitx(';', $lns . ';');
 
             if (count($lns) > 30) {
@@ -276,6 +266,7 @@ class pags extends CI_model {
                 $cred_matr = $lns[28];
                 $cred_inte = $lns[29];
                 $cred_ff = $lns[30];
+
                 if (isset($lns[31])) {
                     $cred_mod = $lns[31];
                 } else {
@@ -407,7 +398,7 @@ class pags extends CI_model {
             default :
                 $id = 0;
                 echo 'OPS - Entrada: ' . $tp;
-                exit ;
+                //exit ;
         }
         return ($id);
     }
@@ -474,11 +465,14 @@ class pags extends CI_model {
         }
         $c1 = $this -> curso_id($c1);
         $c2 = $this -> curso_id($c2);
+        echo '===>'.$afastado;
         $afastado = $this -> sim_nao($afastado);
         if ($afastado == -1) {
+            echo "=afastado=";
             return (-1);
         }
         $g_ingresso_modo = $this -> ingresso_tipo($g_ingresso_modo);
+        echo '<br>'.$id_us.'=>'.$g_ingresso_modo;
 
         $sql = "select * from person_graduacao
                         where g_person = $id_us
@@ -881,6 +875,12 @@ class pags extends CI_model {
                             INNER JOIN person on i_person = id_p 
                             WHERE i_i12 <> '$s' and i_i6 >= 8";
                 break;
+            case 5 :
+                /* 2 etapa */
+                $sql = "SELECT * FROM person_indicadores 
+                            INNER JOIN person on i_person = id_p 
+                            WHERE i_i12 = '$s' and i_i6 = 1";
+                break;                
             case 6 :
                 /* 2 etapa */
                 $sql = "SELECT * FROM person_indicadores 
@@ -892,7 +892,19 @@ class pags extends CI_model {
                 $sql = "SELECT * FROM person_indicadores 
                             INNER JOIN person on i_person = id_p 
                             WHERE i_i12 = '$s' and i_i6 = 3";
+                break; 
+            case 8 :
+                /* 6 etapa */
+                $sql = "SELECT * FROM person_indicadores 
+                            INNER JOIN person on i_person = id_p 
+                            WHERE i_i12 = '$s' and i_i6 = 4";
                 break;                                
+            case 9 :
+                /* 6 etapa */
+                $sql = "SELECT * FROM person_indicadores 
+                            INNER JOIN person on i_person = id_p 
+                            WHERE i_i12 = '$s' and i_i6 = 5";
+                break;                                               
             case 10 :
                 /* 6 etapa */
                 $sql = "SELECT * FROM person_indicadores 

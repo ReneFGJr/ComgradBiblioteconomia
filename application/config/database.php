@@ -75,9 +75,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => 'mysql',
 	'username' => 'root',
-	'password' => 'root',
+	'password' => '448545ct',
 	'database' => 'comgradbib',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
