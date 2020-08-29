@@ -1,5 +1,5 @@
 <?php
-DEFINE("CURSO",1);
+DEFINE("CURSO",2);
 
 class Main extends CI_controller {
     function __construct() {
@@ -335,7 +335,7 @@ class Main extends CI_controller {
 
         $data = $this -> pags -> le($id);
         $total_mensagens = $this -> mensagens -> mensagens_total($id);
-
+        
         $data['title'] = $data['p_nome'];
         $data['content'] = $this -> load -> view('person/show', $data, true);
         $this -> load -> view('content', $data);
@@ -378,13 +378,11 @@ class Main extends CI_controller {
         $tela = '';
         
         $data['title'] = 'Comgrad/PAG';
-        $file = '_documentation/estudantes.txt';
-
+        $file = 'xx';
         if (isset($_FILES['userfile']['tmp_name']))
             {
                 $file = $_FILES['userfile']['tmp_name'];
             }
-        echo $file;
         if (file_exists($file))
             {
             $data['content'] = $this -> pags -> inport($file);    
@@ -571,7 +569,7 @@ class Main extends CI_controller {
         $this -> cab();
 
         $form = new form;
-        $form -> tabela = '(select * from campanha where ca_curso = '.CURSO.') as camp';
+        $form -> tabela = '(select * from campanha inner join person_curso ON ca_curso = id_pc) as camp';
         $form -> see = true;
         $form -> row = base_url('index.php/main/campanhas');
         $form -> row_view = base_url('index.php/main/campanha');
