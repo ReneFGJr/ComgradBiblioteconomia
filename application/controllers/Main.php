@@ -15,6 +15,7 @@ class Main extends CI_controller {
         $this -> load -> helper('email');
         $this -> load -> helper('url');
         $this -> load -> library('session');
+        $this -> load -> library('tcpdf');
         date_default_timezone_set('America/Sao_Paulo');
         /* Security */
         //		$this -> security();

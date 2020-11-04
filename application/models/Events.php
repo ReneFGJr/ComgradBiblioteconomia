@@ -90,6 +90,8 @@ class events extends CI_model {
         $cp = array();
         array_push($cp, array('$Q id_e:e_name:select * from events where e_status = 1 order by e_data_i desc', '', 'Evento', true, true));
         array_push($cp, array('$T80:10', '', 'Lista de inscritos', true, true));
+        $info = 'Ex:<br>Nome;email';
+        array_push($cp, array('$M', '', $info, false, false));
 
         $form = new form;
         $sx = $form -> editar($cp, '');
@@ -464,11 +466,11 @@ class events extends CI_model {
         $sx .= '<div class="row">' . cr();
         $sx .= '<div class="col-md-12">' . cr();
         $sx .= '<h2>Emissão de declarações/certificados</h2>' . cr();
-        $sx .= '<p>Informe o número de seu cracha, nome completo ou e-mail para emissão de sua declaração ou certificado de participação.</p>' . cr();
+        $sx .= '<p>Informe o número de nome completo, e-mail ou cracha da UFRGS para emissão de sua declaração ou certificado de participação.</p>' . cr();
         $sx .= '<form method="post">' . cr();
         $sx .= '
         <div class="input-group">
-        <input type="text" class="form-control" name="dd1" value="' . get("dd1") . '"  placeholder="Cracha, nome ou e-mail" aria-label="Cracha, nome ou e-mail">
+        <input type="text" class="form-control" name="dd1" value="' . get("dd1") . '"  placeholder="nome, e-mail ou cracha da UFRGS" aria-label="nome ou e-mail ou cracha">
         <span class="input-group-btn">
         <input type="submit" class="btn btn-danger" type="button" value="Emissão">
         </span>
@@ -488,7 +490,8 @@ class events extends CI_model {
             INNER JOIN events ON i_evento = id_e
             where n_nome = '$n' OR
             n_cracha = '$n' OR
-            n_email = '$n' ";
+            n_email = '$n' 
+            order by id_e desc";
             $rlt = $this -> db -> query($sql);
             $rlt = $rlt -> result_array();
             $sx .= '<div class="row">' . cr();
