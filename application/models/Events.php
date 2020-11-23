@@ -6,7 +6,7 @@ class events extends CI_model {
     function header($data)
     {
         $sx = '';
-        $icone = base_url('img/g-ev3nt').'/favicon.png';
+        $icone = base_url('img/gev3nt').'/favicon.png';
         $sx .= '<head>'.cr();
         $sx .= '<title>'.msg("G-Ev3nto").'</title>';
         $sx .= '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">'.cr();
@@ -57,27 +57,42 @@ class events extends CI_model {
         $sx .= '<div class="container" style="margin: 20px 10px;">';
         if (isset($data['reverse']))
         {
-            $sx .= '<img src="'.base_url('img/g-ev3nt/g-ev3nto-logo-reverse.png').'" class="img-fluid rounded mx-auto d-block" alt="Logotipo do Site">';
+            $sx .= '<img src="'.base_url('img/gev3nt/g-ev3nto-logo-reverse.png').'" class="img-fluid rounded mx-auto d-block" alt="Logotipo do Site">';
         } else {
-            $sx .= '<img src="'.base_url('img/g-ev3nt/g-ev3nto-logo.png').'" class="img-fluid rounded mx-auto d-block" alt="Logotipo do Site">';
+            $sx .= '<img src="'.base_url('img/gev3nt/g-ev3nto-logo.png').'" class="img-fluid rounded mx-auto d-block" alt="Logotipo do Site">';
         }        
         $sx .= '</div>';
         return($sx);
     }
     function navbar($data)
     {
+        $this -> load -> helper('socials');
+        $socials = new socials;
+
         $sx = '
         <!----- NavBar ---->
         <nav class="navbar navbar-expand-lg bg-success navbar-dark">
-        <a class="navbar-brand" href="#"><img src="'.base_url('img/g-ev3nt/favicon.png').'" width="30" height="30" class="d-inline-block align-top" alt="">Ev3ntos</a><button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <a class="navbar-brand" href="#"><img src="'.base_url('img/gev3nt/favicon.png').'" width="30" height="30" class="d-inline-block align-top" alt="">Ev3ntos</a><button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <!----- NavBar Menus ---->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active">
                     <a class="nav-link" href="'.base_url(PATH).'">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="'.base_url(PATH.'social/login').'">Login</a>
+            ';
+        if (perfil("#ADMIN"))
+            {
+                $sx .= '
+                <li class="nav-item active">
+                    <a class="nav-link" href="'.base_url(PATH).'admin">Admin <span class="sr-only">(current)</span></a>
+                </li>                
+                ';
+            }
+        $sx .= '
+            </ul>
+            <ul class="navbar-nav ml-auto">                
+                <li class="nav-item navbar-toggler-right">
+                '.$socials -> menu_user().'
                 </li>
             </ul>
         </div>        
@@ -104,9 +119,10 @@ class events extends CI_model {
     
     function index($action = '', $arg = '', $arg2 = '')
     {
-        $data = array('reverse'=>true);
+        $data = array();
         switch($action) {
             case 'social':                
+                $data = array('reverse'=>true);
                 $this -> load -> helper('socials');
                 $socials = new socials;
                 $data['content'] = $this->cab($data);
@@ -115,16 +131,24 @@ class events extends CI_model {
                 $data['content'] = '';
             break;
             case 'admin':
-                $data['content'] = $this->events->row();
+                $data['content'] = $this->cab($data);
+                $data['content'] .= $this->events->row();
+            break;
+            case 'send_mail':
+                $data['content'] = $this->cab();
+                $data['content'] .= $this->send_mail($arg,$arg2);
             break;
             case 'show':
-                $data['content'] = $this->show($arg);
+                $data['content'] = $this->cab();
+                $data['content'] .= $this->show($arg);
             break;
             case 'edit':
-                $data['content'] = $this->edit($arg);
+                $data['content'] = $this->cab();
+                $data['content'] .= $this->edit($arg);
             break;            
             case 'import' :
-                $data['content'] = $this -> events -> inport_event_incritos($arg, $arg2);
+                $data['content'] = $this->cab();
+                $data['content'] .= $this -> events -> inport_event_incritos($arg, $arg2);
             break;
             case 'import_cracha' :
                 $data['content'] = $this -> events -> inport_event_cracha($arg, $arg2);
@@ -186,148 +210,9 @@ class events extends CI_model {
             break;
             
             case 'print' :
-                $mes = array('', 'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro');
-                $chk = checkpost_link($arg);
-                if ($chk != $arg2) {
-                    $sx = '
-                    <br>
-                    <div class="alert alert-danger" role="alert">
-                    Erro de checksum do post
-                    </div>
-                    ';
-                    $this -> cab(0);
-                    $data['content'] = $sx;
-                    $this -> load -> view('content', $data);
-                    return ('');
-                }
-                
-                $line = $this -> events -> le($arg);
-                if (round($line['i_certificado']) == 0) {
-                    $sql = "update events_inscritos 
-                    set i_certificado = '" . date("Y-m-d H:i_s") . "'
-                    WHERE id_i = " . $line['id_i'];
-                    $this -> db -> query($sql);
-                }
-                $nr = $line['id_i'];
-                $nome = trim($line['n_nome']);
-                $cidade = trim($line['e_cidade']);
-                $evento = trim($line['e_name']);
-                $data = sonumero($line['e_data']);
-                $img_file = $line['e_background'];
-                
-                $data = substr($data, 6, 2) . ' de ' . $mes[round(substr($data, 4, 2))] . ' de ' . substr($data, 0, 4) . '.';
-                $ass_nome = trim($line['e_ass_none_1']);
-                $ass_cargo = trim($line['e_ass_cargo_1']);
-                
-                // create new PDF document
-                $pdf = new tcpdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-                
-                // set document information
-                $pdf -> SetCreator(PDF_CREATOR);
-                $pdf -> SetAuthor($evento);
-                $pdf -> SetTitle('Declaração - ' . $evento);
-                $pdf -> SetSubject($evento);
-                $pdf -> SetKeywords($evento);
-                
-                // set header and footer fonts
-                $pdf -> setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-                
-                // set default monospaced font
-                $pdf -> SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-                
-                // set margins
-                $pdf -> SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-                $pdf -> SetHeaderMargin(0);
-                $pdf -> SetFooterMargin(0);
-                
-                // remove default footer
-                $pdf -> setPrintFooter(false);
-                
-                // set auto page breaks
-                $pdf -> SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-                
-                // set image scale factor
-                $pdf -> setImageScale(PDF_IMAGE_SCALE_RATIO);
-                
-                // set font
-                $pdf -> SetFont('times', '', 48);
-                
-                // add a page
-                $pdf -> AddPage();
-                
-                // -- set new background ---
-                
-                // get the current page break margin
-                $bMargin = $pdf -> getBreakMargin();
-                // get current auto-page-break mode
-                $auto_page_break = $pdf -> getAutoPageBreak();
-                // disable auto-page-break
-                $pdf -> SetAutoPageBreak(false, 0);
-                // set bacground image
-                
-                $pdf -> Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
-                // restore auto-page-break status
-                
-                $pdf -> SetAutoPageBreak($auto_page_break, $bMargin);
-                // set the starting point for the page content
-                $pdf -> setPageMark();
-                
-                // Print a text
-                $pdf -> setfont("helvetica");
-                $html = '<span style="font-family: tahoma, arial; color: #333333;text-align:left;font-weight:bold;font-size:30pt;">DECLARAÇÃO</span>';
-                $pdf -> writeHTML($html, true, false, true, false, '');
-                
-                $txt1 = $line['e_texto'];
-                $txt1 = troca($txt1, '$nome', $nome);
-                
-                $txt2 = '<br><br>' . $cidade . ', ' . $data;
-                
-                $txt3 = '<br><br><br><br><br><br><br><br>';
-                $txt3 .= '<b>' . $ass_nome . '</b>';
-                $txt4 = '<br>' . $ass_cargo;
-                
-                $html = '
-                <table cellspacing="0" cellpadding="0" border="0" width="445"  style="font-family: tahoma, arial; color: #333333;text-align:left; font-size:15pt; line-height: 190%;">
-                <tr>
-                <td rowspan="1" width="100%">' . $txt1 . '</td>
-                </tr>
-                <tr>
-                <td rowspan="1" width="100%" align="right">' . $txt2 . '</td>
-                </tr>
-                <tr style="font-family: tahoma, arial; color: #333333;text-align:left; font-size:15pt; line-height: 100%;">
-                <td rowspan="1" width="100%" align="center">' . $txt3 . '</td>
-                </tr>                
-                <tr style="font-family: tahoma, arial; color: #333333;text-align:left; font-size:9pt; line-height: 120%;">
-                <td rowspan="1" width="100%" align="center">
-                ' . $txt4 . '</td>
-                </tr>                
-                </table>
-                ';
-                
-                $img_file = $line['e_ass_img'];
-                $pdf -> Image($img_file, 40, 175, 80, 30, '', '', '', false, 300, '', false, false, 0);
-                $pdf -> writeHTML($html, true, false, true, false, '');
-                
-                // QRCODE,Q : QR-CODE Better error correction
-                // set style for barcode
-                $style = array('border' => 2, 'vpadding' => 'auto', 'hpadding' => 'auto', 'fgcolor' => array(0, 0, 0), 'bgcolor' => false, //array(255,255,255)
-                'module_width' => 1, // width of a single module in points
-                'module_height' => 1 // height of a single module in points
-            );
-            $pdf -> write2DBarcode('www.ufrgs.br/comgradbib/index.php/main/evento/valida/' . $nr . '/' . checkpost_link($nr), 'QRCODE,Q', 110, 241, 30, 30, $style, 'N');
-            
-            $pdf -> SetFont('helvetica', '', 8, '', false);
-            $pdf -> Text(110, 236, 'validador do certificado');
-            
-            // ---------------------------------------------------------
-            
-            //Close and output PDF document
-            $pdf -> Output('UFRGS-Certificado-' . $nome . '.pdf', 'I');
-            
-            //============================================================+
-            // END OF FILE
-            //============================================================+
-        break;
+                $this->certificado_pdf($arg,$arg2);
+                exit;
+            break;
         
         default :
         //$data['content'] = $this -> events -> certificados();
@@ -335,7 +220,155 @@ class events extends CI_model {
     }
     $this -> cab(0);
     $this -> load -> view('content', $data);
+}
+
+function certificado_pdf($arg,$arg2)
+{
+    $mes = array('', 'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro');
+    $chk = checkpost_link($arg);
+    if ($chk != $arg2) 
+    {
+        $sx = '
+        <br>
+        <div class="alert alert-danger" role="alert">
+        Erro de checksum do post
+        </div>
+        ';
+        $data['content'] =$this -> cab(0);
+        $data['content'] .= $sx;
+        $this -> load -> view('content', $data);
+        return ('');
+    }
     
+    $line = $this -> events -> le($arg);
+    if (round($line['i_certificado']) == 0) {
+        $sql = "update events_inscritos 
+        set i_certificado = '" . date("Y-m-d H:i_s") . "'
+        WHERE id_i = " . $line['id_i'];
+        $this -> db -> query($sql);
+    }
+    $nr = $line['id_i'];
+    $nome = trim($line['n_nome']);
+    $cidade = trim($line['e_cidade']);
+    $evento = trim($line['e_name']);
+    $data = sonumero($line['e_data']);
+    $img_file = $line['e_background'];
+    
+    $data = substr($data, 6, 2) . ' de ' . $mes[round(substr($data, 4, 2))] . ' de ' . substr($data, 0, 4) . '.';
+    $ass_nome = trim($line['e_ass_none_1']);
+    $ass_cargo = trim($line['e_ass_cargo_1']);
+    
+    // create new PDF document
+    $pdf = new tcpdf(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+    
+    // set document information
+    $pdf -> SetCreator(PDF_CREATOR);
+    $pdf -> SetAuthor($evento);
+    $pdf -> SetTitle('Declaração - ' . $evento);
+    $pdf -> SetSubject($evento);
+    $pdf -> SetKeywords($evento);
+    
+    // set header and footer fonts
+    $pdf -> setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+    
+    // set default monospaced font
+    $pdf -> SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+    
+    // set margins
+    $pdf -> SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+    $pdf -> SetHeaderMargin(0);
+    $pdf -> SetFooterMargin(0);
+    
+    // remove default footer
+    $pdf -> setPrintFooter(false);
+    
+    // set auto page breaks
+    $pdf -> SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+    
+    // set image scale factor
+    $pdf -> setImageScale(PDF_IMAGE_SCALE_RATIO);
+    
+    // set font
+    $pdf -> SetFont('times', '', 48);
+    
+    // add a page
+    $pdf -> AddPage();
+    
+    // -- set new background ---
+    
+    // get the current page break margin
+    $bMargin = $pdf -> getBreakMargin();
+    // get current auto-page-break mode
+    $auto_page_break = $pdf -> getAutoPageBreak();
+    // disable auto-page-break
+    $pdf -> SetAutoPageBreak(false, 0);
+    // set bacground image
+    if (strlen($img_file) > 0)
+    {
+    $pdf -> Image($img_file, 0, 0, 210, 297, '', '', '', false, 300, '', false, false, 0);
+    }
+    // restore auto-page-break status
+    
+    $pdf -> SetAutoPageBreak($auto_page_break, $bMargin);
+    // set the starting point for the page content
+    $pdf -> setPageMark();
+    
+    // Print a text
+    $pdf -> setfont("helvetica");
+    $html = '<span style="font-family: tahoma, arial; color: #333333;text-align:left; font-weight:bold;font-size:30pt;">DECLARAÇÃO</span>';
+    $pdf -> writeHTML($html, true, false, true, false, '');
+    
+    $txt1 = $line['e_texto'];
+    $txt1 = troca($txt1, '$nome', $nome);
+    
+    $txt2 = '<br><br>' . $cidade . ', ' . $data;
+    
+    $txt3 = '<br><br><br><br><br><br><br><br>';
+    $txt3 .= '<b>' . $ass_nome . '</b>';
+    $txt4 = '<br>' . $ass_cargo;
+    
+    $html = '
+    <table cellspacing="0" cellpadding="0" border="0" width="445"  style="font-family: tahoma, arial; color: #333333;text-align:left; font-size:15pt; line-height: 190%;">
+    <tr>
+    <td rowspan="1" width="100%">' . $txt1 . '</td>
+    </tr>
+    <tr>
+    <td rowspan="1" width="100%" align="right">' . $txt2 . '</td>
+    </tr>
+    <tr style="font-family: tahoma, arial; color: #333333;text-align:left; font-size:15pt; line-height: 100%;">
+    <td rowspan="1" width="100%" align="center">' . $txt3 . '</td>
+    </tr>                
+    <tr style="font-family: tahoma, arial; color: #333333;text-align:left; font-size:9pt; line-height: 120%;">
+    <td rowspan="1" width="100%" align="center">
+    ' . $txt4 . '</td>
+    </tr>                
+    </table>
+    ';
+    
+    $img_file = $line['e_ass_img'];
+    if (strlen($img_file) > 0)
+    {
+    $pdf -> Image($img_file, 40, 175, 80, 30, '', '', '', false, 300, '', false, false, 0);
+    }
+
+    $pdf -> writeHTML($html, true, false, true, false, '');
+    
+    
+    // QRCODE,Q : QR-CODE Better error correction
+    // set style for barcode
+    $style = array('border' => 2, 'vpadding' => 'auto', 'hpadding' => 'auto', 'fgcolor' => array(0, 0, 0), 'bgcolor' => false, //array(255,255,255)
+    'module_width' => 1, // width of a single module in points
+    'module_height' => 1 // height of a single module in points
+    );
+    $pdf -> write2DBarcode('www.ufrgs.br/comgradbib/index.php/main/evento/valida/' . $nr . '/' . checkpost_link($nr), 'QRCODE,Q', 110, 241, 30, 30, $style, 'N');
+    
+    $pdf -> SetFont('helvetica', '', 8, '', false);
+    $pdf -> Text(110, 236, 'validador do certificado');
+    
+    // ---------------------------------------------------------
+    
+    //Close and output PDF document
+    $pdf -> Output('UFRGS-Certificado-' . $nome . '.pdf', 'I');   
 }
 
 function le_aluno($cracha)
@@ -806,6 +839,7 @@ function edit($id)
     array_push($cp, array('$S80', 'e_name', 'Nome do evento', true, true));
     array_push($cp, array('$D8', 'e_data_i', 'Data Início', true, true));
     array_push($cp, array('$D8', 'e_data_f', 'Data Fim', true, true));
+    array_push($cp, array('$D8', 'e_data', 'Data da Declaração/Certificado', true, true));
     array_push($cp, array('$T80:6', 'e_texto', 'Texto Certificado', true, true));
     $info = '<pre>
     $nome - Nome completo do certificado            
@@ -816,10 +850,10 @@ function edit($id)
     
     
     array_push($cp, array('$S80', 'e_cidade', 'Cidade', False, true));
-    array_push($cp, array('$S80', 'e_background', 'Imagem de Fundo', False, False));    
+    array_push($cp, array('$S80', 'e_background', 'Imagem de Fundo', False, True));    
     array_push($cp, array('$H8', 'e_ass_img', '', False, True));    
     
-    array_push($cp, array('$[1-5]', 'e_templat', '', True, True));    
+    array_push($cp, array('$[1-5]', 'e_templat', 'Templat/Layout', True, True));    
     
     array_push($cp, array('$S80', 'e_ass_none_1', 'Assina Certificado', False, true));
     array_push($cp, array('$S80', 'e_ass_cargo_1', 'Função', False, true));
@@ -837,16 +871,38 @@ function edit($id)
     $sx .= '</div></div></div>';
     if ($form -> saved > 0) 
     {
-        redirect(base_url('index.php/main/evento/show/'.$id));
+        if ($id > 0)
+            {
+                redirect(base_url('index.php/main/evento/show/'.$id));
+            } else {
+                redirect(base_url('index.php/main/evento/admin/'));
+            }
+        
     }
     return($sx);
 }
+
+function send_mail($id,$conf)
+    {
+        $dt = $this->le_event($id);
+        $dd = $this->le_event_dados($id);
+
+        for ($r=0;$r <= count($dd);$r++)
+            {
+                $line = $dd[$r];
+                print_r($line);
+                exit;
+            }
+    }
+
 function show($id)
 {    
     $dt = $this->le_event($id);
+    $dd = $this->le_event_dados($id);
     $sx = '<div class="container">';
     $sx = '<div class="row">';
     $sx = '<div class="col-md-12">';
+    $sx .= '<span class="small">evento</span>';
     $sx .= '<h3>'.$dt['e_name'].'</h3>';
     $sx .= '<span class="small">'.stodbr($dt['e_data_i']).' até '.stodbr($dt['e_data_f']).'</span>';
     $sx .= '</div>';
@@ -854,9 +910,32 @@ function show($id)
     $sx .= '<div class="col-md-12">';
     $sx .= '<a href="'.base_url('index.php/main/evento/edit/'.$id).'" class="btn btn-outline-primary">editar</a>';
     $sx .= '</div>';
+    /**************************** DADOS */
+    $sx .= '<div class="col-md-2 text-center" style="border: 1px solid #000000; border-radius: 5px; margin-top: 20px;">';
+    $sx .= '<h1>'.count($dd).'</h1><span class="small">participantes</span>';
+    $sx .= '</div>';
+
+    $sx .= '<a href="'.base_url(PATH.'import/'.$id).'">';
+    $sx .= '<div class="col-md-2 text-center" style="border: 1px solid #000000; border-radius: 5px; margin-top: 20px;">';
+    $sx .= 'Inserir Participantes';
+    $sx .= '</div>';
+    $sx .= '</a>';
+
+    $sx .= '<a href="'.base_url(PATH.'send_mail/'.$id).'">';
+    $sx .= '<div class="col-md-2 text-center" style="border: 1px solid #000000; border-radius: 5px; margin-top: 20px;">';
+    $sx .= 'Enviar Comunicação dos Certificados por e-mail';
+    $sx .= '</div>';
+    $sx .= '</a>';    
+
+    $sx .= '<div class="col-md-12">';
+    $sx .= $this->lista_inscritos($id);
+    $sx .= '</div>';
+
+    $sx .= '</div>';
+    $sx .= '</div>';
+
     
-    $sx .= '</div>';
-    $sx .= '</div>';
+    
     
     return($sx);
 }
@@ -912,6 +991,7 @@ function row()
     $data['page_view'] = base_url('index.php/main/evento/show');
     $data['fields'] = array(0,1,1,1);
     $sx = row3($data);
+    $sx .= '<a href="'.base_url(PATH.'edit/0').'" class="btn btn-outline-primary">Novo Evento</a>';
     return($sx);
 }
 
@@ -1027,6 +1107,10 @@ function lista_inscritos($event) {
         $sx .= stodbr($line['i_date_in']);
         $sx .= ' ';
         $sx .= substr($line['i_date_in'], 11, 5);
+        $sx .= '</td>';
+
+        $sx .= '<td>';
+        $sx .= '<a href="'.base_url(PATH.'print/').$line['id_i'].'/'.checkpost_link($line['id_i']).'" target="_new'. $line['id_i'] . '">C</a>';
         $sx .= '</td>';
         
         $sx .= '</tr>';
@@ -1272,6 +1356,15 @@ function le_event($id) {
         return ($line);
     }
     return ( array());
+}
+
+function le_event_dados($id) {
+    $sql = "select * from events_inscritos 
+                INNER JOIN events_names ON i_user = id_n
+                where i_evento = " . round($id);
+    $rlt = $this -> db -> query($sql);
+    $rlt = $rlt -> result_array();
+    return ($rlt);
 }
 
 function event_checkin($ch) {

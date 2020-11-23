@@ -15,6 +15,8 @@ class Main extends CI_controller {
         $this -> load -> helper('url');
         $this -> load -> library('session');
         $this -> load -> library('tcpdf');
+        $this->load->helper('socials');
+
         date_default_timezone_set('America/Sao_Paulo');
         /* Security */
         //		$this -> security();
@@ -25,10 +27,10 @@ class Main extends CI_controller {
     }
     
     function social($path='')
-        {
-            $this->load->model('socials');
+        {            
             $this->cab();
-            $data['content'] = $this->socials->social($path);
+            $socials = new socials;
+            $data['content'] = $socials->social($path);
             $this -> load -> view("content", $data);
         }
 
@@ -39,7 +41,9 @@ class Main extends CI_controller {
     }
 
     private function cab($navbar = 1) {
-        $this -> load -> model('socials');
+        define("PATH","index.php/main/");
+        define("LIBRARY_NAME","ComgradBib");
+        $this -> load -> helper('socials');
         $data['title'] = 'Comgrad de Biblitoeconomia da UFRGS ::::';
         $this -> load -> view('header/header', $data);
         if ($navbar == 1) {

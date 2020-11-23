@@ -3,6 +3,7 @@ $ac = array('', '', '', '', '', '', '', '', '', '', '', '', '');
 if (!isset($pag)) { $pag = 0;
 }
 $ac[$pag] = 'active';
+$socials = new socials;
 ?>
 <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
 	<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,7 +58,7 @@ $ac[$pag] = 'active';
             </li>            
             <?php } ?>
             <li class="nav-item navbar-toggler-right">
-                <?php echo $this -> socials -> menu_user(); ?>
+                <?php echo $socials -> menu_user(); ?>
             </li>                       			
 		</ul>
 	</div>
