@@ -12,7 +12,7 @@ if (count($indicadores[0]) > 0) { $line = $indicadores[0];
         if ($tp != $tpx)
             {
                 echo '<tr>';
-                echo '<td>' . msg('contato_'.$tp) . '</td>';
+                echo '<td>' .msg('contato_'.$tp) . '</td>';
                 echo '</tr>';
                 $tpx = $tp;                
             }
@@ -26,7 +26,10 @@ if (count($indicadores[0]) > 0) { $line = $indicadores[0];
                     }
             }
         echo '<tr>';
-        echo '<td class="text-center"><b>' . $vlr . '</b></td>';
+        $link = '<a href="#" onclick="newxy(\''.base_url(PATH.'contact_ed/'.$line['id_ct']).'\',800,600);">';
+        $linka = '</a>';
+
+        echo '<td class="text-center"><b>' .  $link.$vlr . $linka. '</b></td>';
         echo '</tr>';
     }
     echo '</table>' . cr();

@@ -1,10 +1,7 @@
 <?php
-DEFINE("CURSO",2);
-
 class Main extends CI_controller {
     function __construct() {
         parent::__construct();
-
         $this -> lang -> load("login", "portuguese");
         //$this -> lang -> load("skos", "portuguese");
         //$this -> load -> library('form_validation');
@@ -16,6 +13,12 @@ class Main extends CI_controller {
         $this -> load -> library('session');
         $this -> load -> library('tcpdf');
         $this->load->helper('socials');
+
+        if (!isset($_SESSION["CURSO"]))
+            {
+                $_SESSION['CURSO'] = 5;
+            }
+        DEFINE("CURSO",$_SESSION['CURSO']);
 
         date_default_timezone_set('America/Sao_Paulo');
         /* Security */
@@ -59,7 +62,7 @@ class Main extends CI_controller {
         $this->load->model('comgrads');
         $this -> cab();
         
-        $sx = $this->comgrads->painel("xxxxxxxxx");
+        $sx = $this->comgrads->painel("");
         $data['content'] = $sx;
         $data['fluid'] = 'true';
         $this->load->view('content',$data);
@@ -72,6 +75,14 @@ class Main extends CI_controller {
         $data = array();
         $this -> load -> view('bolsas/divulgacao', $data);
     }
+
+    public function cursos($id='') {
+        $this -> cab();
+        $this->load->model('comgrads');
+        $data = array();
+        $data['content'] = $this->comgrads->cursos($id);
+        $this -> load -> view('content', $data);
+    }    
 
     public function contact() {
         $this -> load -> model('comgrads');
@@ -109,6 +120,15 @@ class Main extends CI_controller {
         $data['content'] = row($form, $id);
         $this -> load -> view('content', $data);
     }
+
+	public function contact_ed($id)
+		{
+		$this -> load -> model('comgrads');
+		$this->cab(0);
+        $sx = $this->comgrads->contact_ed($id);
+        $data['content'] = $sx;
+        $this -> load -> view('content', $data);        
+		}    
 
     public function person($id = 0) {
         $this -> load -> model('comgrads');
@@ -436,6 +456,15 @@ class Main extends CI_controller {
         $data['title'] = 'lista';
         $this -> load -> view('content', $data);
     }
+
+    function comunicacao()
+        {
+        $this -> cab();
+        $this -> load -> model('comgrads');
+        $data['content'] = $this->comgrads->comunicacao();
+        $data['title'] = 'Enviar e-mail';
+        $this -> load -> view('content', $data);   
+        }
 
     function relatorio($rel = '1', $arg1 = '', $arg2 = '', $arg3 = '') {
         $this -> load -> model('comgrads');

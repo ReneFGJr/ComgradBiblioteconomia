@@ -10,11 +10,50 @@ class comgrads extends CI_model {
 		return ($tela);
 	}
 
+	function le_curso($id)
+		{
+			$sql = "select * from person_curso 
+						where id_pc = ".round($id);
+			$rlt = $this->db->query($sql);
+			$rlt = $rlt->result_array();
+			$line = $rlt[0];
+			return($line);
+		}
+	function cursos($id='')
+		{
+			if (strlen($id) > 0)
+				{
+					$_SESSION['CURSO'] = $id;	
+				} else {
+					$id = CURSO;
+				}
+			
+			$sql = "select * from person_curso order by pc_nome";
+			$rlt = $this->db->query($sql);
+			$rlt = $rlt->result_array();
+
+			$dt = $this->le_curso($id);
+			$sx = '<h3>Curso selecionado: '.$dt['pc_nome'].'</h3>';
+
+			$sx .= '<table class="table">';
+			for ($r=0;$r < count($rlt);$r++)
+				{
+					$line = $rlt[$r];
+					$link = '<a href="'.base_url(PATH.'cursos/'.$line['id_pc']).'">';
+					$linka = '</a>';
+					$sx .= '<tr>';
+					$sx .= '<td>'.$link.$line['pc_nome'].$linka.'</td>';
+					$sx .= '</tr>';
+				}
+			$sx .= '</table>';
+			return($sx);
+		}
 	function painel()
 		{
+			$data = $this->le_curso(CURSO);
 			$sx = '<div class="row" style="background-color: #F0F0F0; padding: 30px 10px;">';
 			$sx .= '<div class="col-md-12">';
-			$sx .= '<h3>Painel Biblioteconomia UFRGS</h3>';
+			$sx .= '<h3>Painel '.$data['pc_nome'].' - UFRGS</h3>';
 			$sx .= '</div>';
 
 			$sx .= '<div class="col-md-2">';
@@ -26,20 +65,59 @@ class comgrads extends CI_model {
 			$sx .= '</div>';
 
 			$sx .= '<div class="col-md-2">';
-			$sx .= $this->painel_grid('Total de estudantes','322');
+			$sx .= $this->painel_grid('Total de estudantes',$this->alunos_ativos());
 			$sx .= '</div>';
 
 			$sx .= '<div class="col-md-2">';
-			$sx .= $this->painel_grid('Idade média dos estudantes','29,4 anos','2');
+			$sx .= $this->painel_grid('Idade média dos estudantes',$this->alunos_idade_ativos(),'2');
 			$sx .= '</div>';
 
 
 			$sx .= '<div class="col-md-2">';
-			$sx .= $this->painel_grid('Tempo de Integralização do curso','4,5 anos','1');
+			$sx .= $this->painel_grid('Tempo de Integralização do curso','-','1');
 			$sx .= '</div>';
 
 			$sx .= '</div>';
 			return($sx);
+		}
+	function alunos_idade_ativos()
+		{
+			$sql = "select p_nasc 
+						from person_indicadores 
+						INNER JOIN person ON id_p = i_person
+						where i_ano = '2020/2' 
+						AND i_curso = ".CURSO;
+			$rlt = $this->db->query($sql);
+			$rlt = $rlt->result_array();
+			$tot = 0;
+			$dias = 0;
+			for ($r=0;$r < count($rlt); $r++)
+				{
+					$line = $rlt[$r];
+					$ano = substr($line['p_nasc'],0,4);
+					$mes = substr($line['p_nasc'],5,2);
+					$dia = substr($line['p_nasc'],8,2);
+					$data_inicio = new DateTime($line['p_nasc']);
+					$data_fim = new DateTime(date("Y-m-d"));
+					$dateInterval = $data_inicio->diff($data_fim);
+    				$di = $dateInterval->days;
+					$dias = $dias + $di;
+					$tot++;
+				}
+			$media = round(10*($dias/$tot)/365)/10;
+			return($media);
+		}
+
+	function alunos_ativos()
+		{
+			$sql = "select count(*) as total 
+						from person_indicadores 
+						where i_ano = '2020/2' 
+						AND i_curso = ".CURSO;
+			$rlt = $this->db->query($sql);
+			$rlt = $rlt->result_array();
+			$total = $rlt[0]['total'];
+			return($total);
 		}
 	function painel_grid($txt,$ind,$t=1)
 		{
@@ -378,32 +456,94 @@ class comgrads extends CI_model {
 			$sx .= '</table>';
 			return($sx);
 		}
+
+	function comunicacao()
+		{
+			$txt = '$p_nome ';
+			$txt .= '$p_cracha ';
+			$txt .= '$p_cpf ';
+
+			$cp = array();
+			$form = new form;
+			array_push($cp,array('$H8','','',false,false));
+			array_push($cp,array('$S100','','Subject',True,True));
+			array_push($cp,array('$T80:20','','Texto',True,True));
+			array_push($cp,array('$S100','','Teste to',False,True));
+			$sx = $form->editar($cp,'');
+			
+			if ($form->saved > 0)
+				{
+					
+					$dd3 = get("dd3");					
+					if (strlen($dd3) == 0)
+					{
+					$sql = "select * 
+							from person 
+							INNER JOIN person_indicadores ON i_person = id_p
+							INNER JOIN person_contato ON id_p = ct_person
+							WHERE ct_contato like '%@%' and i_curso = ".CURSO;
+					} else {
+						$sql = "select '9000000' as p_cracha, 
+										'FULANO DA SILVA SÓ' as p_nome, 
+										'".$dd3."' as ct_contato, 
+										'CPF' as p_cpf ";
+					}
+					$rlt = $this->db->query($sql);
+					$rlt = $rlt->result_array();
+					$titulo = get("dd1");
+					$texto = get("dd2");
+					//$texto = troca(get("dd2"),chr(13),'<br>');
+					for ($r=0;$r < count($rlt);$r++)
+						{
+							$line = $rlt[$r];
+							$tt = troca($texto,'$p_nome',$line['p_nome']);
+							$tt = troca($tt,'$p_cracha',strzero($line['p_cracha'],8));
+							$tt = troca($tt,'$p_cpf',$line['p_cpf']);
+							$us_email = $line['ct_contato'];
+							$sx .= $line['p_nome'].' => ';
+							$sx .= $this->enviar_email($us_email, '[BIBEAD] '.$titulo, $tt);							
+							$sx .= '<br>';
+						}
+				}
+			return($sx);
+		}
 	function enviar_email($us_email, $titulo, $texto) {
 
 		//$config = Array('protocol' => 'smtp', 'smtp_host' => 'ssl://smtp.googlemail.com', 'smtp_port' => 465, 'smtp_user' => 'user@gmail.com', 'smtp_pass' => '', 'mailtype' => 'html', 'charset' => 'utf-8', 'wordwrap' => TRUE);
 		$config = array('mailtype' => 'html', 'charset' => 'utf-8', 'wordwrap' => TRUE);
 		$this -> load -> library('email', $config);
 		$this -> email -> set_newline("\r\n");
-		$this -> email -> from('comgradbib@ufrgs.br', 'Comgrad de Biblioteconomia / UFRGS');
+		$this -> email -> from('bibead@ufrgs.br', 'Comgrad de Biblioteconomia EAD/UFRGS');
 
 		$list = array($us_email);
 		$this -> email -> to($list);
-		$this -> email -> cc(array('comgradbib@gmail.com','renefgj@gmail.com'));
+		$this -> email -> cc(array('bibead.ufrgs@gmail.com'));
 		$this -> email -> subject($titulo);
 		$this -> email -> message($texto);
 
 		$this -> email -> send();
 		return($us_email.' enviado<br>');
 	}
+
+	function contact_ed($id)
+		{
+			$cp = array();
+			array_push($cp,array('$H8','id_ct','',false,false));
+			array_push($cp,array('$S100','ct_contato','ct_contato',true,true));
+			$form = new form;
+			$form->id = $id;
+			$sx = $form->editar($cp,'person_contato');
+			return($sx);
+		}
     
     function rel_email()
         {
-        $sql = "select p_nome, ct_contato 
+        $sql = "select p_nome, ct_contato, p_cracha
                         from person_contato
                         INNER JOIN person ON id_p = ct_person
                         INNER JOIN person_indicadores ON i_person = id_p
                         WHERE ct_contato like '%@%' and i_curso = ".CURSO."
-                        group by p_nome, ct_contato
+                        group by p_nome, ct_contato, p_cracha
                         order by p_nome
                 ";
         $rlt = $this->db->query($sql);
@@ -418,8 +558,13 @@ class comgrads extends CI_model {
             {
                 $line = $rlt[$r];
                 $cd = $line['p_nome'];
+				$sx .= $cd;
+				$sx .= ' - ';
+				$sx .= lowercase($line['p_cracha']);
+				$sx .= ' - ';
                 $sx .= lowercase($line['ct_contato']);
-                $sx .= ' &lt;'.$cd.'&gt;<br>';
+				$sx .= '<br>';
+                
                 $tot++;
                 $email .= lowercase($line['ct_contato']).'; ';
             }
@@ -430,13 +575,22 @@ class comgrads extends CI_model {
     
     function rel_bairros()
     {
+		$this->pags->check_address();
         $sql = "select ed_cidade, ed_bairro, count(*) as total 
-                        from person_endereco
+                        from person_indicadores
+						INNER JOIN person_endereco ON i_person = ed_person
+						where i_ano = '2020/2' and i_curso = ".CURSO."
                         group by ed_cidade, ed_bairro 
                         order by ed_cidade, ed_bairro";
+       $sql = "select ed_cidade, ed_estado, '' as ed_bairro, count(*) as total 
+                        from person_indicadores
+						INNER JOIN person_endereco ON i_person = ed_person
+						where i_ano = '2020/2' and i_curso = ".CURSO."
+                        group by ed_cidade, ed_estado 
+                        order by ed_estado, ed_cidade";						
         $rlt = $this->db->query($sql);
         $rlt = $rlt->result_array();
-        $sx = '<table width="100%" class="table">';
+        $sx = '<table width="100%" class="table2">';
         $tot = 0;
         $totg = 0;
         $totc = 0;
@@ -450,14 +604,14 @@ class comgrads extends CI_model {
                     {
                         if ($totc > 0)
                             {
-                                $sx .= '<tr><td colspan=3 align="right"><b>total cidade '.$totc.'</td></tr>';        
+                                //$sx .= '<tr><td colspan=3 align="right"><b>total cidade '.$totc.'</td></tr>';        
                             }                        
                         $xcd = $cd;
                         $totc = 0;
                     }
-                $sx .= '<tr>';
+                $sx .= '<tr style="border-top: 1px solid #000000">';
                 $sx .= '<td>';
-                $sx .= $line['ed_cidade'];
+                $sx .= $line['ed_cidade'].', '.$line['ed_estado'];
                 $sx .= '</td>';
                 $sx .= '<td>';
                 $sx .= $line['ed_bairro'];
@@ -470,6 +624,7 @@ class comgrads extends CI_model {
                 $totg = $totg + $line['total'];
                 $totc = $totc + $line['total'];
             }
+		$sx .= '<tr><td colspan=6>TOTAL: '.$tot.'</td></tr>';
         $sx .= '</table>';
         return($sx);
     }		

@@ -198,38 +198,37 @@ class pags extends CI_model {
     }
     
     function inport($file = '') {
-        $sx = '<h2>Importação de dados</h2>';
+        $sx = '<h2>Importação de dados - Sistema UFRGS</h2>';
         $f = load_file_local($file);
         /* Formato XLS */
-        $t = '<td style="border:1px solid;" align="center"><b>&nbsp;Modalidade:&nbsp;</b></td>';
-        $f = substr($f,strpos($f,$t)+strlen($t)+1);
         $f = utf8_encode($f);
+        $f = html_entity_decode($f);
+        $f = ascii($f);
+        $f = troca($f,"'","´");
         
         $f = trim($f);        
         while(strpos($f,'  ') > 0)
         {
             $f = trim(troca($f,'  ',' '));        
         }
-        $f = troca($f,';','£');
+        $f = troca($f,';','.,');
+        $f = troca($f,'\n','');
         $f = troca($f,chr(13),';');
         $f = troca($f,chr(10),';');
         $ln = splitx(';', $f . ';');
         
-        
-        $sx .= '<pre>';
         $to = 0;
         for ($r = 0; $r < count($ln); $r++) {
             $lns = $ln[$r];
-            $lns = troca($lns, '£', ';');
+            $lns = troca($lns, '.,', ';');
             $lns = troca($lns, ';;', ';0;');
-            $lns = troca($lns, ',', '.');
-            $lns = troca($lns, '\n', '');
-            $lns = splitx(';', $lns . ';');
-            
-            if (count($lns) > 30) {
+            $lns = troca($lns, ';;', ';0;');
+            $lns = troca($lns, ';;', ';0;');
+            $lnsx = troca($lns, '.,', ';');
+            $lns = splitx(';', $lnsx . ';');
+            if (count($lns) == 32) {
                 $p_nome = trim($lns[0]);
                 $p_nome = troca($p_nome,"'","´");
-                //echo '<br>'.$p_nome;
                 $p_cracha = strzero($lns[1], 8);
                 $p_nasc = $lns[2];
                 $curso = trim($lns[3]);
@@ -252,6 +251,7 @@ class pags extends CI_model {
                 $ingresso = $lns[13];
                 $diplomacao = $lns[14];
                 $afastado = $lns[15];
+                if ($afastado == '-') { $afastado = 0; }
                 $cred_obe = $lns[16];
                 $cred_obe = 0;
                 $cred_obr = $lns[17];
@@ -265,6 +265,10 @@ class pags extends CI_model {
                 $cred_i5 = $lns[25];
                 $cred_i6 = $lns[26];
                 $cred_ult_let = $lns[27];
+                if (trim($cred_ult_let) == '-')
+                    {
+                        $cred_ult_let = $lns[13];
+                    }
                 $cred_matr = $lns[28];
                 $cred_inte = $lns[29];
                 $cred_ff = $lns[30];
@@ -288,7 +292,6 @@ class pags extends CI_model {
                         
                         /* endereco */
                         $this -> endereco($id_us, $endereco, $bairro, $cep, $cidade);
-                        
                         /* contato */
                         $this -> contato($id_us, 'T', $telefone);
                         $this -> contato($id_us, 'E', $email);
@@ -299,7 +302,7 @@ class pags extends CI_model {
                 }
             } else {
                 if (count($lns) > 10) {
-                    $sx .= '<hr>Erro em '.$ln[$r].'<hr>';
+                    $sx .= '<hr>Erro em '.$ln[$r].'=='.count($lns).'<hr>';
                 }
             }
         }
@@ -310,12 +313,14 @@ class pags extends CI_model {
     
     function indicadores($id_us, $curso, $cred_ult_let, $i1, $i2, $i3, $i4, $i5, $i6, $i7, $i8 = '', $i9 = '', $i10 = '', $i11 = '', $i12 = '', $i13 = '0', $i14 = '0', $i15 = '0', $i16 = '0', $i17 = '0', $i18 = '0', $i19 = '0', $i20 = '0', $i21 = '0', $i22 = '0') {
         $sql = "select * from person_indicadores 
-        where i_person= $id_us
-        and i_ano = '$cred_ult_let' ";
+                where i_person = $id_us
+                    and i_ano = '$cred_ult_let' ";
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();
-        if ($i10 = '-') { $i10 = 0; }        
-        
+        if ($i10 = '-') { $i10 = 0; } 
+        $i5 = troca($i5,',','.');
+        $i8 = troca($i8,',','.');
+        $i9 = troca($i9,',','.');
         if (count($rlt) == 0) {
             $sql = "insert into person_indicadores
             (i_person, i_ano, 
@@ -337,6 +342,7 @@ class pags extends CI_model {
         }
         
         function sim_nao($c) {
+            $c = trim($c);
             switch($c) {
                 case 'Sim' :
                     return (1);
@@ -344,6 +350,12 @@ class pags extends CI_model {
                 case 'Não' :
                     return (0);
                 break;
+                case 'Nao' :
+                    return (0);
+                break;                
+                case '-' :
+                    return (0);
+                break;                
                 default :
                 return (-1);
                 exit ;
@@ -360,7 +372,10 @@ class pags extends CI_model {
                 break;   
                 case 'BACHARELADO EM MUSEOLOGIA' :
                     $id = 3;
-                break;                              
+                break;  
+                case 'BIBLIOTECONOMIA - ENSINO A DISTANCIA':
+                    $id = 5;
+                break;                            
                 case 'PPGCIN' :
                     $id = 4;
                 break;                              
@@ -406,8 +421,6 @@ class pags extends CI_model {
                 break;
                 default :
                 $id = 0;
-                //echo 'OPS - Entrada: [' . $tp.']<BR>';
-                //exit ;
             }
             return ($id);
         }
@@ -434,16 +447,38 @@ class pags extends CI_model {
                 }
             }
         }
+
+        function check_address()
+            {
+                $sql = "
+                SELECT ed_person, count(*) as total, max(id_ed) as max
+                    FROM  person_endereco
+                    group by ed_person
+                    order by total desc";
+                $rlt = $this->db->query($sql);
+                $rlt = $rlt->result_array();
+                $t=0;
+                for ($r=0;$r < count($rlt);$r++)
+                    {
+                        $line = $rlt[$r];
+                        if ($line['total'] > 1)
+                            {
+                                $sql = "delete from person_endereco where id_ed = ".$line['max'];
+                                $this->db->query($sql);
+                                $t++;
+                            }
+                    }
+                if ($t > 0) { $this->check_address(); }
+            }
         
-        function endereco($id_us, $endereco, $bairro, $cep, $cidade) {
+        function endereco($id_us, $endereco, $bairro, $cep, $cidade) {            
             $cidade = uppercase($cidade);
             $estado = '';
             if (strpos($cidade, '-')) {
                 $estado = trim(substr($cidade, strpos($cidade, '-') + 1, 5));
                 $cidade = substr($cidade, 0, strpos($cidade, '-'));
             }
-            $sql = "select * from person_endereco
-            where ed_person = $id_us ";
+            $sql = "select * from person_endereco where ed_person = $id_us ";
             $rlt = $this -> db -> query($sql);
             $rlt = $rlt -> result_array();
             if (count($rlt) > 0) {
@@ -454,9 +489,9 @@ class pags extends CI_model {
                     where ed_person = $id_us";
                     $rlt = $this -> db -> query($sql);
                     $rlt = array();
+                    sleep(1);
                 }
-            }
-            if (count($rlt) == 0) {
+            } else {
                 $sql = "insert into person_endereco
                 (ed_person, ed_endereco, ed_bairro, ed_cep, ed_cidade, ed_estado)
                 values
@@ -477,9 +512,8 @@ class pags extends CI_model {
             
             $afastado = $this -> sim_nao($afastado);
             if ($afastado == -1) {
-                ECHO '=>'.$semestre.'<br>';
-                ECHO '=>'.$ingresso.'<br>';
-                echo "=afastado=";
+                ECHO '=>'.$semestre.'/';
+                ECHO ''.$ingresso.'<br>=afastado=';
                 $afastado = 0;
                 //return (-1);
             }
@@ -598,7 +632,7 @@ class pags extends CI_model {
             INNER JOIN person_graduacao on i_person = g_person 
             where i_i6 >= 8 AND i_curso = ".CURSO."
             group by g_ingresso, g_ingresso_sem, i_i12, g_person";
-            echo $sql;
+
             $rlt = $this -> db -> query($sql);
             $rlt = $rlt -> result_array();
             $rs = array();
