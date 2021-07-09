@@ -104,7 +104,13 @@ class comgrads extends CI_model {
 					$dias = $dias + $di;
 					$tot++;
 				}
-			$media = round(10*($dias/$tot)/365)/10;
+			if ($tot > 0)
+			{
+				$media = round(10*($dias/$tot)/365)/10;
+			} else {
+				$media = 0;
+			}
+			
 			return($media);
 		}
 

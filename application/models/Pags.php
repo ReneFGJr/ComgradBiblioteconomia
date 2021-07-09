@@ -120,6 +120,7 @@ class pags extends CI_model {
     
     function le($id) {
         $sql = "select * from person 
+                    LEFT JOIN tutores ON p_tutor = id_tt
                     where id_p = $id";
         $rlt = $this -> db -> query($sql);
         $rlt = $rlt -> result_array();

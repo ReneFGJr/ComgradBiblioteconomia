@@ -12,12 +12,20 @@ if (count($indicadores[0]) > 0) { $line = $indicadores[0];
         $l = $graduacao[$r];
        
         echo '<tr class="table">';
-        echo '<td><b>' . $l['pc_nome'] . '</b></td>';        
-        if ($l['g_statis']==1)
+        echo '<td><b>' . $l['pc_nome'] . '</b></td>';
+        switch($p_ativo)
             {
+                case '0':
+                echo '  <td align="right">
+                        <span class="btn btn-danger" style="width: 100%;">Inativo</span>
+                        </td>';
+                break;
+
+                case '1':
                 echo '  <td align="right">
                         <span class="btn btn-outline-success" style="width: 100%;">Ativo</span>
                         </td>';
+                break;
             }
         
         echo '</tr>'.cr();
