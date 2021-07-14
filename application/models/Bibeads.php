@@ -39,26 +39,66 @@ class Bibeads extends CI_Model
         function tutor_muda($ac,$id,$vlr,$conf)
             {
                 $dt = $this->pags->le($id);
+                
+                /* Enviar e-mail */
+                $txt = '';
+                $nome = $dt['p_nome'];
+                $txt .= 'Prezado aluno(a) '.$nome;
+                $txt .= '<br>';
+                $txt .= '<br>';
+                $txt .= 'Por motivos operacionais, houve a necessidade de troca de seu tutor.<br>
+                <br>A partir de hoje, o(a) <b>$TUTOR</b> será o responsável pelo seu acompanhamento no curso de Biblioteconomia Ead.<br>
+                <br>Caso tenha dúvida, você pode entrar em contato com seu tutor pelo e-mail <b>$EMAIL_TUTOR</b>.<br>
+                <br>
+                Em caso de dúvida, pode entrar em contato com a coordenação do curso em bibead@ufrgs.br<br>
+                <br>                
+                <hr>
+                Prezado tutor, favor entrar em contato com o aluno e apresentar-se.
+                <br>
+                <br>
+                ** ESTE E-MAIL É ENVIADO AUTOMATICAMENTE
+                ';
 
                 if (isset($_POST['dd1']))
                     {
                         $idt = $_POST['dd1'];
                         $sql = "update person set p_tutor = $idt 
                                     where p_tutor = ".$dt['id_tt']." and id_p = ".$id;
-                        $this->db->query($sql);
+                        //$this->db->query($sql);
 
-                        $nome2 = $this->le_tutor($idt);
-                        $nome2 = $nome2['tt_nome'];
+                        $dtt = $this->le_tutor($idt);
+                        $nome2 = $dtt['tt_nome'];
 
-                        $txt = '';
                         $msg = 'Troca de tutor';
-                        $txt = 'A tutora '.$dt['tt_nome'].' foi substituída por '.$nome2;
+                        $mmm = 'A tutora '.$dt['tt_nome'].' foi substituída por '.$nome2;
                         $sql = "insert into person_mensagem
                                 (msg_subject, msg_text, msg_cliente_id)
                                 values
-                                ('$msg','$txt',$id)";
-                        $this->db->query($sql);
-                        echo '<script>wclose();</script>';
+                                ('$msg','$mmm',$id)";
+                        //$this->db->query($sql);
+                        //echo '<script>wclose();</script>';
+
+
+                        echo '<pre>';
+                        print_r($dtt);
+                        echo '</pre>';                        
+
+                        for ($r=0;$r < count($dt['contato']);$r++)
+                        {
+                            $tp = $dt['contato'][$r]['ct_tipo'];
+                            $nm = $dt['contato'][$r]['ct_contato'];
+                            $st = $dt['contato'][$r]['ct_status'];
+                            if (($tp == 'E') and ($st == 1))
+                                {
+                                    $t = utf8_decode($txt);
+                                    $ass = utf8_decode('[BIBEAD-UFRGS] - Substituição do tutor');
+                                    $t = troca($t,'$TUTOR',$nome2);
+                                    $t = troca($t,'$EMAIL_TUTOR',$dtt['tt_email']);
+
+                                    $emails = array('renefgj@gmail.com','rene@sisdoc.com.br');
+                                    enviaremail($emails,$ass,$t,6);   
+                                }
+                        }
 
                         /******* Enviar e-mail */
                         exit;
