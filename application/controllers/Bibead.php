@@ -49,6 +49,22 @@ class Bibead extends CI_controller {
         $this->load->view('content',$data);
         }
 
+    function professor($id='')
+        {
+        $this->load->model('Bibeads');
+        $this -> cab();
+        
+        if ($id == 0)
+            {
+                $sx = $this->Bibeads->professores();
+            } else {
+                $sx = $this->Bibeads->professores_view($id);
+            }
+        $data['content'] = $sx;
+        $data['fluid'] = 'true';
+        $this->load->view('content',$data);
+        }
+
     function phpinfo()
         {
             echo 'Current PHP version: ' . phpversion();
@@ -101,32 +117,32 @@ class Bibead extends CI_controller {
 
     public function cursos($id='') {
         $this -> cab();
-        $this->load->model('comgrads');
+        $this->load->model('bibeads');
         $data = array();
-        $data['content'] = $this->comgrads->cursos($id);
+        $data['content'] = $this->bibeads->cursos($id);
         $this -> load -> view('content', $data);
     }    
 
     public function contact() {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> cab();
         $data = array();
         $data['title'] = '';
-        $data['content'] = $this -> comgrads -> contact();
+        $data['content'] = $this -> bibeads -> contact();
         $this -> load -> view('content', $data);
     }
 
     public function about() {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> cab();
         $data = array();
         $data['title'] = '';
-        $data['content'] = $this -> comgrads -> about();
+        $data['content'] = $this -> bibeads -> about();
         $this -> load -> view('content', $data);
     }
 
     public function persons($id = '') {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> load -> model('pags');
         $this -> cab();
         $form = new form;
@@ -146,9 +162,9 @@ class Bibead extends CI_controller {
 
 	public function contact_ed($id)
 		{
-		$this -> load -> model('comgrads');
+		$this -> load -> model('bibeads');
 		$this->cab(0);
-        $sx = $this->comgrads->contact_ed($id);
+        $sx = $this->bibeads->contact_ed($id);
         $data['content'] = $sx;
         $this -> load -> view('content', $data);        
 		}    
@@ -190,6 +206,7 @@ class Bibead extends CI_controller {
         $sx = '<hr>' . $this -> mensagens -> mostra_mensagens($id);
         $sx .= $this -> mensagens -> nova_mensagem($id);
         $sx .= $this -> bibeads -> ativo_inativo($data);
+        $sx .= $this -> bibeads -> semacesso($data);
         $data['content'] = $sx;
         $this -> load -> view('content', $data);
 
@@ -200,7 +217,7 @@ class Bibead extends CI_controller {
     }
 
     public function pag() {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> load -> model('pags');
         $this -> cab();
         $data = array();
@@ -233,7 +250,7 @@ class Bibead extends CI_controller {
     }
 
     public function persons_list() {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> load -> model('pags');
         $this -> cab();
 
@@ -246,7 +263,7 @@ class Bibead extends CI_controller {
     }
 
     public function import_ROD() {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> load -> model('pags');
         $this -> cab();
         $data = array();
@@ -281,7 +298,7 @@ class Bibead extends CI_controller {
     }
 
     function campanha_email($arg) {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> load -> model('pags');
         $this -> cab();
 
@@ -315,7 +332,7 @@ class Bibead extends CI_controller {
     }
 
     function campanha_prepara($id) {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> load -> model('pags');
         $this -> cab();
 
@@ -341,7 +358,7 @@ class Bibead extends CI_controller {
         header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
         header("Cache-Control: private", false);
 
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> load -> model('pags');
         echo utf8_decode($this -> pags -> export_answer($arg));
 
@@ -396,11 +413,71 @@ class Bibead extends CI_controller {
                             echo '<script>wclose();</script>';
                         }
                 break;
+                case 'acesso':
+                    if ($conf == '')
+                        {
+                            echo '<center>';
+                            echo '<h1>Confirma ação?</h1>';
+                            echo '<form action="'.base_url(PATH.'ajax/'.$ac.'/'.$id.'/'.$vlr.'/yes').'">';                            
+                            echo 'Ultimo acessos:<br>';
+                            echo '<input type="text" name="txt" style="form-control">';
+                            echo '<br>';
+                            echo '<br>';
+                            echo '<input type="submit" name="action" value="CONFIRMA" class="btn btn-outline-danger">';
+                            echo ' - - ';
+                            echo '<a href="#" class="btn btn-secondary" onclick="wclose();">Cancelar</a>';
+                            echo '</form>';
+                            
+                        } else {
+                            $msg = 'Aluno sem acesso a ';
+                            $txt = get("txt");
+                            $sql = "insert into person_mensagem
+                                    (msg_subject, msg_text, msg_cliente_id)
+                                    values
+                                    ('$msg','$txt',$id)";
+                            $this->db->query($sql);
+
+                            $sql = "update person set p_ativo = 9 where id_p = ".$id;
+                            $this->db->query($sql);
+
+                            echo '<script>wclose();</script>';
+                        }
+                break;
+                case 'ativar':
+                    if ($conf == '')
+                        {
+                            echo '<center>';
+                            echo '<h1>Confirma ação?</h1>';
+                            echo '<form action="'.base_url(PATH.'ajax/'.$ac.'/'.$id.'/'.$vlr.'/yes').'">';                            
+                            echo 'Justificativa:<br>';
+                            echo '<input type="text" name="txt" style="form-control">';
+                            echo '<br>';
+                            echo '<br>';
+                            echo '<input type="submit" name="action" value="CONFIRMA" class="btn btn-outline-danger">';
+                            echo ' - - ';
+                            echo '<a href="#" class="btn btn-secondary" onclick="wclose();">Cancelar</a>';
+                            echo '</form>';
+                            
+                        } else {
+                            $msg = 'Reativado aluno - ';
+                            $txt = get("txt");
+                            $sql = "insert into person_mensagem
+                                    (msg_subject, msg_text, msg_cliente_id)
+                                    values
+                                    ('$msg','$txt',$id)";
+                            $this->db->query($sql);
+
+                            $sql = "update person set p_ativo = 1 where id_p = ".$id;
+                            $this->db->query($sql);
+
+                            echo '<script>wclose();</script>';
+                        }
+                break;                
             }
         }
 
     function campanha($arg = '') {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> load -> model('pags');
         $this -> cab();
 
@@ -435,7 +512,7 @@ class Bibead extends CI_controller {
     }
 
     function campanha_cancela_alvo($id = '') {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> load -> model('pags');
         $this -> cab();
 
@@ -445,7 +522,7 @@ class Bibead extends CI_controller {
     }
 
     function campanhas($id = '') {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> load -> model('pags');
         $this -> cab();
 
@@ -466,7 +543,7 @@ class Bibead extends CI_controller {
     }
 
     function campanhas_edit($id = '', $chk = '') {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> load -> model('pags');
         $this -> cab();
 
@@ -484,7 +561,7 @@ class Bibead extends CI_controller {
     }
 
     function questionario_ver($id = '', $chk = '') {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> load -> model('pags');
         $this -> cab(0);
 
@@ -500,7 +577,7 @@ class Bibead extends CI_controller {
     }
 
     function campanhas_questionario_edit($arg1 = '') {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> load -> model('pags');
         $this -> cab();
         $data['content'] = $this -> pags -> questionario_editar($arg1);
@@ -509,7 +586,7 @@ class Bibead extends CI_controller {
     }
 
     function campanhas_questionario_editar($arg1 = '', $arg2 = '') {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> load -> model('pags');
         $this -> cab(0);
         $data['content'] = $this -> pags -> questionario_editar_cp($arg2, $arg1);
@@ -517,7 +594,7 @@ class Bibead extends CI_controller {
     }
 
     function questionario($arg1 = '', $arg2 = '', $chk = '') {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> load -> model('pags');
         $this -> cab(0);
 
@@ -537,14 +614,14 @@ class Bibead extends CI_controller {
     function comunicacao()
         {
         $this -> cab();
-        $this -> load -> model('comgrads');
-        $data['content'] = $this->comgrads->comunicacao();
+        $this -> load -> model('bibeads');
+        $data['content'] = $this->bibeads->comunicacao();
         $data['title'] = 'Enviar e-mail';
         $this -> load -> view('content', $data);   
         }
 
     function relatorio($rel = '1', $arg1 = '', $arg2 = '', $arg3 = '') {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> load -> model('pags');
         $this -> cab();
         $data = array();
@@ -562,11 +639,11 @@ class Bibead extends CI_controller {
                 $data['title'] = 'lista';
                 break;
             case '4' :
-                $data['content'] = $this -> comgrads -> rel_bairros($arg1, $arg2);
+                $data['content'] = $this -> bibeads -> rel_bairros($arg1, $arg2);
                 $data['title'] = 'lista';
                 break;
             case '5' :
-                $data['content'] = $this -> comgrads -> rel_email($arg1, $arg2);
+                $data['content'] = $this -> bibeads -> rel_email($arg1, $arg2);
                 $data['title'] = 'lista';
                 break;
             case '6' :
@@ -653,32 +730,32 @@ class Bibead extends CI_controller {
     }
 
     function prerequisito_nr($nr) {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> cab();
         $data = array();
         $data['title'] = '';
-        $data['content'] = $this -> comgrads -> prerequisito_nrs($nr);
-        $data['content'] .= $this -> comgrads -> avaliacao($nr);
+        $data['content'] = $this -> bibeads -> prerequisito_nrs($nr);
+        $data['content'] .= $this -> bibeads -> avaliacao($nr);
 
         $this -> load -> view('content', $data);
     }
 
     function prerequisito() {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> cab();
         $data = array();
         $data['title'] = '';
-        $data['content'] = $this -> comgrads -> prerequisito_form();
+        $data['content'] = $this -> bibeads -> prerequisito_form();
 
         $this -> load -> view('content', $data);
     }
 
     function prerequisito_analise() {
-        $this -> load -> model('comgrads');
+        $this -> load -> model('bibeads');
         $this -> cab();
         $data = array();
         $data['title'] = '';
-        $data['content'] = $this -> comgrads -> prerequisito_analise();
+        $data['content'] = $this -> bibeads -> prerequisito_analise();
 
         $data['content'] .= '<a href="' . base_url('index.php/main/prerequisito') . '" class="btn btn-secondary">Solicitar quebra</a>';
 

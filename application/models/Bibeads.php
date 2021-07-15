@@ -21,6 +21,25 @@ class Bibeads extends CI_Model
                 $sx .= '<div class="row">';
                 $sx .= '<div class="col-md-12">';
                 $sx .= '<h3>'.$dt['tt_nome'].'</h3>';
+
+                if (get("act") == "EDIT")
+                    {
+                        $cp = array();
+                        $form = new form;
+                        $form->id = $id;
+                        $cp = array();
+                        array_push($cp,array('$H8','id_tt','',false,false));
+                        array_push($cp,array('$O 1:SIM&0:NAO','tt_ativo',msg('tt_ativo'),true,true));
+                        $ss = $form->editar($cp,'tutores');
+                        if ($form->saved > 0)
+                            {
+                                $ss = '';
+                            }
+                        $sx .= $ss;
+                    }
+
+                $sx .= '<a href="'.base_url(PATH.'tutor/'.$id.'?act=EDIT').'" class="btn btn-outline-primary">Editar</a>';
+                $sx .= '<a href="'.base_url(PATH.'tutor').'" class="btn btn-outline-primary">Voltar</a>';
                 $sx .= '</div>';
                 $sx .= '</div>';
                 $sx .= '</div>';
@@ -41,7 +60,7 @@ class Bibeads extends CI_Model
                 $dt = $this->pags->le($id);
                 
                 /* Enviar e-mail */
-                $txt = '';
+                $txt = '<span style="font-size: 20px; font-family: tahoma, arial;">';
                 $nome = $dt['p_nome'];
                 $txt .= 'Prezado aluno(a) '.$nome;
                 $txt .= '<br>';
@@ -57,6 +76,7 @@ class Bibeads extends CI_Model
                 <br>
                 <br>
                 ** ESTE E-MAIL É ENVIADO AUTOMATICAMENTE
+                </span>
                 ';
 
                 if (isset($_POST['dd1']))
@@ -64,7 +84,7 @@ class Bibeads extends CI_Model
                         $idt = $_POST['dd1'];
                         $sql = "update person set p_tutor = $idt 
                                     where p_tutor = ".$dt['id_tt']." and id_p = ".$id;
-                        //$this->db->query($sql);
+                        $this->db->query($sql);
 
                         $dtt = $this->le_tutor($idt);
                         $nome2 = $dtt['tt_nome'];
@@ -75,13 +95,7 @@ class Bibeads extends CI_Model
                                 (msg_subject, msg_text, msg_cliente_id)
                                 values
                                 ('$msg','$mmm',$id)";
-                        //$this->db->query($sql);
-                        //echo '<script>wclose();</script>';
-
-
-                        echo '<pre>';
-                        print_r($dtt);
-                        echo '</pre>';                        
+                        $this->db->query($sql);                       
 
                         for ($r=0;$r < count($dt['contato']);$r++)
                         {
@@ -95,10 +109,12 @@ class Bibeads extends CI_Model
                                     $t = troca($t,'$TUTOR',$nome2);
                                     $t = troca($t,'$EMAIL_TUTOR',$dtt['tt_email']);
 
-                                    $emails = array('renefgj@gmail.com','rene@sisdoc.com.br');
+                                    $emails = array($nm,$dtt['tt_email'],'renefgj@gmail.com');
                                     enviaremail($emails,$ass,$t,6);   
                                 }
                         }
+
+                        echo '<script>wclose();</script>';
 
                         /******* Enviar e-mail */
                         exit;
@@ -134,7 +150,7 @@ class Bibeads extends CI_Model
         function tutor_view($id)
             {
                 $sql = "select * from person 
-                            where p_tutor = $id and (p_ativo = 1 or p_ativo = 0) order by p_nome";
+                            where p_tutor = $id and (p_ativo = 1 or p_ativo = 0 or p_ativo = 9) order by p_nome";
                 $rlt = $this->db->query($sql);
                 $rlt = $rlt->result_array();
 
@@ -151,19 +167,27 @@ class Bibeads extends CI_Model
                         $linka = '</a>';                        
                         $sts = '';
                         $stx = '';
+                        $stxc = '';
                         if ($line['p_ativo']==0)
                             {
                                 $sts = '<s><span style="color: red">';
                                 $stx = '</span></s>';
                             } else {
+                        if ($line['p_ativo']==9)
+                            {
+                                $sts = '<span style="color: orange">';
+                                $stx = '</span>';
+                                $stxc .= '<sup style="color: red;">(!)</sup>';  
+                            } else {                                
                                 $sts = '<b>';
                                 $stx = '</b>';
+                            }
                             }
                         $tot++;
                         $sx .= '<tr>';
                         $sx .= '<td width="5%" align="right">'.$tot.'.'.'</td>';
                         $sx .= '<td width="5%">&nbsp;'.$link.$sts.$line['p_cracha'].$stx.$linka.'</td>';
-                        $sx .= '<td>&nbsp;'.$link.$sts.$line['p_nome'].$stx.$linka.'</td>';
+                        $sx .= '<td>&nbsp;'.$link.$sts.$line['p_nome'].$stx.$linka.$stxc.'</td>';
                         $sx .= '</tr>';
                     }
                 $sx .= '</table>';
@@ -187,6 +211,19 @@ class Bibeads extends CI_Model
                 }
                 return($sx);
             }
+
+        function semacesso($dt)
+            {
+                $ativo = $dt['p_ativo'];
+                $sx = '&nbsp;&nbsp;&nbsp;';
+                if ($ativo == 1)
+                {
+                    $sx .= '<a href="#" class="btn btn-success" onclick="newxy(\''.base_url(PATH.'ajax/acesso/'.$dt['id_p'].'/9').'\',800,300);">Sem acesso</a>';
+                } else {
+                    $sx .= '<a href="#" class="btn btn-success" onclick="newxy(\''.base_url(PATH.'ajax/ativar/'.$dt['id_p'].'/1').'\',800,300);">Reativar</a>';
+                }
+                return($sx);
+            }            
 
         function bt()
             {
@@ -265,26 +302,42 @@ class Bibeads extends CI_Model
                 return($sx);
             }
 
-        function tutores()
+        function about()
+        {
+            $sx = '<h1>Sobre</h1>';
+            $sx .= '<p>Em construção!</p>';
+            return($sx);
+        }
+
+        function contact()
+            {
+                $sx = 'bibead@ufrgs.br';
+                return($sx);
+            }
+
+        function professores_view($id)
+            {
+            $sx = '<h1>Professor</h1>';
+            $sx .= '<p>Em construção!</p>';
+            return($sx);
+            }
+
+        function professores()
             {
                 $t = array(0,0,0);
-                $sql = "select * from tutores 
-                        Inner Join (
-                                Select count(*) as ativos, p_tutor 
-                                from person
-                                where p_ativo = 1 and p_tutor <> 0 group by p_tutor
-                                ) as tb1 ON tb1.p_tutor = id_tt
+                $sql = "select * from professores 
                         left Join (
-                                Select count(*) as inativo, p_tutor 
-                                from person
-                                where p_ativo = 0 and p_tutor <> 0 group by p_tutor
-                                ) as tb2 ON tb2.p_tutor = id_tt  
+                                Select count(*) as ativos, d_professor 
+                                from disciplinas
+                                where d_ativo = 1 and d_professor <> 0 group by d_professor
+                                ) as tb1 ON tb1.d_professor = id_pp
                         left Join (
-                                Select count(*) as hold, p_tutor 
-                                from person
-                                where p_ativo = 2 and p_tutor <> 0  group by p_tutor
-                                ) as tb3 ON tb3.p_tutor = id_tt
-                        where tt_ativo = 1 order by tt_nome";
+                                Select count(*) as hold, d_professor 
+                                from disciplinas
+                                where d_ativo = 2 and d_professor <> 0  group by d_professor
+                                ) as tb3 ON tb3.d_professor = id_pp
+                        where pp_ativo = 1 order by pp_nome";
+                        
                 $rlt = $this->db->query($sql);
                 $rlt = $rlt->result_array();
                 $sx = '';
@@ -294,23 +347,21 @@ class Bibeads extends CI_Model
                         <td width="2%" align="center" style="border: 1px solid #333;">#</td>
                         <td style="border: 1px solid #333;">Tutor</td>
                         <td align="center" style="border: 1px solid #333;">Ativos</td>
-                        <td align="center" style="border: 1px solid #333;">Inativo</td>
-                        <td align="center" style="border: 1px solid #333;">Retido</td>
+                        <td align="center" style="border: 1px solid #333;">Findados</td>
                         </tr>';
                 for ($r=0;$r < count($rlt);$r++)
                     {
                         $line = $rlt[$r];
-                        $link = '<a href="'.base_url(PATH.'tutor/'.$line['id_tt']).'">';
+                        $link = '<a href="'.base_url(PATH.'professor/'.$line['id_pp']).'">';
                         $linka = '</a>';
                         $sx .= '<tr>';
                         $sx .= '<td>'.($r+1).'</td>';
-                        $sx .= '<td>'.$link.$line['tt_nome'].$linka.'</td>';
+                        $sx .= '<td>'.$link.$line['pp_nome'].$linka.'</td>';
                         $sx .= '<td align="center">'.$link.$line['ativos'].$linka.'</td>';
-                        $sx .= '<td align="center">'.$link.$line['inativo'].$linka.'</td>';
                         $sx .= '<td align="center">'.$link.$line['hold'].$linka.'</td>';
                         $sx .= '</tr>';
                         $t[0] = $t[0] + round($line['ativos']);
-                        $t[1] = $t[1] + round($line['inativo']);
+                        $t[1] = $t[1] + 0;
                         $t[2] = $t[2] + round($line['hold']);
                     }
 
@@ -330,10 +381,82 @@ class Bibeads extends CI_Model
                 $sx .= '</div>';
 
                 return($sx);
+            }            
+
+        function tutores()
+            {
+                $t = array(0,0,0);
+                $sql = "select * from tutores 
+                        left Join (
+                                Select count(*) as ativos, p_tutor 
+                                from person
+                                where p_ativo = 1 and p_tutor <> 0 group by p_tutor
+                                ) as tb1 ON tb1.p_tutor = id_tt
+                        left Join (
+                                Select count(*) as inativo, p_tutor 
+                                from person
+                                where p_ativo = 0 and p_tutor <> 0 group by p_tutor
+                                ) as tb2 ON tb2.p_tutor = id_tt  
+                        left Join (
+                                Select count(*) as hold, p_tutor 
+                                from person
+                                where p_ativo = 9 and p_tutor <> 0  group by p_tutor
+                                ) as tb3 ON tb3.p_tutor = id_tt
+                        where tt_ativo = 1 order by tt_ativo desc, tt_nome";
+                $rlt = $this->db->query($sql);
+                $rlt = $rlt->result_array();
+                $sx = '';
+                $sx .= '<div class="container"><div class="row"><div class="col-md-12">';
+                $sx .= '<table class="table2" width="100%">';
+                $sx .= '<tr>
+                        <td width="2%" align="center" style="border: 1px solid #333;">#</td>
+                        <td style="border: 1px solid #333;">Tutor</td>
+                        <td align="center" style="border: 1px solid #333;">Ativos</td>
+                        <td align="center" style="border: 1px solid #333;">Inativo</td>
+                        <td align="center" style="border: 1px solid #333;">Retido</td>
+                        <td align="center" style="border: 1px solid #333;">Total</td>
+                        </tr>';
+                for ($r=0;$r < count($rlt);$r++)
+                    {
+                        $line = $rlt[$r];
+                        $link = '<a href="'.base_url(PATH.'tutor/'.$line['id_tt']).'">';
+                        $linka = '</a>';
+                        $sx .= '<tr>';
+                        $sx .= '<td>'.($r+1).'</td>';
+                        $sx .= '<td>'.$link.$line['tt_nome'].$linka.'</td>';
+                        $sx .= '<td align="center">'.$link.$line['ativos'].$linka.'</td>';
+                        $sx .= '<td align="center">'.$link.$line['inativo'].$linka.'</td>';
+                        $sx .= '<td align="center">'.$link.$line['hold'].$linka.'</td>';
+                        $sx .= '<td align="center">'.$link.($line['hold']+$line['inativo']+$line['ativos']).$linka.'</td>';
+                        $sx .= '</tr>';
+                        $t[0] = $t[0] + round($line['ativos']);
+                        $t[1] = $t[1] + round($line['inativo']);
+                        $t[2] = $t[2] + round($line['hold']);
+                    }
+
+                $sx .= '<tr>';
+                $sx .= '<td#</td>';
+                $sx .= '<td align="right" style="border-top: 1px solid #333;">Total: <b>';
+                $sx .= ($t[0]+$t[1]+$t[2]);
+                $sx .= '</b></td>
+                        <td style="border-top: 1px solid #333;"></td>
+                        <td align="center" style="border-top: 1px solid #333;"><b>'.$t[0].'</b></td>
+                        <td align="center" style="border-top: 1px solid #333;"><b>'.$t[1].'</b></td>
+                        <td align="center" style="border-top: 1px solid #333;"><b>'.$t[2].'</b></td>
+                        <td align="center" style="border-top: 1px solid #333;"><b>'.($t[2]+$t[1]+$t[0]).'</b></td>
+                        </tr>';
+                $sx .= '</table>';
+                $sx .= '<a href="'.base_url(PATH.'rel').'" class="btn btn-outline-primary">Relatório Completo</a>';
+                $sx .= '</div>';
+                $sx .= '</div>';
+                $sx .= '</div>';
+
+                return($sx);
             }
         function painel()
             {
                 $sx = '';
+                $sx .= '<div class="container"><div class="row">';
                 $sql = "select count(*) as total from tutores where tt_ativo = 1";
                 $rlt = $this->db->query($sql);
                 $rlt = $rlt->result_array();
@@ -341,11 +464,11 @@ class Bibeads extends CI_Model
                 $link = base_url(PATH.'tutor');
                 $dt = array();
                 $dt['title'] = 'TUTORES';
-                $dt['img'] = '';
-                $dt['description'] = 'Total de '.$rlt[0]['total'].' total';
+                $dt['img'] = 'img/icone/icon_tutor_ead.png';
+                $dt['description'] = 'Total  '.$rlt[0]['total'].' total';
                 $dt['link'] = $link;
                 $dt['button'] = 'VISUALIZAR';
-                $sx .= bscard($dt);
+                $sx .= '<div class="'.bscol(4).'">'.bscard($dt).bsdivclose(1);
                 
 
                 $curso = $_SESSION['CURSO'];
@@ -355,11 +478,26 @@ class Bibeads extends CI_Model
                 $link = base_url(PATH.'persons');
                 $dt = array();
                 $dt['title'] = 'ESTUDANTES';
-                $dt['img'] = '';
+                $dt['img'] = 'img/icone/icon_student_ead.png';
                 $dt['description'] = 'Total de '.$rlt[0]['total'].' total';
                 $dt['link'] = $link;
                 $dt['button'] = 'VISUALIZAR';
-                $sx .= bscard($dt);
+                $sx .= '<div class="'.bscol(4).'">'.bscard($dt).bsdivclose(1);
+
+                $curso = $_SESSION['CURSO'];
+                $sql = "select count(*) as total from professores where pp_ativo = 1";
+                $rlt = $this->db->query($sql);
+                $rlt = $rlt->result_array();
+                $link = base_url(PATH.'professor');
+                $dt = array();
+                $dt['title'] = 'PROFESSORES';
+                $dt['img'] = 'img/icone/icon_professor_ead.png';
+                $dt['description'] = 'Total de '.$rlt[0]['total'].' total';
+                $dt['link'] = $link;
+                $dt['button'] = 'VISUALIZAR';
+                $sx .= '<div class="'.bscol(4).'">'.bscard($dt).bsdivclose(1);                
+
+                $sx .= bsdivclose(2);
 
                 return($sx);
             }

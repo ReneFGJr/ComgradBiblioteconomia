@@ -26,6 +26,12 @@ if (count($indicadores[0]) > 0) { $line = $indicadores[0];
                         <span class="btn btn-outline-success" style="width: 100%;">Ativo</span>
                         </td>';
                 break;
+
+                case '9':
+                echo '  <td align="right">
+                        <span class="btn btn-outline-danger" style="width: 100%;">Sem acesso</span>
+                        </td>';
+                break;                
             }
         
         echo '</tr>'.cr();

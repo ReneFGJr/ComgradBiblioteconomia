@@ -4,6 +4,10 @@ if ($p_ativo == 0)
     {
         $style = ' style="color: red;" ';
     }
+if ($p_ativo == 9)
+    {
+        $style = ' style="color: orange;" ';
+    }    
 ?>
 <div class="row">
     <div class="col-md-10">
