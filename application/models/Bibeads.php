@@ -2,6 +2,22 @@
 
 class Bibeads extends CI_Model
     {
+        function contact_ed($id)
+		{
+			$cp = array();
+			array_push($cp,array('$H8','id_ct','',false,false));
+			array_push($cp,array('$S100','ct_contato','ct_contato',true,true));
+			$form = new form;
+			$form->id = $id;
+			$sx = $form->editar($cp,'person_contato');
+            if ($form->saved > 0)
+                {
+                    $sx = '<script> wclose(); </script>';
+                    $sx .= 'Alteração realizado com sucesso!';
+                }
+			return($sx);
+		}
+
         function tutor_le($id)
             {
                 $sql = "select * from tutores 
