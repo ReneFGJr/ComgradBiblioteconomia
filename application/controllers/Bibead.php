@@ -11,7 +11,7 @@ class Bibead extends CI_controller {
         $this -> load -> helper('bootstrap');
         $this -> load -> library('session');
         $this -> load -> library('tcpdf');
-        $this->load->helper('socials');
+        $this->load->helper('socials');        
 
         if (!isset($_SESSION["CURSO"]))
             {
@@ -22,7 +22,19 @@ class Bibead extends CI_controller {
         date_default_timezone_set('America/Sao_Paulo');
         /* Security */
         //		$this -> security();
+        $this -> security();
     }
+
+    function security()
+        {
+            $pag = '';
+            $req = $_SERVER['REQUEST_URI'];
+            $pag = '/comgradbib/index.php/bibead/social';
+            if ((!isset($_SESSION['id'])) and (substr($req,0,strlen($pag)) != $pag))
+                {                    
+                    redirect(base_url(PATH.'social/login'));
+                }
+        }    
 
     function rel($id='')
         {
@@ -360,9 +372,10 @@ class Bibead extends CI_controller {
 
         $this -> load -> model('bibeads');
         $this -> load -> model('pags');
-        echo utf8_decode($this -> pags -> export_answer($arg));
-
+        echo utf8_decode($this -> pags -> export_answer($arg));        
     }
+
+
 
     function ajax($ac='',$id='',$vlr='',$conf='')
         {
