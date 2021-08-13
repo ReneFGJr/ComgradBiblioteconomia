@@ -9,7 +9,15 @@
 * @link        http://www.sisdoc.com.br/CodIgniter
 * @version     v0.21.05.28
 */
-
+function bsdivclose($n)
+    {
+        $sx = '';
+        for ($r=0;$r < $n;$r++)
+            {
+                $sx .= '</div>';
+            }
+        return($sx);
+    }
 function bscard($dt)
     {
         if (isset($dt['img'])) { 

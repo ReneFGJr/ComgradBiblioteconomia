@@ -18,6 +18,100 @@ class Bibeads extends CI_Model
 			return($sx);
 		}
 
+        function mostrar_notas($cracha)
+            {
+                $sql = "select * from person_notas 
+                            INNER JOIN disciplinas ON d_codigo = pn_disciplina
+                            where pn_cracha = '$cracha' 
+                            order by pn_disciplina";
+                $rlt = $this->db->query($sql);
+                $rlt = $rlt->result_array();
+
+                $sx = '';
+                $sx .= '<table class="table2" style="width: 100%;">';
+                $sx .= '<tr><th width="10%">Cod.</th><th width="5%">Nota</th><th>Disciplina</th></tr>';
+                for ($r=0;$r < count($rlt);$r++)
+                    {
+                        $line = $rlt[$r];
+                        $sx .= '<tr>';
+                        $sx .= '<td>'.$line['pn_disciplina'].'</td>';
+                        $sx .= '<td align="center">'.$line['pn_nota'].'</td>';
+                        $sx .= '<td>'.$line['d_nome'].'</td>';                        
+                        $sx .= '</tr>';
+                    }
+                $sx .= '</table>';
+                return($sx);
+            }
+
+        function notas()
+            {
+                $file = 'D:\GoogleDrive\UFRGS\BibEaD\NOTAS\bibad0$n.txt';
+                
+                for ($r=1;$r < 9;$r++)
+                    {
+                        $nt1 = 0;
+                        $nt2 = 0;
+                        $disciplina = 'BIBAD'.strzero($r,3);
+                        $filex = troca($file,'$n',strzero($r,2));                        
+                        echo '<h3>'.$filex.'</h3>';
+                        $t = file_get_contents($filex);
+                        $t = troca($t,'checked="checked">','>*');
+                        $t = troca($t,'<tr ','####################<tr');
+                        $t = strip_tags($t);
+                        $t = troca($t,chr(10),'');
+
+                        $ln = explode(chr(13),$t);
+                        $ok = 0;
+
+                        for ($n=0;$n < count($ln);$n++)
+                            {
+                                $l = trim($ln[$n]);
+                                if (substr($l,0,5) == '#####')
+                                    {
+                                        $nome = trim($ln[$n+1]);
+                                        $cracha = strzero(trim($ln[$n+2]),8);
+                                        $nota = '';
+                                        $ok = 1;
+                                    } else {
+                                        $ok++;
+                                        if ($ok > 0)
+                                        {
+                                        
+                                        if (substr($l,0,1) == '*')
+                                            {
+                                                $nota = trim($l);
+                                                $nota = troca($nota,'*','');
+
+                                                $sql = "select * from person_notas where pn_cracha = '$cracha' and pn_disciplina = '$disciplina' ";
+                                                $rlt = $this->db->query($sql);
+                                                $rlt = $rlt->result_array();
+                                                if (count($rlt) == 0)
+                                                    {
+                                                        $sql = "insert into person_notas
+                                                                (pn_cracha, pn_disciplina, pn_nota)
+                                                                values
+                                                                ('$cracha','$disciplina','$nota')
+                                                                ";
+                                                        $rlt = $this->db->query($sql);
+                                                        $nt1++;
+                                                    } else {
+                                                        if ($rlt[0]['pn_nota'] != $nota)
+                                                            {
+                                                                $sql = "update person_notas
+                                                                            set pn_nota = '$nota' 
+                                                                            where id_pn = ".$rlt[0]['id_pn'];
+                                                                echo $sql;
+                                                                exit;
+                                                            }
+                                                        $nt2++;
+                                                    }
+                                            }
+                                        }
+                                    }
+                            } 
+                    }
+            }
+
         function tutor_le($id)
             {
                 $sql = "select * from tutores 

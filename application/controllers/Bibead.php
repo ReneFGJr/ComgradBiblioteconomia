@@ -1,4 +1,7 @@
 <?php
+define("PATH","index.php/bibead/");
+define("LIBRARY_NAME","ComgradBib");
+
 class Bibead extends CI_controller {
     function __construct() {
         parent::__construct();
@@ -22,7 +25,7 @@ class Bibead extends CI_controller {
         date_default_timezone_set('America/Sao_Paulo');
         /* Security */
         //		$this -> security();
-        $this -> security();
+        //$this -> security();
     }
 
     function security()
@@ -30,6 +33,7 @@ class Bibead extends CI_controller {
             $pag = '';
             $req = $_SERVER['REQUEST_URI'];
             $pag = '/comgradbib/index.php/bibead/social';
+            $pag = 'index.php/bibead/social';
             if ((!isset($_SESSION['id'])) and (substr($req,0,strlen($pag)) != $pag))
                 {                    
                     redirect(base_url(PATH.'social/login'));
@@ -95,8 +99,8 @@ class Bibead extends CI_controller {
         }
 
     private function cab($navbar = 1) {
-        define("PATH","index.php/bibead/");
-        define("LIBRARY_NAME","ComgradBib");
+        //define("PATH","index.php/bibead/");
+        //define("LIBRARY_NAME","ComgradBib");
         $this -> load -> helper('socials');
         $data['title'] = 'Biblioteconomia EAD ::::';
         $this -> load -> view('header/header', $data);
@@ -126,6 +130,14 @@ class Bibead extends CI_controller {
         $data = array();
         $this -> load -> view('bolsas/divulgacao', $data);
     }
+
+    public function notas() {
+        $this -> cab();
+        $this->load->model('bibeads');
+        $data = array();
+        $data['content'] = $this->bibeads->notas();
+        $this -> load -> view('content', $data);
+    }    
 
     public function cursos($id='') {
         $this -> cab();
@@ -219,6 +231,8 @@ class Bibead extends CI_controller {
         $sx .= $this -> mensagens -> nova_mensagem($id);
         $sx .= $this -> bibeads -> ativo_inativo($data);
         $sx .= $this -> bibeads -> semacesso($data);
+
+        $sx .= $this -> bibeads -> mostrar_notas($data['p_cracha']);
         $data['content'] = $sx;
         $this -> load -> view('content', $data);
 
