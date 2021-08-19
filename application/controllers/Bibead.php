@@ -125,6 +125,18 @@ class Bibead extends CI_controller {
         //$this -> load -> view('welcome');
     }
 
+    public function report($n='1') {
+        $this->load->model('Bibeads');
+        $this -> cab();
+        $data = array();
+
+        $sx = $this->Bibeads->report($n);
+        $data['content'] = $sx;
+        $data['fluid'] = 'true';
+        $this->load->view('content',$data);
+    }
+
+
     public function bolsas() {
         $this -> cab();
         $data = array();
@@ -224,6 +236,8 @@ class Bibead extends CI_controller {
         $sx .= '<div class="col-md-3">';
         $sx .= $this -> load -> view('person/person_indicadores', $data, true);
         $sx .= '</div>';
+
+
         $data['content'] = $sx;
         $this -> load -> view('content', $data);
 

@@ -18,6 +18,109 @@ class Bibeads extends CI_Model
 			return($sx);
 		}
 
+        function report($n)
+            {
+                switch($n)
+                    {
+                        case '1':
+                            return($this->notas_semestre());
+                    }
+            }
+
+        function notas_semestre($n=1)
+            {
+                $sql = "select * from person_notas 
+                            INNER JOIN person ON pn_cracha = p_cracha
+                            INNER JOIN tutores ON p_tutor = id_tt
+                            INNER JOIN disciplinas ON d_codigo = pn_disciplina
+                            where d_etapa = '$n' and p_tutor <> 0 and p_ativo <> 0
+                            order by tt_nome, p_nome, pn_cracha, pn_disciplina";
+                $rlt = $this->db->query($sql);
+                $rlt = $rlt->result_array();
+                $n = array('S','-','-','-','-','-','-','-','-');
+                $xcracha = '';
+                $dt = array();
+
+                for ($r=0;$r < count($rlt);$r++)
+                {
+                    $line = $rlt[$r];
+                    $cracha = $line['pn_cracha'];
+
+                    if ($cracha != $xcracha)
+                        {
+                            $xcracha = $cracha;
+                            $notaX='OK';
+                        }
+
+                    $nome = $line['p_nome'];
+                    $nota = $line['pn_nota'];
+                    $tutor = $line['tt_nome'];
+
+                    if ($nota == 'Se') { $nota = 'NI'; }
+                    if (($nota == 'NI') or ($nota == 'D'))
+                        {
+                            $notaX = 'ERRO';
+                        }
+                    $col = round(sonumero($line['pn_disciplina']));
+                    if (isset($dt[$nome]))
+                        {
+                            $dt[$nome][$col] = $nota;
+                            $dt[$nome]['tutor'] = $tutor;
+                        } else {
+                            $dt[$nome] = $n;
+                            $dt[$nome][$col] = $nota;
+                            $dt[$nome]['tutor'] = $tutor;
+                        }
+                    $dt[$nome][0] = $notaX;
+
+                }
+                /*
+                echo '<pre>';
+                print_r($dt);
+                echo '</pre>';
+                */
+                $xtutor = '';
+                $sx = '<table width="100%">';
+                $sx .= '<tr><th></th></tr>';
+                $toto = 0;
+                $tote = 0;
+                $totto = 0;
+                $totte = 0;
+                $st = 'border-bottom: 1px solid #000000;';
+                foreach($dt as $name => $notas)
+                    {
+                        $tutor = $notas['tutor'];
+                        if ($xtutor != $tutor)
+                            {
+                                if (($totto + $totte) > 0)
+                                    {
+                                        $sx .= '<tr><td colspan=5>Ativos: '.$totto.', Desistentes: '.$totte.'</td></tr>';
+                                        $totto = 0;
+                                        $totte = 0;
+                                    }
+                                $sx .= '<tr><td colspan=10"><h4>'.$tutor.'</h4></td></tr>'.cr();
+                                $xtutor = $tutor;
+                            }
+                        $sx .= '<tr>';
+                        if ($notas['0'] == 'OK') { $toto++; $totto++; $cor = ' style="color: blue; '.$st.'" '; }
+                        if ($notas['0'] == 'ERRO') { $tote++; $totte++; $cor = ' style="color: red; '.$st.'" '; }
+
+                        $sx .= '<td '.$cor.'>'.$name.'</td>';
+
+                        for ($r=0;$r < count($notas);$r++)
+                            {
+                                if (isset($notas[$r]))
+                                {
+                                    $sx .= '<td '.$cor.'>'.$notas[$r].'</td>';
+                                }
+                            }
+                        $sx .= '</tr>';
+                    }
+                $sx .= '</table>';
+                $sx .= 'Ativos ('.$toto.'), Desistentes ('.$tote.'), Total '.($toto+$tote);
+                return($sx);
+            }
+
         function mostrar_notas($cracha)
             {
                 $sql = "select * from person_notas 
@@ -606,6 +709,11 @@ class Bibeads extends CI_Model
                 $dt['link'] = $link;
                 $dt['button'] = 'VISUALIZAR';
                 $sx .= '<div class="'.bscol(4).'">'.bscard($dt).bsdivclose(1);                
+
+                $sx .= '<div class="'.bscol(12).'">';
+                $sx .= '<a href="'.base_url(PATH.'report/1').'">Report 1</a>';
+                $sx .= '</div>';
+
 
                 $sx .= bsdivclose(2);
 
