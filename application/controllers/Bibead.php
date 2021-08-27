@@ -136,6 +136,28 @@ class Bibead extends CI_controller {
         $this->load->view('content',$data);
     }
 
+    public function disciplinas($n='') {
+        $this->load->model('Bibeads');
+        $this -> cab();
+        $data = array();
+
+        $sx = $this->Bibeads->disciplinas($n);
+        $data['content'] = $sx;
+        $data['fluid'] = 'true';
+        $this->load->view('content',$data);
+    }    
+
+    public function matricula($n='1') {
+        $this->load->model('Bibeads');
+        $this -> cab();
+        $data = array();
+
+        $sx = $this->Bibeads->matriculas($n);
+        $data['content'] = $sx;
+        $data['fluid'] = 'true';
+        $this->load->view('content',$data);
+    }    
+
 
     public function bolsas() {
         $this -> cab();

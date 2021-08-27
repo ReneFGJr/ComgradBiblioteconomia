@@ -24,7 +24,154 @@ class Bibeads extends CI_Model
                     {
                         case '1':
                             return($this->notas_semestre());
+                            break;
+                        case '2':
+                            return($this->estudantes_desistentes());
+                            break;   
+                        case '3':
+                            return($this->eletivas());
+                            break;                                                      
                     }
+            }
+
+        function eletivas($cod='')
+            {
+                $cod = get("disciplina");
+                if (strlen($cod) == 0)
+                    {
+                        $cod =  'BIBAD016';
+                    }
+                
+                $rlt = $this->db->query("select * from disciplinas where d_codigo = '$cod' ");
+                $rlt = $rlt->result_array();
+                $line = $rlt[0];
+
+                $sx = '<h1>'.$line['d_nome'].'</h1>';
+                $sx .= '<h5>'.$line['d_codigo'].'</h5>';
+                $cp = 'p_cracha, p_nome, tt_nome, de_disciplina';
+                $sql = "select $cp from disciplinas_eletivas
+                            INNER JOIN person ON de_estudante = p_cracha  
+                            INNER JOIN tutores ON p_tutor = id_tt                         
+                            where de_disciplina = '$cod'
+                            group by $cp
+                            order by p_nome";
+
+                $rlt = $this->db->query($sql);
+                $rlt = $rlt->result_array();
+                $sx .= '<table wdith="100%">';
+                $sx .= '<tr><th>#</th>';
+                $sx .= '<th width="15%">Cracha</th>';
+                $sx .= '<th width="40%">Nome</th>';
+                $sx .= '<th width="40%">Tutor</th>';
+                for ($r=0;$r < count($rlt);$r++)
+                    {
+                        $line = $rlt[$r];
+                        $sx .= '<tr>';
+                        $sx .= '<td>'.($r+1).'. </td>';
+                        $sx .= '<td>'.$line['p_cracha'].'</td>';
+                        $sx .= '<td>'.$line['p_nome'].'</td>';
+                        $sx .= '<td>'.$line['tt_nome'].'</td>';
+                        $sx .= '<td>'.$line['de_disciplina'].'</td>';
+                        $sx .= '</tr>';
+                    }
+                $sx .= '</table>';
+                return($sx);
+            }
+
+        function estudantes_desistentes()
+            {
+                $sx = '';
+                $sql = "select * from person 
+                            INNER JOIN tutores ON p_tutor = id_tt
+                            where p_tutor <> 0 and p_ativo <> 1
+                            order by p_nome ";
+                $rlt = $this->db->query($sql);
+                $rlt = $rlt->result_array();
+
+                $sx .= '<h1>Lista de estudantes desistentes</h1>';
+
+                $sx .= '<table wdith="100%">';
+                $sx .= '<tr><th>#</th>';
+                $sx .= '<th width="15%">Cracha</th>';
+                $sx .= '<th width="40%">Nome</th>';
+                $sx .= '<th width="40%">Tutor</th>';
+                for ($r=0;$r < count($rlt);$r++)
+                    {
+                        $line = $rlt[$r];
+                        $sx .= '<tr>';
+                        $sx .= '<td>'.($r+1).'. </td>';
+                        $sx .= '<td>'.$line['p_cracha'].'</td>';
+                        $sx .= '<td>'.$line['p_nome'].'</td>';
+                        $sx .= '<td>'.$line['tt_nome'].'</td>';
+                        $sx .= '</tr>';
+                    }
+                $sx .= '</table>';
+                return($sx);
+            }
+
+        function matriculas($n)
+            {
+                switch($n)
+                    {
+                        case '1':
+                            return($this->matriculas_inportar_eletivas());
+                    }
+            }
+
+        function matriculas_inportar_eletivas()
+            {
+                $mat = 0;
+                $form = new form;
+                $cp = array();
+                array_push($cp,array('$H8','','',false,false));
+                array_push($cp,array('$M1','','Matriculas Eletivas',false,false));
+                array_push($cp,array('$T80:5','','Cracha dos alunos',true,true));
+                $sql = "select * from disciplinas where d_eletiva = 1 order by d_codigo";
+                array_push($cp,array('$Q d_codigo:d_nome:'.$sql,'','Disciplina',true,true));
+                array_push($cp,array('$O 2021/1:2021/1','','Semestre',true,true));
+                array_push($cp,array('$O : &1:SIM','','Confirma',true,true));
+
+                $sx = $form->editar($cp,'');
+                $sx = '<div class="container">'.$sx.'</div>';
+
+                if ($form->saved > 0)
+                    {
+                        $t = get("dd2");
+                        $cd = explode(chr(10),$t);
+                        $semestre = get("dd4");
+                        $disciplina = get("dd3");
+
+                        for ($r=0;$r < count($cd);$r++)
+                            {
+                                $cracha = $cd[$r];
+                                $this->matricula_aluno($disciplina,$cracha,$semestre);
+                                $mat++;
+                            }
+                        $sx = 'Realizado '.$mat.' matriculas';
+                    }
+                return $sx;
+            }  
+
+        function matricula_aluno($disciplina,$estudante,$semestre)
+            {
+                $sql = "SELECT * FROM disciplinas_eletivas
+                             where de_disciplina = '$disciplina'
+                             and de_estudante = '$estudante'
+                             and de_semestre = '$semestre' ";
+                $rlt = $this->db->query($sql);
+                $rlt = $rlt->result_array();
+
+                if (count($rlt) == 0)
+                    {
+                        $sql = "insert into disciplinas_eletivas
+                                (de_disciplina, de_estudante, de_semestre )
+                                values
+                                ('$disciplina','$estudante','$semestre')
+                        ";
+                        $this->db->query($sql);
+                    }
+                $sx = '';
+                return $sx;
             }
 
         function notas_semestre($n=1)
@@ -33,14 +180,18 @@ class Bibeads extends CI_Model
                             INNER JOIN person ON pn_cracha = p_cracha
                             INNER JOIN tutores ON p_tutor = id_tt
                             INNER JOIN disciplinas ON d_codigo = pn_disciplina
+                            LEFT JOIN (select de_estudante, count(*) as el from disciplinas_eletivas group by de_estudante )
+                                    as eletivas
+                                    on pn_cracha = de_estudante
                             where d_etapa = '$n' and p_tutor <> 0 and p_ativo <> 0
+                            and p_ativo <> 0
                             order by tt_nome, p_nome, pn_cracha, pn_disciplina";
                 $rlt = $this->db->query($sql);
                 $rlt = $rlt->result_array();
                 $n = array('S','-','-','-','-','-','-','-','-');
                 $xcracha = '';
                 $dt = array();
-
+                $dps = 0;
                 for ($r=0;$r < count($rlt);$r++)
                 {
                     $line = $rlt[$r];
@@ -49,17 +200,40 @@ class Bibeads extends CI_Model
                     if ($cracha != $xcracha)
                         {
                             $xcracha = $cracha;
-                            $notaX='OK';
+                            $notaX='APROVADO';
+                            $dps = 0;
                         }
 
                     $nome = $line['p_nome'];
                     $nota = $line['pn_nota'];
                     $tutor = $line['tt_nome'];
+                    $status = $line['p_ativo'];
+                    $eletiva = $line['el'];
+                    $cor = '';
+                    if ($line['p_ativo'] == 0)
+                        {
+                            $cor = 'style="color: red;" ';
+                        }
+                    $link = '<a href="'.base_url(PATH.'person/'.$line['id_p']).'" target="new'.$line['id_p'].'" '.$cor.'>';
 
                     if ($nota == 'Se') { $nota = 'NI'; }
-                    if (($nota == 'NI') or ($nota == 'D'))
+                    if (($nota == 'NI') or ($nota == 'D') or ($nota == 'FF'))
                         {
-                            $notaX = 'ERRO';
+                            $dps++;
+                            if ($dps > 2)
+                            {
+                                /************************************************************* Alerta */
+                                $notaX = 'ALERTA';
+                                if ($dps > 3)
+                                    {
+                                        /************************************************* Desistente */
+                                        $notaX = 'DESISTENTE';
+                                    }
+                            } else {
+                                /********************************************************* Atenção ****/
+                                $notaX = 'ATENÇÃO';
+                            }
+                            
                         }
                     $col = round(sonumero($line['pn_disciplina']));
                     if (isset($dt[$nome]))
@@ -70,6 +244,9 @@ class Bibeads extends CI_Model
                             $dt[$nome] = $n;
                             $dt[$nome][$col] = $nota;
                             $dt[$nome]['tutor'] = $tutor;
+                            $dt[$nome]['link'] = $link;
+                            $dt[$nome]['status'] = $status;
+                            $dt[$nome]['eletivas'] = $eletiva;
                         }
                     $dt[$nome][0] = $notaX;
 
@@ -86,10 +263,11 @@ class Bibeads extends CI_Model
                 $tote = 0;
                 $totto = 0;
                 $totte = 0;
+                $linka = '</a>';
                 $st = 'border-bottom: 1px solid #000000;';
                 foreach($dt as $name => $notas)
                     {
-                        $tutor = $notas['tutor'];
+                        $tutor = $notas['tutor'];                        
                         if ($xtutor != $tutor)
                             {
                                 if (($totto + $totte) > 0)
@@ -102,10 +280,12 @@ class Bibeads extends CI_Model
                                 $xtutor = $tutor;
                             }
                         $sx .= '<tr>';
-                        if ($notas['0'] == 'OK') { $toto++; $totto++; $cor = ' style="color: blue; '.$st.'" '; }
-                        if ($notas['0'] == 'ERRO') { $tote++; $totte++; $cor = ' style="color: red; '.$st.'" '; }
-
-                        $sx .= '<td '.$cor.'>'.$name.'</td>';
+                        if ($notas['0'] == 'APROVADO') { $toto++; $totto++; $cor = ' style="color: #888; '.$st.'" '; }
+                        if ($notas['0'] == 'ALERTA') { $tote++; $totte++; $cor = ' style="color: RED; '.$st.'" '; }
+                        if ($notas['0'] == 'ATENÇÃO') { $tote++; $totte++; $cor = ' style="color: BLUE; '.$st.'" '; }
+                        if ($notas['0'] == 'DESISTENTE') { $tote++; $totte++; $cor = ' style="color: #ccc; '.$st.'" '; }
+                        $link = $notas['link'];
+                        $sx .= '<td '.$cor.'>'.$link.$name.$linka.'</td>';
 
                         for ($r=0;$r < count($notas);$r++)
                             {
@@ -114,10 +294,15 @@ class Bibeads extends CI_Model
                                     $sx .= '<td '.$cor.'>'.$notas[$r].'</td>';
                                 }
                             }
+                        $sx .= '<td>';
+                        $sx .= $notas['eletivas'];
+                        $sx .= '</td>';
                         $sx .= '</tr>';
                     }
                 $sx .= '</table>';
                 $sx .= 'Ativos ('.$toto.'), Desistentes ('.$tote.'), Total '.($toto+$tote);
+
+                $sx = '<div class="container">'.$sx.'</div>';
                 return($sx);
             }
 
@@ -148,15 +333,15 @@ class Bibeads extends CI_Model
 
         function notas()
             {
-                $file = 'D:\GoogleDrive\UFRGS\BibEaD\NOTAS\bibad0$n.txt';
-                
+                $file = '_documentation/NOTAS/bibad0$n.txt';
+                $sx = '';
                 for ($r=1;$r < 9;$r++)
                     {
                         $nt1 = 0;
                         $nt2 = 0;
                         $disciplina = 'BIBAD'.strzero($r,3);
                         $filex = troca($file,'$n',strzero($r,2));                        
-                        echo '<h3>'.$filex.'</h3>';
+                        $sx .= '<h3>'.$filex.'</h3>';
                         $t = file_get_contents($filex);
                         $t = troca($t,'checked="checked">','>*');
                         $t = troca($t,'<tr ','####################<tr');
@@ -203,8 +388,7 @@ class Bibeads extends CI_Model
                                                                 $sql = "update person_notas
                                                                             set pn_nota = '$nota' 
                                                                             where id_pn = ".$rlt[0]['id_pn'];
-                                                                echo $sql;
-                                                                exit;
+                                                                $this->db->query($sql);
                                                             }
                                                         $nt2++;
                                                     }
@@ -213,6 +397,14 @@ class Bibeads extends CI_Model
                                     }
                             } 
                     }
+                $sql = "update `person_notas` set pn_nota = 'NI' WHERE pn_nota = 'Se'";
+                $this->db->query($sql);
+                
+                $sql = "update `person_notas` set pn_nota = 'NI' WHERE pn_nota = 'NI'";
+                $this->db->query($sql);
+
+                $sx = '<h1>Imported<h1>'.$sx;
+                return($sx);                    
             }
 
         function tutor_le($id)
@@ -266,6 +458,130 @@ class Bibeads extends CI_Model
                 $rlt = $rlt->result_array();
                 $line = $rlt[0];
                 return($line);
+            }
+
+        function disciplinas($id='')
+            {
+                if (strlen($id) == 0)
+                {
+                    $sql = "select * from disciplinas order by d_etapa, d_codigo, d_eletiva ";
+                    $rlt = $this->db->query($sql);
+                    $rlt = $rlt->result_array();
+
+                    $sx = '';
+                    $sx .= '<div class="container"><div class="row"><div class="col-md-12">';
+                    $sx .= '<table class="table2" width="100%">';
+                    $sx .= '<tr>
+                            <td width="2%" align="center" style="border: 1px solid #333;">#</td>
+                            <td style="border: 1px solid #333;">Disciplia</td>
+                            <td align="center" style="border: 1px solid #333;">Código</td>
+                            <td align="center" style="border: 1px solid #333;">Etapa</td>
+                            <td align="center" style="border: 1px solid #333;">Eletiva</td>
+                            </tr>';
+                    for ($r=0;$r < count($rlt);$r++)
+                        {
+                            $line = $rlt[$r];
+                            $link = '<a href="'.base_url(PATH.'disciplinas/'.$line['id_d']).'">';
+                            $linka = '</a>';
+                            $sx .= '<tr>';
+                            $sx .= '<td>'.($r+1).'</td>';
+                            $sx .= '<td>'.$link.$line['d_nome'].$linka.'</td>';
+                            $sx .= '<td align="center">'.$link.$line['d_codigo'].$linka.'</td>';
+                            $sx .= '<td align="center">'.$link.$line['d_etapa'].$linka.'</td>';
+                            $ele = '';
+                            if ($line['d_eletiva'] == 1) { $ele = 'SIM'; }
+                            $sx .= '<td align="center">'.$link.$ele.$linka.'</td>';
+                            $sx .= '</tr>';
+                        }
+                    $sx .= '</table>';
+                    $sx .= '<a href="'.base_url(PATH.'rel').'" class="btn btn-outline-primary">Relatório Completo</a>';
+                    $sx .= '</div>';
+                    $sx .= '</div>';
+                    $sx .= '</div>';
+                } else {
+                    $sx = $this->view_diciplinas($id);
+                }
+
+                return($sx);
+            }
+        function view_diciplinas($id)
+            {
+                $sql = "select * from disciplinas where id_d = ".$id;
+                $rlt = $this->db->query($sql);
+                $rlt = $rlt->result_array();
+                $line = $rlt[0];
+
+                $sx = '';
+                $sx .= '<div class="col-12">';
+                $sx .= '<h3>'.$line['d_codigo'].' - '.$line['d_nome'].'</h3>';
+                $sx .= '</div>';
+
+                $sx .= '<div class="col-12">';
+                $sx .= '<h6>Etapa: '.$line['d_etapa'].'</h6>';
+                $sx.= 'Ordernar por: 
+                            <a href="'.base_url(PATH.'disciplinas/'.$id.'?order=tutor').'">Tutor</a> ou por 
+                            <a href="'.base_url(PATH.'disciplinas/'.$id.'?order=tutor').'">Estudante</a>
+                        </div>';
+
+                $sx .= '<div class="col-12">';
+                $order = 'p_nome';
+                $od = 1;
+                if (get("order") == "tutor") { $order = 'tt_nome, p_nome'; $od = 2; }
+                $sql = "select * from disciplinas
+                            INNER JOIN person_notas ON pn_disciplina = d_codigo
+                            INNER JOIN person ON p_cracha = pn_cracha
+                            LEFT JOIN tutores ON p_tutor = id_tt
+                             where id_d = ".$id."
+                             order by $order";
+                $rlt = $this->db->query($sql);
+                $rlt = $rlt->result_array();
+
+                $sx .= '<table class="table2" width="100%">';
+                $sx .= '<tr>
+                        <td width="2%" align="center" style="border: 1px solid #333;">#</td>
+                        <td width="4%" align="center" style="border: 1px solid #333;">Nota</td>
+                        <td align="center" style="border: 1px solid #333;">Estudante</td>
+                        <td align="center" style="border: 1px solid #333;">Tutor</td>
+                        </tr>';
+                $notas = array();
+                for ($r=0;$r < count($rlt);$r++)
+                    {
+                        $line = $rlt[$r];
+                        $cor = '';
+                        if($line['p_ativo'] == 0)
+                            {
+                                $cor = ' style="color: red;" ';
+                            }
+
+
+                        $link = '<a href="'.base_url(PATH.'person/'.$line['id_p']).'" '.$cor.'>';
+                        $linka = '</a>';
+
+
+                        $sx .= '<tr>';
+                        $sx .= '<td align="center">'.($r+1).'</td>';
+                        $sx .= '<td align="center">'.$link.$line['pn_nota'].$linka.'</td>';
+                        $sx .= '<td>'.$link.$line['p_nome'].$linka.'</td>';
+                        $sx .= '<td>'.$link.$line['tt_nome'].$linka.'</td>';
+                        $nt = $line['pn_nota'];
+                        if (!isset($notas[$nt]))
+                            {
+                                $notas[$nt] = 1;
+                            } else {
+                                $notas[$nt]++;
+                            }
+                    }
+                $sx .= '</table>';
+                ksort($notas);
+                foreach($notas as $nota=>$total)
+                    {
+                        $sx .= $nota.' ('.$total.') &nbsp;&nbsp;&nbsp; ';
+                    }
+                $sx .= '</div>';                    
+
+                $sx = '<div class="row">'.$sx.'</div>';
+                return $sx;
+                
             }
 
         function tutor_muda($ac,$id,$vlr,$conf)
@@ -708,10 +1024,28 @@ class Bibeads extends CI_Model
                 $dt['description'] = 'Total de '.$rlt[0]['total'].' total';
                 $dt['link'] = $link;
                 $dt['button'] = 'VISUALIZAR';
-                $sx .= '<div class="'.bscol(4).'">'.bscard($dt).bsdivclose(1);                
+                $sx .= '<div class="'.bscol(4).'">'.bscard($dt).bsdivclose(1);    
 
-                $sx .= '<div class="'.bscol(12).'">';
-                $sx .= '<a href="'.base_url(PATH.'report/1').'">Report 1</a>';
+
+                $curso = $_SESSION['CURSO'];
+                $sql = "select count(*) as total from disciplinas";
+                $rlt = $this->db->query($sql);
+                $rlt = $rlt->result_array();
+                $link = base_url(PATH.'disciplinas');
+                $dt = array();
+                $dt['title'] = 'DISCIPLINAS';
+                $dt['img'] = 'img/icone/icon_professor_ead.png';
+                $dt['description'] = 'Total de '.$rlt[0]['total'].' total';
+                $dt['link'] = $link;
+                $dt['button'] = 'VISUALIZAR';
+                $sx .= '<div class="'.bscol(4).'">'.bscard($dt).bsdivclose(1);                             
+
+                $sx .= '<div class="'.bscol(4).'">';
+                $sx .= '<ul>';
+                $sx .= '<li><a href="'.base_url(PATH.'report/1').'">Relatório Geral Notas (2020/1) </a></li>';
+                $sx .= '<li><a href="'.base_url(PATH.'report/2').'">Relatório de Desistentes</a></li>';
+                $sx .= '<li><a href="'.base_url(PATH.'matricula/1').'">Ativar Matricula Eletiva</a></li>';
+                $sx .= '<ul>';
                 $sx .= '</div>';
 
 

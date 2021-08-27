@@ -72,9 +72,15 @@ class mensagens extends CI_model {
 
 	function cp($cli = 0) {
 		$cp = array();
+		if (!isset($_SESSION['id']))
+			{
+				echo "Não logado";
+				exit;
+			}
+		$id_user = $_SESSION['id'];
 		array_push($cp, array('$H8', 'id_msg', '', False, True));
 		array_push($cp, array('$HV', 'msg_cliente_id', $cli, False, True));
-		array_push($cp, array('$HV', 'msg_user', $_SESSION['id'], True, True));
+		array_push($cp, array('$HV', 'msg_user', $id_user, True, True));
 		array_push($cp, array('$S80', 'msg_subject', msg('msg_subject'), True, True));
 		array_push($cp, array('$T80:5', 'msg_text', msg('msg_content'), True, True));
 		array_push($cp, array('$O 0:NÃO&1:SIM', 'msg_tipo', 'Enviar e-mail ao cliente', True, True));

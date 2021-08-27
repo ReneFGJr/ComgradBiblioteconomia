@@ -1,0 +1,1687 @@
+<table class="modelo1" style="width:95%;">
+                    <thead>
+                        <tr>
+                            <th class="th1">Nome</th>
+                            <th class="th1" style="width:70px;">Cartão</th>
+                            <th class="th1">Resultado</th>
+                            <th class="th1" colspan="7">Informe o conceito do Aluno</th>
+                            <th class="th1" style="width:10px;" id="thFrequencia"></th>
+                            <th class="th1"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="TableAlunos">
+<tr class="modelo1even">
+	<td>ALDEMIR PEREIRA RODRIGUES</td>
+	<td class="td1">330896</td>
+	<td class="td1" id="tdInfo330896">Aguardando conceito</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330896" id="radioConceito330896">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330896" id="radioConceito330896">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330896" id="radioConceito330896">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330896" id="radioConceito330896">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330896" id="radioConceito330896">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330896" id="radioConceito330896" checked="checked">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330896" id="radioConceito330896">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330896', false, false);">
+		<input type="hidden" value="" id="conceitoAtual330896">
+		<input type="hidden" value="" id="conceitoAnterior330896">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>ALINE MANCILHA SAMPAIO</td>
+	<td class="td1">21875</td>
+	<td class="td1" id="tdInfo21875">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito21875" id="radioConceito21875">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito21875" id="radioConceito21875">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito21875" id="radioConceito21875" checked="checked">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito21875" id="radioConceito21875">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito21875" id="radioConceito21875">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito21875" id="radioConceito21875">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito21875" id="radioConceito21875">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('21875', false, false);">
+		<input type="hidden" value="C" id="conceitoAtual21875">
+		<input type="hidden" value="C" id="conceitoAnterior21875">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>AMANDA VICTÓRIA SCHRÖER DE FREITAS</td>
+	<td class="td1">330933</td>
+	<td class="td1" id="tdInfo330933">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330933" id="radioConceito330933" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330933" id="radioConceito330933">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330933" id="radioConceito330933">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330933" id="radioConceito330933">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330933" id="radioConceito330933">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330933" id="radioConceito330933">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330933" id="radioConceito330933">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330933', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330933">
+		<input type="hidden" value="A" id="conceitoAnterior330933">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>ANA CAROLINE NECKEL KAISER CARVALHO</td>
+	<td class="td1">216593</td>
+	<td class="td1" id="tdInfo216593">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito216593" id="radioConceito216593">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito216593" id="radioConceito216593">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito216593" id="radioConceito216593" checked="checked">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito216593" id="radioConceito216593">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito216593" id="radioConceito216593">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito216593" id="radioConceito216593">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito216593" id="radioConceito216593">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('216593', false, false);">
+		<input type="hidden" value="C" id="conceitoAtual216593">
+		<input type="hidden" value="C" id="conceitoAnterior216593">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>ANA CRISTINA SOARES DA COSTA</td>
+	<td class="td1">330891</td>
+	<td class="td1" id="tdInfo330891">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330891" id="radioConceito330891" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330891" id="radioConceito330891">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330891" id="radioConceito330891">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330891" id="radioConceito330891">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330891" id="radioConceito330891">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330891" id="radioConceito330891">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330891" id="radioConceito330891">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330891', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330891">
+		<input type="hidden" value="A" id="conceitoAnterior330891">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>ANA PAULA LÜDTKE</td>
+	<td class="td1">330951</td>
+	<td class="td1" id="tdInfo330951">Reprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330951" id="radioConceito330951">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330951" id="radioConceito330951">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330951" id="radioConceito330951">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330951" id="radioConceito330951">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330951" id="radioConceito330951" checked="checked">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330951" id="radioConceito330951">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330951" id="radioConceito330951">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330951', false, false);">
+		<input type="hidden" value="FF" id="conceitoAtual330951">
+		<input type="hidden" value="FF" id="conceitoAnterior330951">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>ANDRA TAINA COSTA JACQUES</td>
+	<td class="td1">330922</td>
+	<td class="td1" id="tdInfo330922">Reprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330922" id="radioConceito330922">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330922" id="radioConceito330922">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330922" id="radioConceito330922">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330922" id="radioConceito330922" checked="checked">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330922" id="radioConceito330922">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330922" id="radioConceito330922">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330922" id="radioConceito330922">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330922', false, false);">
+		<input type="hidden" value="D" id="conceitoAtual330922">
+		<input type="hidden" value="D" id="conceitoAnterior330922">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>ANDRESSA GOULART CAROLY</td>
+	<td class="td1">242937</td>
+	<td class="td1" id="tdInfo242937">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito242937" id="radioConceito242937" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito242937" id="radioConceito242937">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito242937" id="radioConceito242937">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito242937" id="radioConceito242937">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito242937" id="radioConceito242937">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito242937" id="radioConceito242937">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito242937" id="radioConceito242937">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('242937', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual242937">
+		<input type="hidden" value="A" id="conceitoAnterior242937">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>ANGELA CRISTINA ALBARELLO MARINS</td>
+	<td class="td1">19648</td>
+	<td class="td1" id="tdInfo19648">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito19648" id="radioConceito19648" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito19648" id="radioConceito19648">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito19648" id="radioConceito19648">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito19648" id="radioConceito19648">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito19648" id="radioConceito19648">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito19648" id="radioConceito19648">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito19648" id="radioConceito19648">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('19648', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual19648">
+		<input type="hidden" value="A" id="conceitoAnterior19648">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>ANGELITA PEREIRA ZUGE</td>
+	<td class="td1">330938</td>
+	<td class="td1" id="tdInfo330938">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330938" id="radioConceito330938" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330938" id="radioConceito330938">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330938" id="radioConceito330938">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330938" id="radioConceito330938">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330938" id="radioConceito330938">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330938" id="radioConceito330938">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330938" id="radioConceito330938">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330938', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330938">
+		<input type="hidden" value="A" id="conceitoAnterior330938">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>BRUNA BARCELLOS NIQUE</td>
+	<td class="td1">179898</td>
+	<td class="td1" id="tdInfo179898">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito179898" id="radioConceito179898">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito179898" id="radioConceito179898">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito179898" id="radioConceito179898" checked="checked">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito179898" id="radioConceito179898">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito179898" id="radioConceito179898">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito179898" id="radioConceito179898">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito179898" id="radioConceito179898">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('179898', false, false);">
+		<input type="hidden" value="C" id="conceitoAtual179898">
+		<input type="hidden" value="C" id="conceitoAnterior179898">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>BRUNA MOREIRA DA SILVA</td>
+	<td class="td1">330956</td>
+	<td class="td1" id="tdInfo330956">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330956" id="radioConceito330956" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330956" id="radioConceito330956">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330956" id="radioConceito330956">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330956" id="radioConceito330956">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330956" id="radioConceito330956">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330956" id="radioConceito330956">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330956" id="radioConceito330956">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330956', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330956">
+		<input type="hidden" value="A" id="conceitoAnterior330956">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>BRUNA RODRIGUES KETZER</td>
+	<td class="td1">118160</td>
+	<td class="td1" id="tdInfo118160">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito118160" id="radioConceito118160">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito118160" id="radioConceito118160" checked="checked">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito118160" id="radioConceito118160">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito118160" id="radioConceito118160">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito118160" id="radioConceito118160">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito118160" id="radioConceito118160">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito118160" id="radioConceito118160">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('118160', false, false);">
+		<input type="hidden" value="B" id="conceitoAtual118160">
+		<input type="hidden" value="B" id="conceitoAnterior118160">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>BRUNA SOARES INSABRALDE</td>
+	<td class="td1">330895</td>
+	<td class="td1" id="tdInfo330895">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330895" id="radioConceito330895" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330895" id="radioConceito330895">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330895" id="radioConceito330895">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330895" id="radioConceito330895">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330895" id="radioConceito330895">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330895" id="radioConceito330895">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330895" id="radioConceito330895">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330895', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330895">
+		<input type="hidden" value="A" id="conceitoAnterior330895">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>CAMILA CZARNOBAY PERROT</td>
+	<td class="td1">330901</td>
+	<td class="td1" id="tdInfo330901">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330901" id="radioConceito330901" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330901" id="radioConceito330901">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330901" id="radioConceito330901">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330901" id="radioConceito330901">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330901" id="radioConceito330901">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330901" id="radioConceito330901">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330901" id="radioConceito330901">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330901', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330901">
+		<input type="hidden" value="A" id="conceitoAnterior330901">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>CAMYLLA CRISTINA MEDEIROS DE MELLO</td>
+	<td class="td1">330919</td>
+	<td class="td1" id="tdInfo330919">Aguardando conceito</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330919" id="radioConceito330919">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330919" id="radioConceito330919">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330919" id="radioConceito330919">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330919" id="radioConceito330919">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330919" id="radioConceito330919">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330919" id="radioConceito330919" checked="checked">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330919" id="radioConceito330919">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330919', false, false);">
+		<input type="hidden" value="" id="conceitoAtual330919">
+		<input type="hidden" value="" id="conceitoAnterior330919">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>CARLOS EDUARDO SILVA GONCALVES</td>
+	<td class="td1">95880</td>
+	<td class="td1" id="tdInfo95880">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito95880" id="radioConceito95880">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito95880" id="radioConceito95880">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito95880" id="radioConceito95880" checked="checked">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito95880" id="radioConceito95880">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito95880" id="radioConceito95880">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito95880" id="radioConceito95880">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito95880" id="radioConceito95880">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('95880', false, false);">
+		<input type="hidden" value="C" id="conceitoAtual95880">
+		<input type="hidden" value="C" id="conceitoAnterior95880">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>CARMEM MENDONÇA NOBRE</td>
+	<td class="td1">284785</td>
+	<td class="td1" id="tdInfo284785">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito284785" id="radioConceito284785" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito284785" id="radioConceito284785">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito284785" id="radioConceito284785">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito284785" id="radioConceito284785">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito284785" id="radioConceito284785">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito284785" id="radioConceito284785">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito284785" id="radioConceito284785">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('284785', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual284785">
+		<input type="hidden" value="A" id="conceitoAnterior284785">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>CATIA REGINA DA SILVA SOARES</td>
+	<td class="td1">330907</td>
+	<td class="td1" id="tdInfo330907">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330907" id="radioConceito330907">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330907" id="radioConceito330907" checked="checked">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330907" id="radioConceito330907">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330907" id="radioConceito330907">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330907" id="radioConceito330907">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330907" id="radioConceito330907">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330907" id="radioConceito330907">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330907', false, false);">
+		<input type="hidden" value="B" id="conceitoAtual330907">
+		<input type="hidden" value="B" id="conceitoAnterior330907">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>CINTIA CONDE CABRAL</td>
+	<td class="td1">330913</td>
+	<td class="td1" id="tdInfo330913">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330913" id="radioConceito330913" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330913" id="radioConceito330913">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330913" id="radioConceito330913">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330913" id="radioConceito330913">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330913" id="radioConceito330913">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330913" id="radioConceito330913">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330913" id="radioConceito330913">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330913', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330913">
+		<input type="hidden" value="A" id="conceitoAnterior330913">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>CLAUDIA BARBIANI CHAVES</td>
+	<td class="td1">330916</td>
+	<td class="td1" id="tdInfo330916">Aguardando conceito</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330916" id="radioConceito330916">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330916" id="radioConceito330916">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330916" id="radioConceito330916">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330916" id="radioConceito330916">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330916" id="radioConceito330916">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330916" id="radioConceito330916" checked="checked">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330916" id="radioConceito330916">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330916', false, false);">
+		<input type="hidden" value="" id="conceitoAtual330916">
+		<input type="hidden" value="" id="conceitoAnterior330916">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>DAIANA DE CARLI</td>
+	<td class="td1">318725</td>
+	<td class="td1" id="tdInfo318725">Reprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito318725" id="radioConceito318725">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito318725" id="radioConceito318725">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito318725" id="radioConceito318725">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito318725" id="radioConceito318725">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito318725" id="radioConceito318725" checked="checked">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito318725" id="radioConceito318725">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito318725" id="radioConceito318725">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('318725', false, false);">
+		<input type="hidden" value="FF" id="conceitoAtual318725">
+		<input type="hidden" value="FF" id="conceitoAnterior318725">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>Daniela Conte</td>
+	<td class="td1">106870</td>
+	<td class="td1" id="tdInfo106870">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito106870" id="radioConceito106870" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito106870" id="radioConceito106870">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito106870" id="radioConceito106870">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito106870" id="radioConceito106870">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito106870" id="radioConceito106870">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito106870" id="radioConceito106870">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito106870" id="radioConceito106870">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('106870', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual106870">
+		<input type="hidden" value="A" id="conceitoAnterior106870">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>DEISE CRISTINA MAYER</td>
+	<td class="td1">330931</td>
+	<td class="td1" id="tdInfo330931">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330931" id="radioConceito330931">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330931" id="radioConceito330931" checked="checked">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330931" id="radioConceito330931">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330931" id="radioConceito330931">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330931" id="radioConceito330931">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330931" id="radioConceito330931">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330931" id="radioConceito330931">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330931', false, false);">
+		<input type="hidden" value="B" id="conceitoAtual330931">
+		<input type="hidden" value="B" id="conceitoAnterior330931">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>DIEGO RODRIGUES AREDES</td>
+	<td class="td1">330885</td>
+	<td class="td1" id="tdInfo330885">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330885" id="radioConceito330885" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330885" id="radioConceito330885">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330885" id="radioConceito330885">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330885" id="radioConceito330885">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330885" id="radioConceito330885">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330885" id="radioConceito330885">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330885" id="radioConceito330885">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330885', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330885">
+		<input type="hidden" value="A" id="conceitoAnterior330885">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>DIENIFER HELENA DA SILVEIRA</td>
+	<td class="td1">330949</td>
+	<td class="td1" id="tdInfo330949">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330949" id="radioConceito330949">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330949" id="radioConceito330949">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330949" id="radioConceito330949" checked="checked">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330949" id="radioConceito330949">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330949" id="radioConceito330949">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330949" id="radioConceito330949">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330949" id="radioConceito330949">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330949', false, false);">
+		<input type="hidden" value="C" id="conceitoAtual330949">
+		<input type="hidden" value="C" id="conceitoAnterior330949">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>EDINA MORGANA PORCHER</td>
+	<td class="td1">330867</td>
+	<td class="td1" id="tdInfo330867">Reprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330867" id="radioConceito330867">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330867" id="radioConceito330867">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330867" id="radioConceito330867">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330867" id="radioConceito330867">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330867" id="radioConceito330867" checked="checked">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330867" id="radioConceito330867">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330867" id="radioConceito330867">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330867', false, false);">
+		<input type="hidden" value="FF" id="conceitoAtual330867">
+		<input type="hidden" value="FF" id="conceitoAnterior330867">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>ELZAÍDE DA SILVA PETTER</td>
+	<td class="td1">330932</td>
+	<td class="td1" id="tdInfo330932">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330932" id="radioConceito330932">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330932" id="radioConceito330932">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330932" id="radioConceito330932" checked="checked">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330932" id="radioConceito330932">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330932" id="radioConceito330932">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330932" id="radioConceito330932">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330932" id="radioConceito330932">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330932', false, false);">
+		<input type="hidden" value="C" id="conceitoAtual330932">
+		<input type="hidden" value="C" id="conceitoAnterior330932">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>ERICA CAMILA DE MELO PEDRO</td>
+	<td class="td1">330868</td>
+	<td class="td1" id="tdInfo330868">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330868" id="radioConceito330868" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330868" id="radioConceito330868">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330868" id="radioConceito330868">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330868" id="radioConceito330868">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330868" id="radioConceito330868">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330868" id="radioConceito330868">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330868" id="radioConceito330868">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330868', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330868">
+		<input type="hidden" value="A" id="conceitoAnterior330868">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>Fabiana da Silva Mercado</td>
+	<td class="td1">257279</td>
+	<td class="td1" id="tdInfo257279">Reprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito257279" id="radioConceito257279">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito257279" id="radioConceito257279">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito257279" id="radioConceito257279">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito257279" id="radioConceito257279">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito257279" id="radioConceito257279" checked="checked">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito257279" id="radioConceito257279">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito257279" id="radioConceito257279">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('257279', false, false);">
+		<input type="hidden" value="FF" id="conceitoAtual257279">
+		<input type="hidden" value="FF" id="conceitoAnterior257279">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>FABIANE ALINE BARBOSA</td>
+	<td class="td1">256219</td>
+	<td class="td1" id="tdInfo256219">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito256219" id="radioConceito256219" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito256219" id="radioConceito256219">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito256219" id="radioConceito256219">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito256219" id="radioConceito256219">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito256219" id="radioConceito256219">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito256219" id="radioConceito256219">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito256219" id="radioConceito256219">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('256219', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual256219">
+		<input type="hidden" value="A" id="conceitoAnterior256219">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>FERNANDA DALAVALE TOZATTO</td>
+	<td class="td1">330882</td>
+	<td class="td1" id="tdInfo330882">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330882" id="radioConceito330882" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330882" id="radioConceito330882">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330882" id="radioConceito330882">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330882" id="radioConceito330882">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330882" id="radioConceito330882">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330882" id="radioConceito330882">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330882" id="radioConceito330882">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330882', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330882">
+		<input type="hidden" value="A" id="conceitoAnterior330882">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>GABRIELA OLIVEIRA ELESBÃO</td>
+	<td class="td1">330889</td>
+	<td class="td1" id="tdInfo330889">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330889" id="radioConceito330889" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330889" id="radioConceito330889">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330889" id="radioConceito330889">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330889" id="radioConceito330889">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330889" id="radioConceito330889">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330889" id="radioConceito330889">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330889" id="radioConceito330889">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330889', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330889">
+		<input type="hidden" value="A" id="conceitoAnterior330889">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>GIANE MENEZES VEIGA DO AMARAL</td>
+	<td class="td1">330925</td>
+	<td class="td1" id="tdInfo330925">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330925" id="radioConceito330925" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330925" id="radioConceito330925">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330925" id="radioConceito330925">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330925" id="radioConceito330925">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330925" id="radioConceito330925">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330925" id="radioConceito330925">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330925" id="radioConceito330925">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330925', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330925">
+		<input type="hidden" value="A" id="conceitoAnterior330925">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>GISELE MARTINS DE MARTEGANHA</td>
+	<td class="td1">330904</td>
+	<td class="td1" id="tdInfo330904">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330904" id="radioConceito330904" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330904" id="radioConceito330904">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330904" id="radioConceito330904">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330904" id="radioConceito330904">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330904" id="radioConceito330904">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330904" id="radioConceito330904">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330904" id="radioConceito330904">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330904', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330904">
+		<input type="hidden" value="A" id="conceitoAnterior330904">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>HALESSANDRO KRUSCH</td>
+	<td class="td1">330944</td>
+	<td class="td1" id="tdInfo330944">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330944" id="radioConceito330944" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330944" id="radioConceito330944">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330944" id="radioConceito330944">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330944" id="radioConceito330944">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330944" id="radioConceito330944">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330944" id="radioConceito330944">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330944" id="radioConceito330944">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330944', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330944">
+		<input type="hidden" value="A" id="conceitoAnterior330944">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>HANNI KETTERMANN DA SILVEIRA</td>
+	<td class="td1">193384</td>
+	<td class="td1" id="tdInfo193384">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito193384" id="radioConceito193384" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito193384" id="radioConceito193384">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito193384" id="radioConceito193384">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito193384" id="radioConceito193384">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito193384" id="radioConceito193384">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito193384" id="radioConceito193384">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito193384" id="radioConceito193384">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('193384', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual193384">
+		<input type="hidden" value="A" id="conceitoAnterior193384">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>HUMBERTO ALEXANDRE JARDIM DA ROSA</td>
+	<td class="td1">330911</td>
+	<td class="td1" id="tdInfo330911">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330911" id="radioConceito330911">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330911" id="radioConceito330911" checked="checked">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330911" id="radioConceito330911">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330911" id="radioConceito330911">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330911" id="radioConceito330911">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330911" id="radioConceito330911">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330911" id="radioConceito330911">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330911', false, false);">
+		<input type="hidden" value="B" id="conceitoAtual330911">
+		<input type="hidden" value="B" id="conceitoAnterior330911">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>INGRID MUGUERZA PRA</td>
+	<td class="td1">252056</td>
+	<td class="td1" id="tdInfo252056">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito252056" id="radioConceito252056" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito252056" id="radioConceito252056">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito252056" id="radioConceito252056">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito252056" id="radioConceito252056">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito252056" id="radioConceito252056">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito252056" id="radioConceito252056">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito252056" id="radioConceito252056">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('252056', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual252056">
+		<input type="hidden" value="A" id="conceitoAnterior252056">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>IRVING MACHADO RIEFFEL</td>
+	<td class="td1">330948</td>
+	<td class="td1" id="tdInfo330948">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330948" id="radioConceito330948">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330948" id="radioConceito330948" checked="checked">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330948" id="radioConceito330948">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330948" id="radioConceito330948">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330948" id="radioConceito330948">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330948" id="radioConceito330948">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330948" id="radioConceito330948">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330948', false, false);">
+		<input type="hidden" value="B" id="conceitoAtual330948">
+		<input type="hidden" value="B" id="conceitoAnterior330948">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>JACQUELINE DE SOUZA NUNES VAZ</td>
+	<td class="td1">330892</td>
+	<td class="td1" id="tdInfo330892">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330892" id="radioConceito330892" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330892" id="radioConceito330892">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330892" id="radioConceito330892">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330892" id="radioConceito330892">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330892" id="radioConceito330892">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330892" id="radioConceito330892">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330892" id="radioConceito330892">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330892', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330892">
+		<input type="hidden" value="A" id="conceitoAnterior330892">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>JÉSSICA DANIEL DO PRADO</td>
+	<td class="td1">330878</td>
+	<td class="td1" id="tdInfo330878">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330878" id="radioConceito330878" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330878" id="radioConceito330878">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330878" id="radioConceito330878">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330878" id="radioConceito330878">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330878" id="radioConceito330878">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330878" id="radioConceito330878">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330878" id="radioConceito330878">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330878', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330878">
+		<input type="hidden" value="A" id="conceitoAnterior330878">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>JONAS ANDERLONI MARON</td>
+	<td class="td1">330937</td>
+	<td class="td1" id="tdInfo330937">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330937" id="radioConceito330937" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330937" id="radioConceito330937">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330937" id="radioConceito330937">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330937" id="radioConceito330937">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330937" id="radioConceito330937">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330937" id="radioConceito330937">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330937" id="radioConceito330937">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330937', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330937">
+		<input type="hidden" value="A" id="conceitoAnterior330937">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>JOSELE LENCINA DA ROSA SEIVALD</td>
+	<td class="td1">330947</td>
+	<td class="td1" id="tdInfo330947">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330947" id="radioConceito330947" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330947" id="radioConceito330947">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330947" id="radioConceito330947">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330947" id="radioConceito330947">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330947" id="radioConceito330947">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330947" id="radioConceito330947">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330947" id="radioConceito330947">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330947', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330947">
+		<input type="hidden" value="A" id="conceitoAnterior330947">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>JULIA DA CUNHA STOELBEN</td>
+	<td class="td1">330943</td>
+	<td class="td1" id="tdInfo330943">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330943" id="radioConceito330943" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330943" id="radioConceito330943">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330943" id="radioConceito330943">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330943" id="radioConceito330943">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330943" id="radioConceito330943">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330943" id="radioConceito330943">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330943" id="radioConceito330943">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330943', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330943">
+		<input type="hidden" value="A" id="conceitoAnterior330943">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>JULIA DIAS DA SILVA PEDROZO</td>
+	<td class="td1">283914</td>
+	<td class="td1" id="tdInfo283914">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito283914" id="radioConceito283914">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito283914" id="radioConceito283914">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito283914" id="radioConceito283914" checked="checked">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito283914" id="radioConceito283914">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito283914" id="radioConceito283914">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito283914" id="radioConceito283914">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito283914" id="radioConceito283914">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('283914', false, false);">
+		<input type="hidden" value="C" id="conceitoAtual283914">
+		<input type="hidden" value="C" id="conceitoAnterior283914">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>JULIA FERNANDA MARTINI</td>
+	<td class="td1">330952</td>
+	<td class="td1" id="tdInfo330952">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330952" id="radioConceito330952">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330952" id="radioConceito330952" checked="checked">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330952" id="radioConceito330952">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330952" id="radioConceito330952">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330952" id="radioConceito330952">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330952" id="radioConceito330952">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330952" id="radioConceito330952">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330952', false, false);">
+		<input type="hidden" value="B" id="conceitoAtual330952">
+		<input type="hidden" value="B" id="conceitoAnterior330952">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>JÚLIA ÍSIS DAROS</td>
+	<td class="td1">330900</td>
+	<td class="td1" id="tdInfo330900">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330900" id="radioConceito330900" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330900" id="radioConceito330900">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330900" id="radioConceito330900">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330900" id="radioConceito330900">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330900" id="radioConceito330900">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330900" id="radioConceito330900">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330900" id="radioConceito330900">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330900', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330900">
+		<input type="hidden" value="A" id="conceitoAnterior330900">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>JULIANA SILVA ALVES</td>
+	<td class="td1">330875</td>
+	<td class="td1" id="tdInfo330875">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330875" id="radioConceito330875" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330875" id="radioConceito330875">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330875" id="radioConceito330875">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330875" id="radioConceito330875">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330875" id="radioConceito330875">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330875" id="radioConceito330875">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330875" id="radioConceito330875">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330875', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330875">
+		<input type="hidden" value="A" id="conceitoAnterior330875">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>KAMILA SANTOS LOPES</td>
+	<td class="td1">251310</td>
+	<td class="td1" id="tdInfo251310">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito251310" id="radioConceito251310" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito251310" id="radioConceito251310">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito251310" id="radioConceito251310">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito251310" id="radioConceito251310">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito251310" id="radioConceito251310">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito251310" id="radioConceito251310">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito251310" id="radioConceito251310">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('251310', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual251310">
+		<input type="hidden" value="A" id="conceitoAnterior251310">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>KELVIN FREITAS</td>
+	<td class="td1">272492</td>
+	<td class="td1" id="tdInfo272492">Reprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito272492" id="radioConceito272492">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito272492" id="radioConceito272492">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito272492" id="radioConceito272492">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito272492" id="radioConceito272492">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito272492" id="radioConceito272492" checked="checked">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito272492" id="radioConceito272492">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito272492" id="radioConceito272492">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('272492', false, false);">
+		<input type="hidden" value="FF" id="conceitoAtual272492">
+		<input type="hidden" value="FF" id="conceitoAnterior272492">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>LARA RIBEIRO CAMPOS</td>
+	<td class="td1">330921</td>
+	<td class="td1" id="tdInfo330921">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330921" id="radioConceito330921" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330921" id="radioConceito330921">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330921" id="radioConceito330921">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330921" id="radioConceito330921">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330921" id="radioConceito330921">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330921" id="radioConceito330921">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330921" id="radioConceito330921">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330921', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330921">
+		<input type="hidden" value="A" id="conceitoAnterior330921">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>LETÍCIA DO ROSÁRIO</td>
+	<td class="td1">330935</td>
+	<td class="td1" id="tdInfo330935">Reprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330935" id="radioConceito330935">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330935" id="radioConceito330935">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330935" id="radioConceito330935">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330935" id="radioConceito330935">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330935" id="radioConceito330935" checked="checked">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330935" id="radioConceito330935">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330935" id="radioConceito330935">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330935', false, false);">
+		<input type="hidden" value="FF" id="conceitoAtual330935">
+		<input type="hidden" value="FF" id="conceitoAnterior330935">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>LISIANE DOS ANJOS</td>
+	<td class="td1">24159</td>
+	<td class="td1" id="tdInfo24159">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito24159" id="radioConceito24159" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito24159" id="radioConceito24159">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito24159" id="radioConceito24159">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito24159" id="radioConceito24159">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito24159" id="radioConceito24159">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito24159" id="radioConceito24159">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito24159" id="radioConceito24159">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('24159', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual24159">
+		<input type="hidden" value="A" id="conceitoAnterior24159">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>LORENA MACHADO DE LIMA</td>
+	<td class="td1">330888</td>
+	<td class="td1" id="tdInfo330888">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330888" id="radioConceito330888" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330888" id="radioConceito330888">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330888" id="radioConceito330888">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330888" id="radioConceito330888">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330888" id="radioConceito330888">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330888" id="radioConceito330888">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330888" id="radioConceito330888">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330888', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330888">
+		<input type="hidden" value="A" id="conceitoAnterior330888">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>LUCIANE FERREIRA TEIXEIRA</td>
+	<td class="td1">330914</td>
+	<td class="td1" id="tdInfo330914">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330914" id="radioConceito330914" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330914" id="radioConceito330914">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330914" id="radioConceito330914">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330914" id="radioConceito330914">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330914" id="radioConceito330914">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330914" id="radioConceito330914">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330914" id="radioConceito330914">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330914', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330914">
+		<input type="hidden" value="A" id="conceitoAnterior330914">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>LUIZA FERREIRA AIOLFI</td>
+	<td class="td1">330866</td>
+	<td class="td1" id="tdInfo330866">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330866" id="radioConceito330866" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330866" id="radioConceito330866">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330866" id="radioConceito330866">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330866" id="radioConceito330866">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330866" id="radioConceito330866">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330866" id="radioConceito330866">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330866" id="radioConceito330866">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330866', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330866">
+		<input type="hidden" value="A" id="conceitoAnterior330866">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>MARCIA DE MENEZES LENCINA</td>
+	<td class="td1">330910</td>
+	<td class="td1" id="tdInfo330910">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330910" id="radioConceito330910" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330910" id="radioConceito330910">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330910" id="radioConceito330910">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330910" id="radioConceito330910">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330910" id="radioConceito330910">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330910" id="radioConceito330910">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330910" id="radioConceito330910">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330910', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330910">
+		<input type="hidden" value="A" id="conceitoAnterior330910">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>MARCIO WILLIAM SEVERO MORAES</td>
+	<td class="td1">330877</td>
+	<td class="td1" id="tdInfo330877">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330877" id="radioConceito330877" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330877" id="radioConceito330877">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330877" id="radioConceito330877">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330877" id="radioConceito330877">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330877" id="radioConceito330877">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330877" id="radioConceito330877">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330877" id="radioConceito330877">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330877', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330877">
+		<input type="hidden" value="A" id="conceitoAnterior330877">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>MARCOS DEMARTINI</td>
+	<td class="td1">330864</td>
+	<td class="td1" id="tdInfo330864">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330864" id="radioConceito330864" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330864" id="radioConceito330864">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330864" id="radioConceito330864">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330864" id="radioConceito330864">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330864" id="radioConceito330864">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330864" id="radioConceito330864">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330864" id="radioConceito330864">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330864', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330864">
+		<input type="hidden" value="A" id="conceitoAnterior330864">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>MARCOS ROBERTO WODARSKI</td>
+	<td class="td1">119450</td>
+	<td class="td1" id="tdInfo119450">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito119450" id="radioConceito119450">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito119450" id="radioConceito119450" checked="checked">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito119450" id="radioConceito119450">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito119450" id="radioConceito119450">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito119450" id="radioConceito119450">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito119450" id="radioConceito119450">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito119450" id="radioConceito119450">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('119450', false, false);">
+		<input type="hidden" value="B" id="conceitoAtual119450">
+		<input type="hidden" value="B" id="conceitoAnterior119450">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>Maria Guadalupe Goulart dos Santos</td>
+	<td class="td1">247668</td>
+	<td class="td1" id="tdInfo247668">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito247668" id="radioConceito247668" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito247668" id="radioConceito247668">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito247668" id="radioConceito247668">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito247668" id="radioConceito247668">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito247668" id="radioConceito247668">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito247668" id="radioConceito247668">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito247668" id="radioConceito247668">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('247668', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual247668">
+		<input type="hidden" value="A" id="conceitoAnterior247668">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>MARIA ISABEL RIGO DA SILVA</td>
+	<td class="td1">330873</td>
+	<td class="td1" id="tdInfo330873">Reprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330873" id="radioConceito330873">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330873" id="radioConceito330873">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330873" id="radioConceito330873">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330873" id="radioConceito330873" checked="checked">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330873" id="radioConceito330873">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330873" id="radioConceito330873">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330873" id="radioConceito330873">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330873', false, false);">
+		<input type="hidden" value="D" id="conceitoAtual330873">
+		<input type="hidden" value="D" id="conceitoAnterior330873">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>MARIANA MACHADO SANTOS</td>
+	<td class="td1">330924</td>
+	<td class="td1" id="tdInfo330924">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330924" id="radioConceito330924" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330924" id="radioConceito330924">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330924" id="radioConceito330924">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330924" id="radioConceito330924">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330924" id="radioConceito330924">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330924" id="radioConceito330924">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330924" id="radioConceito330924">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330924', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330924">
+		<input type="hidden" value="A" id="conceitoAnterior330924">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>MARIANA MAGALHÃES RICARDO</td>
+	<td class="td1">330894</td>
+	<td class="td1" id="tdInfo330894">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330894" id="radioConceito330894" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330894" id="radioConceito330894">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330894" id="radioConceito330894">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330894" id="radioConceito330894">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330894" id="radioConceito330894">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330894" id="radioConceito330894">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330894" id="radioConceito330894">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330894', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330894">
+		<input type="hidden" value="A" id="conceitoAnterior330894">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>MARTA REGINA VARGAS RODRIGUES</td>
+	<td class="td1">330906</td>
+	<td class="td1" id="tdInfo330906">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330906" id="radioConceito330906" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330906" id="radioConceito330906">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330906" id="radioConceito330906">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330906" id="radioConceito330906">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330906" id="radioConceito330906">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330906" id="radioConceito330906">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330906" id="radioConceito330906">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330906', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330906">
+		<input type="hidden" value="A" id="conceitoAnterior330906">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>MICHELE KARINA CHAVES KAISER</td>
+	<td class="td1">330934</td>
+	<td class="td1" id="tdInfo330934">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330934" id="radioConceito330934" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330934" id="radioConceito330934">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330934" id="radioConceito330934">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330934" id="radioConceito330934">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330934" id="radioConceito330934">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330934" id="radioConceito330934">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330934" id="radioConceito330934">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330934', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330934">
+		<input type="hidden" value="A" id="conceitoAnterior330934">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>MICHELLE SILVA VIEIRA</td>
+	<td class="td1">284069</td>
+	<td class="td1" id="tdInfo284069">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito284069" id="radioConceito284069" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito284069" id="radioConceito284069">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito284069" id="radioConceito284069">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito284069" id="radioConceito284069">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito284069" id="radioConceito284069">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito284069" id="radioConceito284069">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito284069" id="radioConceito284069">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('284069', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual284069">
+		<input type="hidden" value="A" id="conceitoAnterior284069">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>NATASCHA DA ROSA SORANSO</td>
+	<td class="td1">330869</td>
+	<td class="td1" id="tdInfo330869">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330869" id="radioConceito330869">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330869" id="radioConceito330869" checked="checked">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330869" id="radioConceito330869">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330869" id="radioConceito330869">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330869" id="radioConceito330869">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330869" id="radioConceito330869">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330869" id="radioConceito330869">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330869', false, false);">
+		<input type="hidden" value="B" id="conceitoAtual330869">
+		<input type="hidden" value="B" id="conceitoAnterior330869">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>OSVALDO JUNIOR CAVALCANTE SILVA</td>
+	<td class="td1">330946</td>
+	<td class="td1" id="tdInfo330946">Reprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330946" id="radioConceito330946">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330946" id="radioConceito330946">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330946" id="radioConceito330946">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330946" id="radioConceito330946">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330946" id="radioConceito330946" checked="checked">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330946" id="radioConceito330946">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330946" id="radioConceito330946">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330946', false, false);">
+		<input type="hidden" value="FF" id="conceitoAtual330946">
+		<input type="hidden" value="FF" id="conceitoAnterior330946">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>PABLO LIMAS DUARTE</td>
+	<td class="td1">315822</td>
+	<td class="td1" id="tdInfo315822">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito315822" id="radioConceito315822" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito315822" id="radioConceito315822">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito315822" id="radioConceito315822">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito315822" id="radioConceito315822">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito315822" id="radioConceito315822">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito315822" id="radioConceito315822">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito315822" id="radioConceito315822">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('315822', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual315822">
+		<input type="hidden" value="A" id="conceitoAnterior315822">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>PABLO OLIVEIRA DA SILVA</td>
+	<td class="td1">330917</td>
+	<td class="td1" id="tdInfo330917">Reprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330917" id="radioConceito330917">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330917" id="radioConceito330917">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330917" id="radioConceito330917">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330917" id="radioConceito330917">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330917" id="radioConceito330917" checked="checked">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330917" id="radioConceito330917">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330917" id="radioConceito330917">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330917', false, false);">
+		<input type="hidden" value="FF" id="conceitoAtual330917">
+		<input type="hidden" value="FF" id="conceitoAnterior330917">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>PÂMELA BORGES GONÇALVES</td>
+	<td class="td1">330920</td>
+	<td class="td1" id="tdInfo330920">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330920" id="radioConceito330920">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330920" id="radioConceito330920">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330920" id="radioConceito330920" checked="checked">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330920" id="radioConceito330920">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330920" id="radioConceito330920">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330920" id="radioConceito330920">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330920" id="radioConceito330920">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330920', false, false);">
+		<input type="hidden" value="C" id="conceitoAtual330920">
+		<input type="hidden" value="C" id="conceitoAnterior330920">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>PAOLA BORGES GONÇALVES</td>
+	<td class="td1">330918</td>
+	<td class="td1" id="tdInfo330918">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330918" id="radioConceito330918">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330918" id="radioConceito330918">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330918" id="radioConceito330918" checked="checked">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330918" id="radioConceito330918">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330918" id="radioConceito330918">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330918" id="radioConceito330918">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330918" id="radioConceito330918">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330918', false, false);">
+		<input type="hidden" value="C" id="conceitoAtual330918">
+		<input type="hidden" value="C" id="conceitoAnterior330918">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>PATRICIA IRIS DA SILVA PERES</td>
+	<td class="td1">330890</td>
+	<td class="td1" id="tdInfo330890">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330890" id="radioConceito330890" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330890" id="radioConceito330890">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330890" id="radioConceito330890">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330890" id="radioConceito330890">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330890" id="radioConceito330890">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330890" id="radioConceito330890">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330890" id="radioConceito330890">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330890', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330890">
+		<input type="hidden" value="A" id="conceitoAnterior330890">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>PAULA RITA HAMMEL SOARES HERTZOG</td>
+	<td class="td1">232023</td>
+	<td class="td1" id="tdInfo232023">Reprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito232023" id="radioConceito232023">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito232023" id="radioConceito232023">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito232023" id="radioConceito232023">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito232023" id="radioConceito232023">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito232023" id="radioConceito232023" checked="checked">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito232023" id="radioConceito232023">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito232023" id="radioConceito232023">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('232023', false, false);">
+		<input type="hidden" value="FF" id="conceitoAtual232023">
+		<input type="hidden" value="FF" id="conceitoAnterior232023">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>RAIANE CINARA RUNKE</td>
+	<td class="td1">330928</td>
+	<td class="td1" id="tdInfo330928">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330928" id="radioConceito330928" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330928" id="radioConceito330928">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330928" id="radioConceito330928">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330928" id="radioConceito330928">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330928" id="radioConceito330928">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330928" id="radioConceito330928">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330928" id="radioConceito330928">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330928', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330928">
+		<input type="hidden" value="A" id="conceitoAnterior330928">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>RAQUEL VASCONCELLOS CRAPANZANI MEUS</td>
+	<td class="td1">242101</td>
+	<td class="td1" id="tdInfo242101">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito242101" id="radioConceito242101" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito242101" id="radioConceito242101">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito242101" id="radioConceito242101">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito242101" id="radioConceito242101">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito242101" id="radioConceito242101">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito242101" id="radioConceito242101">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito242101" id="radioConceito242101">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('242101', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual242101">
+		<input type="hidden" value="A" id="conceitoAnterior242101">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>Renata Duval Martins</td>
+	<td class="td1">259669</td>
+	<td class="td1" id="tdInfo259669">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito259669" id="radioConceito259669" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito259669" id="radioConceito259669">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito259669" id="radioConceito259669">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito259669" id="radioConceito259669">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito259669" id="radioConceito259669">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito259669" id="radioConceito259669">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito259669" id="radioConceito259669">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('259669', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual259669">
+		<input type="hidden" value="A" id="conceitoAnterior259669">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>RENATA LIMA FERREIRA</td>
+	<td class="td1">330899</td>
+	<td class="td1" id="tdInfo330899">Reprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330899" id="radioConceito330899">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330899" id="radioConceito330899">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330899" id="radioConceito330899">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330899" id="radioConceito330899">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330899" id="radioConceito330899" checked="checked">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330899" id="radioConceito330899">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330899" id="radioConceito330899">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330899', false, false);">
+		<input type="hidden" value="FF" id="conceitoAtual330899">
+		<input type="hidden" value="FF" id="conceitoAnterior330899">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>ROBERTA DUVAL MARTINS</td>
+	<td class="td1">330886</td>
+	<td class="td1" id="tdInfo330886">Aguardando conceito</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330886" id="radioConceito330886">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330886" id="radioConceito330886">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330886" id="radioConceito330886">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330886" id="radioConceito330886">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330886" id="radioConceito330886">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330886" id="radioConceito330886" checked="checked">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330886" id="radioConceito330886">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330886', false, false);">
+		<input type="hidden" value="" id="conceitoAtual330886">
+		<input type="hidden" value="" id="conceitoAnterior330886">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>ROSINEIDE DO COUTO ROCHA</td>
+	<td class="td1">330912</td>
+	<td class="td1" id="tdInfo330912">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330912" id="radioConceito330912" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330912" id="radioConceito330912">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330912" id="radioConceito330912">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330912" id="radioConceito330912">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330912" id="radioConceito330912">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330912" id="radioConceito330912">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330912" id="radioConceito330912">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330912', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330912">
+		<input type="hidden" value="A" id="conceitoAnterior330912">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>SHEILA DA CUNHA DE AVILA ALVES</td>
+	<td class="td1">100084</td>
+	<td class="td1" id="tdInfo100084">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito100084" id="radioConceito100084">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito100084" id="radioConceito100084">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito100084" id="radioConceito100084" checked="checked">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito100084" id="radioConceito100084">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito100084" id="radioConceito100084">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito100084" id="radioConceito100084">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito100084" id="radioConceito100084">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('100084', false, false);">
+		<input type="hidden" value="C" id="conceitoAtual100084">
+		<input type="hidden" value="C" id="conceitoAnterior100084">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>Sibele Orsatto</td>
+	<td class="td1">297882</td>
+	<td class="td1" id="tdInfo297882">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito297882" id="radioConceito297882" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito297882" id="radioConceito297882">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito297882" id="radioConceito297882">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito297882" id="radioConceito297882">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito297882" id="radioConceito297882">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito297882" id="radioConceito297882">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito297882" id="radioConceito297882">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('297882', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual297882">
+		<input type="hidden" value="A" id="conceitoAnterior297882">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>SUELI QUITAISKI BAYER</td>
+	<td class="td1">330929</td>
+	<td class="td1" id="tdInfo330929">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330929" id="radioConceito330929" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330929" id="radioConceito330929">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330929" id="radioConceito330929">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330929" id="radioConceito330929">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330929" id="radioConceito330929">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330929" id="radioConceito330929">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330929" id="radioConceito330929">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330929', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330929">
+		<input type="hidden" value="A" id="conceitoAnterior330929">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>TAÍS SILVA PEREIRA</td>
+	<td class="td1">330872</td>
+	<td class="td1" id="tdInfo330872">Reprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330872" id="radioConceito330872">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330872" id="radioConceito330872">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330872" id="radioConceito330872">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330872" id="radioConceito330872">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330872" id="radioConceito330872" checked="checked">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330872" id="radioConceito330872">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330872" id="radioConceito330872">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330872', false, false);">
+		<input type="hidden" value="FF" id="conceitoAtual330872">
+		<input type="hidden" value="FF" id="conceitoAnterior330872">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>TEREZINHA DE FATIMA NUNES DO CARMO</td>
+	<td class="td1">100947</td>
+	<td class="td1" id="tdInfo100947">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito100947" id="radioConceito100947" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito100947" id="radioConceito100947">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito100947" id="radioConceito100947">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito100947" id="radioConceito100947">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito100947" id="radioConceito100947">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito100947" id="radioConceito100947">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito100947" id="radioConceito100947">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('100947', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual100947">
+		<input type="hidden" value="A" id="conceitoAnterior100947">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>VINICIUS LAVANDOSCKI VIANNA JOSÉ</td>
+	<td class="td1">276681</td>
+	<td class="td1" id="tdInfo276681">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito276681" id="radioConceito276681">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito276681" id="radioConceito276681">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito276681" id="radioConceito276681" checked="checked">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito276681" id="radioConceito276681">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito276681" id="radioConceito276681">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito276681" id="radioConceito276681">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito276681" id="radioConceito276681">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('276681', false, false);">
+		<input type="hidden" value="C" id="conceitoAtual276681">
+		<input type="hidden" value="C" id="conceitoAnterior276681">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>VINÍCIUS LOPES FARIA</td>
+	<td class="td1">330898</td>
+	<td class="td1" id="tdInfo330898">Reprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330898" id="radioConceito330898">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330898" id="radioConceito330898">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330898" id="radioConceito330898">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330898" id="radioConceito330898">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330898" id="radioConceito330898" checked="checked">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330898" id="radioConceito330898">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330898" id="radioConceito330898">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330898', false, false);">
+		<input type="hidden" value="FF" id="conceitoAtual330898">
+		<input type="hidden" value="FF" id="conceitoAnterior330898">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>VIVIANE APARECIDA BARBOSA PESSI</td>
+	<td class="td1">124828</td>
+	<td class="td1" id="tdInfo124828">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito124828" id="radioConceito124828" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito124828" id="radioConceito124828">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito124828" id="radioConceito124828">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito124828" id="radioConceito124828">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito124828" id="radioConceito124828">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito124828" id="radioConceito124828">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito124828" id="radioConceito124828">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('124828', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual124828">
+		<input type="hidden" value="A" id="conceitoAnterior124828">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>VIVIANE DOS SANTOS PEREIRA</td>
+	<td class="td1">257122</td>
+	<td class="td1" id="tdInfo257122">Reprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito257122" id="radioConceito257122">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito257122" id="radioConceito257122">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito257122" id="radioConceito257122">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito257122" id="radioConceito257122">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito257122" id="radioConceito257122" checked="checked">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito257122" id="radioConceito257122">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito257122" id="radioConceito257122">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('257122', false, false);">
+		<input type="hidden" value="FF" id="conceitoAtual257122">
+		<input type="hidden" value="FF" id="conceitoAnterior257122">
+	</td>
+</tr>
+<tr class="modelo1odd">
+	<td>YASMIM CARINA BASTOS RIBAS</td>
+	<td class="td1">330893</td>
+	<td class="td1" id="tdInfo330893">Reprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330893" id="radioConceito330893">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330893" id="radioConceito330893">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330893" id="radioConceito330893">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330893" id="radioConceito330893" checked="checked">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330893" id="radioConceito330893">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330893" id="radioConceito330893">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330893" id="radioConceito330893">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330893', false, false);">
+		<input type="hidden" value="D" id="conceitoAtual330893">
+		<input type="hidden" value="D" id="conceitoAnterior330893">
+	</td>
+</tr>
+<tr class="modelo1even">
+	<td>ZELONI MESQUITA COUTO DA SILVA</td>
+	<td class="td1">330881</td>
+	<td class="td1" id="tdInfo330881">Aprovado</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="A" name="radioConceito330881" id="radioConceito330881" checked="checked">A</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="B" name="radioConceito330881" id="radioConceito330881">B</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="C" name="radioConceito330881" id="radioConceito330881">C</td>
+	<td class="td1" style="width:37px;"><input type="radio" onchange="exibeSalvarTodos();" value="D" name="radioConceito330881" id="radioConceito330881">D</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="FF" name="radioConceito330881" id="radioConceito330881">FF</td>
+	<td class="td1" style="width:42px;"><input type="radio" onchange="exibeSalvarTodos();" value="NI" name="radioConceito330881" id="radioConceito330881">NI</td>
+	<td class="td1" style="width:118px;"><input type="radio" onchange="exibeSalvarTodos();" value="NULL" name="radioConceito330881" id="radioConceito330881">Sem conceito</td>
+	<td></td>
+	<td class="td1">
+		<input type="button" class="button-1" name="Salvar" value="Salvar" id="buttonSalvarConceito" onclick="javascript: salvaConceitoAluno('330881', false, false);">
+		<input type="hidden" value="A" id="conceitoAtual330881">
+		<input type="hidden" value="A" id="conceitoAnterior330881">
+	</td>
+</tr></tbody>
+                </table>
